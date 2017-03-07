@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#F6F5EE"
+              android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#199793"
+        android:navigationIcon="@drawable/ic_back_baijiantou"
+        app:navigationIcon="@drawable/ic_back_baijiantou"
+        app:titleTextColor="#ffffff"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="巡逻盘查"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="#ffffff"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_car_xunlpc"/>
+
+            <TextView
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="车辆"
+                android:textColor="#000000"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#F6F5EE"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginRight="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_person_xunlpc"/>
+
+                <TextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="人员"
+                    android:textColor="#000000"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_xingm_xunlpc"/>
+
+        <TextView
+            android:textSize="15sp"
+            android:textColor="#B5B6B7"
+            android:layout_width="60dp"
+            android:gravity="center_vertical|left"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="身份证号"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_rl_huikuang">
+
+            <EditText
+                android:paddingLeft="5dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textColor="#000000"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"/>
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="9dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_paizhao_xunlpc"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginLeft="18dp"
+            android:textColor="#B5B6B7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="———————————"/>
+
+        <TextView
+            android:textColor="#B5B6B7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="或者"/>
+        <TextView
+            android:textColor="#B5B6B7"
+            android:layout_marginRight="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="———————————"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_xingm_xunlpc"/>
+
+        <TextView
+            android:textColor="#B5B6B7"
+            android:textSize="15sp"
+            android:layout_width="60dp"
+            android:gravity="center_vertical|left"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="姓名"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_rl_huikuang">
+
+            <EditText
+                android:paddingLeft="5dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textColor="#000000"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_riqi_xunlpc"/>
+
+        <TextView
+            android:textColor="#B5B6B7"
+            android:textSize="15sp"
+            android:layout_width="60dp"
+            android:gravity="center_vertical|left"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="开始日期"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_rl_huikuang">
+
+            <EditText
+                android:paddingLeft="5dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textColor="#000000"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_riqi_xunlpc"/>
+
+        <TextView
+            android:textColor="#B5B6B7"
+            android:textSize="15sp"
+            android:layout_width="60dp"
+            android:gravity="center_vertical|left"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="截止日期"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_rl_huikuang">
+
+            <EditText
+                android:paddingLeft="5dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textColor="#000000"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_address_xunlpc"/>
+
+        <TextView
+            android:textColor="#B5B6B7"
+            android:textSize="15sp"
+            android:layout_width="60dp"
+            android:gravity="center_vertical|left"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="地址"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/shape_rl_huikuang">
+
+            <EditText
+                android:paddingLeft="5dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:textColor="#000000"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="18dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btn_xunlpc_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_jingqcl_btn_bg"
+            android:text="搜索"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#f3f3f3"
+              android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#199793"
+        android:navigationIcon="@drawable/ic_back_baijiantou"
+        app:navigationIcon="@drawable/ic_back_baijiantou"
+        app:titleTextColor="#ffffff"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="警情处理"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="警情类别："
+                    android:textColor="@color/gray_color_2"
+                    android:textSize="17sp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/xialasp1"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_xiala_sp"/>
+
+                <Spinner
+                    android:id="@+id/sp_anjian_leibie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="-11dp"
+                    android:layout_toLeftOf="@+id/xialasp1"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:gravity="right|center_vertical"
+                    android:hint="请选择警情类别"
+                    android:spinnerMode="dropdown"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/gray_color_2">
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="警情类型："
+                    android:textColor="@color/gray_color_2"
+                    android:textSize="17sp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/xialasp2"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_xiala_sp"/>
+
+                <Spinner
+                    android:id="@+id/sp_anjian_leixing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="-11dp"
+                    android:layout_toLeftOf="@+id/xialasp2"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:gravity="center_vertical|right"
+                    android:hint="请选择警情类型"
+                    android:spinnerMode="dropdown"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/gray_color_2">
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="警情细类："
+                    android:textColor="@color/gray_color_2"
+                    android:textSize="17sp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/xialasp3"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_xiala_sp"/>
+
+                <Spinner
+                    android:id="@+id/sp_anjian_xilei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="-11dp"
+                    android:layout_toLeftOf="@id/xialasp3"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:gravity="center_vertical|right"
+                    android:hint="请选择警情细类"
+                    android:spinnerMode="dropdown"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/gray_color_2">
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="处理反馈："
+                    android:textColor="@color/gray_color_2"
+                    android:textSize="17sp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/xialasp4"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_xiala_sp"/>
+
+                <Spinner
+                    android:id="@+id/sp_ksxz_ajcl"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="-11dp"
+                    android:layout_toLeftOf="@id/xialasp4"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:gravity="right|center_vertical"
+                    android:hint="快速选择"
+                    android:spinnerMode="dropdown"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/gray_color_2">
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@null"
+                    android:hint="点击可输入您要反馈的内容"
+                    android:textColor="@color/gray_color_2"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/gray_color_2">
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_photo_checked"/>
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_camera_unchecked"/>
+            </LinearLayout>
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/shape_bgwhite_skgray_radius4"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="3dp">-->
+
+            <!--<ScrollView-->
+            <!--android:id="@+id/scrollView1"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="vertical">-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/et_chujing_result_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@null"-->
+            <!--android:ems="10"-->
+            <!--android:gravity="top|left"-->
+            <!--android:hint="请在此输入案件补充说明..."-->
+            <!--android:maxLines="5"-->
+            <!--android:minHeight="80dp"-->
+            <!--android:textColor="@color/gray_color_3"-->
+            <!--android:textSize="@dimen/font_size_second_level"/>-->
+            <!--</LinearLayout>-->
+            <!--</ScrollView>-->
+
+            <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_media"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--</android.support.v7.widget.RecyclerView>-->
+            <!--</LinearLayout>-->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/tv_confirm_handle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_jingqcl_btn_bg"
+            android:text="确认处理"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/tv_add_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/selector_jingqcl_btn_bg"
+            android:text="添加资料"
+            android:textColor="#ffffff"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</LinearLayout>

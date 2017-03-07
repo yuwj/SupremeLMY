@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="190dp"
+              android:layout_marginBottom="8dp"
+              android:layout_marginLeft="4dp"
+              android:layout_marginRight="4dp"
+              android:background="@drawable/shape_rl_huikuang"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/icon_image_wg"
+        android:layout_width="75dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="75dp"
+        android:src="@drawable/timg"/>
+
+    <TextView
+        android:id="@+id/tv_name_wg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="杨阳洋"
+        android:textColor="#535455"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:textSize="11sp"
+        android:id="@+id/tv_sfzh_wg"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="420205198227344832"/>
+
+    <TextView
+        android:id="@+id/tv_address_wg"
+        android:textSize="11sp"
+        android:lines="1"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="武汉市关山大道598号中地数码"/>
+</LinearLayout>

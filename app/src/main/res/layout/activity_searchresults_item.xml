@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:fitsSystemWindows="true"
+        >
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingtoolbarlayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:orientation="vertical"
+                app:layout_collapseMode="parallax"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_weight="3"
+                android:layout_height="0dp">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp"
+                    app:layout_collapseMode="parallax"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <LinearLayout
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/ll_dot_group"
+                    android:gravity="center"
+                    android:layout_marginBottom="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"/>
+            </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:src="@drawable/timg"
+                    android:orientation="vertical"
+                    android:background="#ffffff"
+                    android:layout_weight="1"
+                    android:layout_height="0dp">
+                    <TextView
+                        android:id="@+id/tv_searchresults_item_mc"
+                        android:layout_marginTop="2dp"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="27sp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_width="wrap_content"
+                        android:text="网鱼网咖"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="网吧"
+                        android:textSize="14sp"
+                        android:textColor="@color/gray_color_2"
+                        android:layout_marginLeft="28dp"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_searchresults_item"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin">
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="22dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_car"
+                        android:layout_height="22dp"/>
+                    <TextView
+                        android:id="@+id/tv_searchresults_item_cartime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="2分钟"/>
+                    <ImageView
+
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="22dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_people"
+                        android:layout_height="22dp"/>
+                    <TextView
+                        android:id="@+id/tv_searchresults_item_persontime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="28分钟"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="22dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_weizhi"
+                        android:layout_height="22dp"/>
+                    <TextView
+                        android:id="@+id/tv_searchresults_item_dz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="地址：光谷天地2-104"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="22dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_phone"
+                        android:layout_height="22dp"/>
+                    <TextView
+                        android:id="@+id/tv_searchresults_item_dh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="电话：027-84673627"/>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="4dp">
+
+                <TextView
+                    android:id="@+id/tv_searchresults_item_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详细介绍:\n网鱼网咖，作为国内网咖行业的领导者，以网络文化加咖啡、西点的都市休闲模式吸引了一大批都市年轻人。宽敞明亮的大厅、清新文艺的装修、舒适的沙发座椅、全面升级的硬件设施，这种轻松活力的上网氛围，一扫传统网吧的不良印象，让人眼前一亮，更是贴合了时下年轻人的喜好。"
+                    android:layout_margin="10dp"/>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab_go"
+        android:src="@drawable/ic_baijiantou"
+        app:backgroundTint="#1F73FD"
+        android:layout_marginTop="270dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingLeft="11dp"
+        app:layout_anchorGravity="end"
+        app:layout_anchor="@id/appbar">
+
+    </android.support.design.widget.FloatingActionButton>
+
+</android.support.design.widget.CoordinatorLayout>
