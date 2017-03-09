@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.yuwj.appupdate.UpdateChecker;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.callback.IipSetListener;
@@ -82,7 +83,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         ipSetListener = new IipSetListener() {
             @Override
             public void onIpSeted(String serverIp, String serverPort, String pushIp, String pushPort) {
-                // TODO: 2017/1/9    需要增加检查更新的操作
+
             }
         };
     }
@@ -104,7 +105,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     }
 
     private void initOperator() {
-
+        String updateInfoUrl = UrlManager.getSERVER() + UrlManager.UPDATE;
+        UpdateChecker.checkForDialog(context,updateInfoUrl);
     }
 
     @Override

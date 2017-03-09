@@ -1,1 +1,1 @@
-include ':app', ':scrolllayout', ':indexlib'
+include ':app', ':scrolllayout', ':indexlib', ':appupdatelib', ':mpush'

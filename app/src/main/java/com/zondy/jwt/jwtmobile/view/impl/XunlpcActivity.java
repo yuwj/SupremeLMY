@@ -31,12 +31,12 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     Toolbar toolbar;
     @BindView(R.id.btn_xunlpc_search)
     Button btnXunlpcSearch;
-    @BindView(R.id.rl_kaisrq)
-    RelativeLayout rlKaisrq;
-    @BindView(R.id.tv_kaisrq)
-    TextView tvKaisrq;
-    @BindView(R.id.tv_jiezrq)
-    TextView tvJiezrq;
+//    @BindView(R.id.rl_kaisrq)
+//    RelativeLayout rlKaisrq;
+//    @BindView(R.id.tv_kaisrq)
+//    TextView tvKaisrq;
+//    @BindView(R.id.tv_jiezrq)
+//    TextView tvJiezrq;
 
     @Override
     public int setCustomContentViewResourceId() {
@@ -61,15 +61,15 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String jzrq = sdf.format(date);
         String ksrq = sdf.format(date1);
-        tvJiezrq.setText(jzrq);
-        tvKaisrq.setText(ksrq);
+//        tvJiezrq.setText(jzrq);
+//        tvKaisrq.setText(ksrq);
     }
 
     private void initView() {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         btnXunlpcSearch.setOnClickListener(this);
-        rlKaisrq.setOnClickListener(this);
+//        rlKaisrq.setOnClickListener(this);
     }
 
     @Override
@@ -97,10 +97,10 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
             case R.id.btn_xunlpc_search:
                 XunlpcRycxlistActivity.actionStart(XunlpcActivity.this);
                 break;
-            case R.id.rl_kaisrq:
-                Intent intent = new Intent(XunlpcActivity.this, CalendarSelectorActivity.class);
-                startActivity(intent);
-                break;
+//            case R.id.rl_kaisrq:
+//                Intent intent = new Intent(XunlpcActivity.this, CalendarSelectorActivity.class);
+//                startActivity(intent);
+//                break;
         }
     }
 }

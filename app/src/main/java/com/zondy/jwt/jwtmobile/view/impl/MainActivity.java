@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.rl_search)
     RelativeLayout rlSearch;
     private DrawerLayout drawerLayout;
-    private MapView mapView;
+//    private MapView mapView;
     private FloatingActionButton fab;
     @BindView(R.id.rv_menu)
     RecyclerView rv_menu;//菜单
@@ -61,24 +61,24 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.zondy.mapgis.android.environment.Environment.requestAuthorization(this, new com.zondy.mapgis.android.environment.Environment.AuthorizeCallback() {
-            @Override
-            public void onComplete() {
-                initMap();
-            }
-        });
+//        com.zondy.mapgis.android.environment.Environment.requestAuthorization(this, new com.zondy.mapgis.android.environment.Environment.AuthorizeCallback() {
+//            @Override
+//            public void onComplete() {
+//                initMap();
+//            }
+//        });
         initParams();
         initViews();
     }
 
-    private void initMap() {
-        mapView.loadFromFile(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml");
-        mapView.setZoomControlsEnabled(true);
-        mapView.setShowLogo(true);
-    }
+//    private void initMap() {
+//        mapView.loadFromFile(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml");
+//        mapView.setZoomControlsEnabled(true);
+//        mapView.setShowLogo(true);
+//    }
 
     private void initParams() {
-        mapView = (MapView) findViewById(R.id.mapview);
+//        mapView = (MapView) findViewById(R.id.mapview);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         menus = new ArrayList<>();

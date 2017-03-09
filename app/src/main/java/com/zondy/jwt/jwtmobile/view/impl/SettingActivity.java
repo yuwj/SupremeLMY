@@ -4,18 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mpush.android.MPush;
+import com.mpush.demo.PushActivity;
+import com.yuwj.appupdate.UpdateChecker;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.manager.ActivityCollector;
+import com.zondy.jwt.jwtmobile.manager.UploadPhotoManager;
+import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.presenter.ISettingPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.SettingPresenterImpl;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
@@ -46,6 +52,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     TextView tvAboutJwt;
     @BindView(R.id.tv_caiji_info)
     TextView tvCaijiInfo;
+    @BindView(R.id.iv_add_photo)
+    ImageView ivAddPhoto;
+    @BindView(R.id.tv_mpush)
+    TextView tvMpush;
+    @BindView(R.id.tv_check_update)
+    TextView tvCheckUpdate;
 
     @Override
     public int setCustomContentViewResourceId() {
@@ -68,6 +80,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         rlAccountInfo.setOnClickListener(this);
         tvAboutJwt.setOnClickListener(this);
         tvCaijiInfo.setOnClickListener(this);
+        tvMpush.setOnClickListener(this);
+        tvCheckUpdate.setOnClickListener(this);
+        ivAddPhoto.setOnClickListener(this);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
     }
@@ -107,15 +122,37 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                         }).show();
                 break;
             case R.id.rl_account_info:
-                Intent intentAccountInfo=new Intent(SettingActivity.this,SettingAccountInfo.class);
+                Intent intentAccountInfo = new Intent(SettingActivity.this, SettingAccountInfo.class);
                 startActivity(intentAccountInfo);
                 break;
+            case R.id.iv_add_photo:
+                UploadPhotoManager.UploadPhotoListener uploadPhotoListener = new UploadPhotoManager.UploadPhotoListener() {
+                    @Override
+                    public void onUploadSuccess(String imgUrl) {
+                        Toast.makeText(getApplicationContext(), imgUrl, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onUploadFailed(String msg) {
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    }
+                };
+                UploadPhotoManager m = new UploadPhotoManager(SettingActivity.this, uploadPhotoListener);
+                m.showPickPhoto(ivAddPhoto);
+                break;
             case R.id.tv_about_jwt:
-                Intent intent=new Intent(SettingActivity.this,SettingAboutJWTActivity.class);
+                Intent intent = new Intent(SettingActivity.this, SettingAboutJWTActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_caiji_info:
-                ToastTool.getInstance().shortLength(this,"即将开放...",true);
+                ToastTool.getInstance().shortLength(this, "即将开放...", true);
+                break;
+            case R.id.tv_mpush:
+                startActivity(PushActivity.getIntent(SettingActivity.this));
+                break;
+            case R.id.tv_check_update:
+                String updateInfoUrl = UrlManager.getSERVER() + UrlManager.UPDATE;
+                UpdateChecker.checkForDialog(context,updateInfoUrl);
                 break;
         }
     }
