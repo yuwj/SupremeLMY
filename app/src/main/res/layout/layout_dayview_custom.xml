@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tvDay"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:textSize="@dimen/t_16"
+        tools:text="0"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@drawable/selector_textview_calendar"
+        android:background="@drawable/selector_textview_bg_calendar"
+        />
+
+</FrameLayout>
