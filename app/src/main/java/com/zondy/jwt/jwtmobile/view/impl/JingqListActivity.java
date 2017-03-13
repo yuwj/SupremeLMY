@@ -112,8 +112,10 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                     iv3.setVisibility(View.GONE);
                     iv4.setVisibility(View.GONE);
                     tvState.setText("已接警");
-                    tvBaojsj.setText(entityJingq.getBaojsj());
-                    tvJiejsj.setText(entityJingq.getChujsj());
+                    tvBaojsj.setText(entityJingq.getBaojsj().substring(11));
+                    if(entityJingq.getChujsj()!=null){
+                        tvJiejsj.setText(entityJingq.getChujsj().substring(11));
+                    }
                     tvDaodsj.setText("三十分钟内");
                     tvFanksj.setText("一小时内");
                 }else if(entityJingq.getJingqzt()==2){
@@ -122,9 +124,13 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                     iv3.setVisibility(View.VISIBLE);
                     iv4.setVisibility(View.GONE);
                     tvState.setText("到达现场");
-                    tvBaojsj.setText(entityJingq.getBaojsj());
-                    tvJiejsj.setText(entityJingq.getChujsj());
-                    tvDaodsj.setText(entityJingq.getDaodsj());
+                    tvBaojsj.setText(entityJingq.getBaojsj().substring(11));
+                    if(entityJingq.getChujsj()!=null){
+                        tvJiejsj.setText(entityJingq.getChujsj().substring(11));
+                    }
+                    if(entityJingq.getDaodsj()!=null){
+                        tvDaodsj.setText(entityJingq.getDaodsj().substring(11));
+                    }
                     tvFanksj.setText("一小时内");
                 }else if(entityJingq.getJingqzt()==3){
                     iv1.setVisibility(View.GONE);
@@ -132,20 +138,32 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                     iv3.setVisibility(View.GONE);
                     iv4.setVisibility(View.VISIBLE);
                     tvState.setText("处警完毕，资料提交成功");
-                    tvBaojsj.setText(entityJingq.getBaojsj());
-                    tvJiejsj.setText(entityJingq.getChujsj());
-                    tvDaodsj.setText(entityJingq.getDaodsj());
-                    tvFanksj.setText(entityJingq.getFanksj());
+                    tvBaojsj.setText(entityJingq.getBaojsj().substring(11));
+                    if(entityJingq.getChujsj()!=null){
+                        tvJiejsj.setText(entityJingq.getChujsj().substring(11));
+                    }
+                    if(entityJingq.getDaodsj()!=null){
+                        tvDaodsj.setText(entityJingq.getDaodsj().substring(11));
+                    }
+                    if(entityJingq.getFanksj()!=null){
+                        tvFanksj.setText(entityJingq.getFanksj().substring(11));
+                    }
                 }else if(entityJingq.getJingqzt()==4){
                     iv1.setVisibility(View.GONE);
                     iv2.setVisibility(View.GONE);
                     iv3.setVisibility(View.GONE);
                     iv4.setVisibility(View.VISIBLE);
                     tvState.setText("处警完毕，资料提交失败");
-                    tvBaojsj.setText(entityJingq.getBaojsj());
-                    tvJiejsj.setText(entityJingq.getChujsj());
-                    tvDaodsj.setText(entityJingq.getDaodsj());
-                    tvFanksj.setText(entityJingq.getFanksj());
+                    tvBaojsj.setText(entityJingq.getBaojsj().substring(11));
+                    if(entityJingq.getChujsj()!=null){
+                        tvJiejsj.setText(entityJingq.getChujsj().substring(11));
+                    }
+                    if(entityJingq.getDaodsj()!=null){
+                        tvDaodsj.setText(entityJingq.getDaodsj().substring(11));
+                    }
+                    if(entityJingq.getFanksj()!=null){
+                        tvFanksj.setText(entityJingq.getFanksj().substring(11));
+                    }
                 }
             }
 
@@ -187,7 +205,17 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                 EntityJingq jingq = jingqDatas.get(position - 1);
                 ivChay= (ImageView) holder.itemView.findViewById(R.id.iv_jingqcl_chayue);
                 ivChay.setImageDrawable(getDrawable(R.drawable.ic_weichayue));
-                startActivity(JingqDetailWithUnhandleActivity.createIntent(context, jingq));
+                switch (jingq.getState()){
+                    case EntityJingq.HADREACHCONFIRM:
+
+                        startActivity(JingqHandleActivity.createIntent(context, jingq));
+                        break;
+                    case EntityJingq.UNREAD:
+                    case EntityJingq.HADREAD:
+                        startActivity(JingqDetailWithUnhandleActivity.createIntent(context, jingq));
+                        break;
+
+                }
                 etSearch.clearFocus();
 
             }

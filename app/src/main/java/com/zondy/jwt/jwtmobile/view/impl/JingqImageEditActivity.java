@@ -82,7 +82,7 @@ public class JingqImageEditActivity extends BaseActivity implements IJingqImageE
             ImageView iv = new ImageView(context);
             Glide.with(context)
                     .load(s)
-                    .placeholder(R.drawable.ic_aixin)
+                    .placeholder(R.drawable.ic_handlejingq_wait_img)
                     .crossFade()
                     .into(iv);
             views.add(iv);

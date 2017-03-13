@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/gray_color_0"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_xxx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_baojsj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="报警时间" />
+
+        <TextView
+            android:id="@+id/tv_baojnr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容" />
+
+        <TextView
+            android:id="@+id/tv_baojr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="报警人" />
+
+        <Button
+            android:id="@+id/btn_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关闭" />
+    </LinearLayout>
+</LinearLayout>

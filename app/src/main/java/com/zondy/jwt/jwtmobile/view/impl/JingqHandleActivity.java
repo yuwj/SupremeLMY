@@ -1,8 +1,11 @@
 package com.zondy.jwt.jwtmobile.view.impl;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,13 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -31,6 +36,7 @@ import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.presenter.IJingqHandlePresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.JingqHandlePresenterImpl;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
+import com.zondy.jwt.jwtmobile.util.GlideImageLoader;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.IJingqhandleView;
@@ -54,12 +60,15 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
     Spinner sp_anjian_xilei;// 案件细类
     @BindView(R.id.sp_ksxz_ajcl)
     Spinner sp_ksxz_ajcl;// 警情处理结果快速选择
+    @BindView(R.id.iv_add_img)
+    ImageView iv_add_img;// 添加图片
 //    @BindView(R.id.et_chujing_result_content)
 //    EditText et_chujing_result_content;// 案件处理结果描述
     @BindView(R.id.tv_confirm_handle)
     TextView tv_confirm_handle;// 确认处理
-//    @BindView(R.id.rv_media)
-//    RecyclerView rv_media;
+    @BindView(R.id.rv_media)
+    RecyclerView rv_media;
+    public final int imgCountLimit = 4;
 
     EntityJingq entityJingq;
     IJingqHandlePresenter jingqHandlePresenter;
@@ -125,12 +134,12 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
         ajclDatas = new ArrayList<EntityZD>();
 
         imageDatas = new ArrayList<>();
+        imageDatas.add(getResourceUri(R.drawable.ic_handlejingq_add_img));
         adapterImages = new CommonAdapter<String>(context, R.layout.item_jingq_handled_images, imageDatas) {
             @Override
             protected void convert(ViewHolder holder, String s, int position) {
                 Glide.with(mContext)
                         .load(s)
-                        .placeholder(R.drawable.ic_aixin)
                         .crossFade()
                         .into((ImageView) holder.getView(R.id.iv_handled_jingq_image));
             }
@@ -139,7 +148,17 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 String imgPath = adapterImages.getDatas().get(position);
-                startActivityForResult(JingqImageEditActivity.createIntent(context, adapterImages.getDatas(), position, true), REQ_CODE_EDIT_IMAGE);
+                if(getResourceUri(R.drawable.ic_handlejingq_add_img).equals(imgPath)){
+                    //添加图片
+                    addImg();
+                }else{
+                    //查看图片
+                    if(imageDatas.contains(getResourceUri(R.drawable.ic_handlejingq_add_img))){
+                        imageDatas.remove(getResourceUri(R.drawable.ic_handlejingq_add_img));
+                    }
+                    startActivityForResult(JingqImageEditActivity.createIntent(context, imageDatas, position, true), REQ_CODE_EDIT_IMAGE);
+
+                }
 
             }
 
@@ -154,8 +173,8 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         updateJingqView(entityJingq);
-//        rv_media.setLayoutManager(new GridLayoutManager(context, 3));
-//        rv_media.setAdapter(adapterImages);
+        rv_media.setLayoutManager(new GridLayoutManager(context, 4));
+        rv_media.setAdapter(adapterImages);
     }
 
 
@@ -433,6 +452,37 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
         ajclAdapter.notifyDataSetChanged();
     }
 
+//    @Override
+//    public void updateSelectedImages(final List<String> imagePaths) {
+//        rv_media.setLayoutManager(new GridLayoutManager(context,3));
+//        CommonAdapter adapter = null;
+//        rv_media.setAdapter(adapter = new CommonAdapter(context,R.layout.item_jingq_handled_images,imagePaths) {
+//            @Override
+//            protected void convert(ViewHolder holder, Object o, int position) {
+//                ImageView iv = holder.getView(R.id.iv_handled_jingq_image);
+//                final String path = imagePaths.get(position);
+//                Glide.with(context).load(path).into(iv);
+//            }
+//        });
+//        adapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+//                if(position >= imagePaths.size()){
+//                    //添加图片
+//                }else{
+//                    //查看图片
+//                }
+//            }
+//
+//            @Override
+//            public boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position) {
+//                return false;
+//            }
+//        });
+//        rv_media.addItemDecoration(new DividerGridItemDecoration(context));
+//
+//    }
+
     @OnClick({R.id.tv_confirm_handle, R.id.tv_add_media})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -461,7 +511,6 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
                 jingqHandlePresenter.jingqHandle(jingyid, jingqid, chuljg, ajlb, ajlx, ajxl, "", filesPath, jh, simid);
                 break;
             case R.id.tv_add_media:
-                ToastTool.getInstance().shortLength(context, "添加图片", true);
                 //==========================
                 //以下是rxGalleryFinal写法,但是引入此模块会导致地图无法加载,故舍弃.
 //                RxGalleryFinal
@@ -490,10 +539,27 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
 //                        })
 //                        .openGallery();
                 //==========================
+                addImg();
 
                 break;
         }
     }
+
+    public void addImg(){
+        int count  = imgCountLimit -imageDatas.size();
+        if(imageDatas.contains(getResourceUri(R.drawable.ic_handlejingq_add_img))){
+            imageDatas.remove(getResourceUri(R.drawable.ic_handlejingq_add_img));
+            count++;
+        }
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());
+        imagePicker.setShowCamera(true);
+        imagePicker.setSelectLimit(count);
+        imagePicker.setCrop(false);
+        Intent intent = new Intent(getApplicationContext(), ImageGridActivity.class);
+        startActivityForResult(intent, 100);
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -502,7 +568,6 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
             imageDatas.clear();
             imageDatas.addAll((List<String>) data.getSerializableExtra("imageDatas"));
 
-            adapterImages.notifyDataSetChanged();
             StringBuffer sb = new StringBuffer();
             boolean isAddSpliteChar = false;
             for (String s : imageDatas) {
@@ -513,7 +578,50 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
                 isAddSpliteChar = true;
             }
             entityJingq.setFilesPath(sb.toString());
+            if(imageDatas.size()< imgCountLimit){
+                imageDatas.add(getResourceUri(R.drawable.ic_handlejingq_add_img));
+            }
+            adapterImages.notifyDataSetChanged();
         }
+
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            if (data != null && requestCode == 100) {
+                final ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+
+                if (images != null && images.size() > 0) {
+                    StringBuffer sb = new StringBuffer();
+                    boolean isAddDivder = false;
+
+                    for(int i = 0;i<images.size();i++){
+                        ImageItem item = images.get(i);
+                        final String path = item.path;
+                        if(isAddDivder){
+                            sb.append(",");
+                        }
+                        sb.append(path);
+                        isAddDivder = true;
+                        imageDatas.add(path);
+                    }
+                    entityJingq.setFilesPath(sb.toString());
+                }
+                if(imageDatas.size()< imgCountLimit){
+                    Resources r =context.getResources();
+                    imageDatas.add(getResourceUri(R.drawable.ic_handlejingq_add_img));
+                }
+                adapterImages.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getApplicationContext(), "没有数据", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public String getResourceUri(int resId){
+        Resources r =context.getResources();
+        Uri uri =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+                + r.getResourcePackageName(resId) + "/"
+                + r.getResourceTypeName(resId) + "/"
+                + r.getResourceEntryName(resId));
+        return uri.toString();
     }
 
 }

@@ -1,6 +1,8 @@
 package com.zondy.jwt.jwtmobile.entity;
 
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class EntityUser implements Serializable{
@@ -17,6 +19,8 @@ public class EntityUser implements Serializable{
     private String ssxq;//所属辖区代码
     private String timeInterval;//定位时间间隔
     private String distanceInterval;//定位距离间隔
+    @SerializedName("txlj")
+    private String userPhotoUrl;//用户头像地址
 
     public String getUserId() {
         return userId;
@@ -120,5 +124,13 @@ public class EntityUser implements Serializable{
 
     public void setDistanceInterval(String distanceInterval) {
         this.distanceInterval = distanceInterval;
+    }
+
+    public String getUserPhotoUrl() {
+        return userPhotoUrl;
+    }
+
+    public void setUserPhotoUrl(String userPhotoUrl) {
+        this.userPhotoUrl = userPhotoUrl;
     }
 }
