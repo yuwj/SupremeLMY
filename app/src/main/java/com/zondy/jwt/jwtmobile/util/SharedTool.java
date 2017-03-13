@@ -79,6 +79,7 @@ public class SharedTool {
         editor.putString("roleId", user.getRoleId());
         editor.putString("ssxq", user.getSsxq());
         editor.putString("phone", user.getPhone());
+        editor.putString("userPhotoUrl", user.getUserPhotoUrl());
         editor.commit();
 
     }
@@ -103,6 +104,7 @@ public class SharedTool {
         editor.remove("roleId");// user.getRoleId());
         editor.remove("ssxq");// user.getSsxq());
         editor.remove("phone");// user.getSsxq());
+        editor.remove("userPhotoUrl");// user.getSsxq());
         editor.commit();
     }
 
@@ -138,6 +140,7 @@ public class SharedTool {
         entityUser.setSsxq(preferences.getString("ssxq", ""));
         entityUser.setZzjgmc(preferences.getString("zzjgmc", ""));
         entityUser.setPhone(preferences.getString("phone", ""));
+        entityUser.setUserPhotoUrl(preferences.getString("userPhotoUrl", ""));
         return entityUser;
     }
 

@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -21,22 +22,30 @@ import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
+import com.zondy.jwt.jwtmobile.base.MyApplication;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
+import com.zondy.jwt.jwtmobile.presenter.ISettingPresenter;
+import com.zondy.jwt.jwtmobile.presenter.impl.SettingPresenterImpl;
+import com.zondy.jwt.jwtmobile.util.CommonUtil;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
+import com.zondy.jwt.jwtmobile.view.ISettingView;
 import com.zondy.mapgis.android.mapview.MapView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by sheep on 2017/1/5.
  */
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ISettingView{
     @BindView(R.id.tv_ll_name)
     TextView tvName;
     @BindView(R.id.tv_ll_jh)
@@ -46,12 +55,18 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.rl_search)
     RelativeLayout rlSearch;
     private DrawerLayout drawerLayout;
-//    private MapView mapView;
+    private MapView mapView;
     private FloatingActionButton fab;
     @BindView(R.id.rv_menu)
     RecyclerView rv_menu;//菜单
+    @BindView(R.id.icon_image)
+    CircleImageView icon_image;//圆形头像控件
     List<EntityMenu> menus;
     CommonAdapter<EntityMenu> adapterMenuList;
+
+    ISettingPresenter settingPresenter = new SettingPresenterImpl(this);
+
+    private static boolean isExit = false;// 标识是否退出系统
 
     @Override
     public int setCustomContentViewResourceId() {
@@ -61,24 +76,24 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        com.zondy.mapgis.android.environment.Environment.requestAuthorization(this, new com.zondy.mapgis.android.environment.Environment.AuthorizeCallback() {
-//            @Override
-//            public void onComplete() {
-//                initMap();
-//            }
-//        });
+        com.zondy.mapgis.android.environment.Environment.requestAuthorization(this, new com.zondy.mapgis.android.environment.Environment.AuthorizeCallback() {
+            @Override
+            public void onComplete() {
+                initMap();
+            }
+        });
         initParams();
         initViews();
     }
 
-//    private void initMap() {
-//        mapView.loadFromFile(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml");
-//        mapView.setZoomControlsEnabled(true);
-//        mapView.setShowLogo(true);
-//    }
+    private void initMap() {
+        mapView.loadFromFile(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml");
+        mapView.setZoomControlsEnabled(true);
+        mapView.setShowLogo(true);
+    }
 
     private void initParams() {
-//        mapView = (MapView) findViewById(R.id.mapview);
+        mapView = (MapView) findViewById(R.id.mapview);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         menus = new ArrayList<>();
@@ -147,6 +162,10 @@ public class MainActivity extends BaseActivity {
         if (user != null) {
             tvName.setText(user.getCtname());
             tvJh.setText("警号：" + user.getUserName());
+
+            String photoUrl = user.getUserPhotoUrl();
+            if(!TextUtils.isEmpty(photoUrl)){
+                Glide.with(context).load(photoUrl).into(icon_image);}
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +204,43 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        // 2秒内双击退出系统
+        if (!isExit) {
+            isExit = true;
+            ToastTool.getInstance().shortLength(this, "再按一次退出程序！", true);
+            new Timer().schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    isExit = false;
+                }
+            }, 2000);
+        } else {
+            EntityUser user = SharedTool.getInstance().getUserInfo(MainActivity.this);
+            if (user != null) {
+                String jh = user.getUserName();
+                String simid = CommonUtil.getDeviceId(context);
+                settingPresenter.logout(jh,simid);
+            }else{
+                ToastTool.getInstance().shortLength(context,"账号有误,退出失败",true);
+            }
+        }
+    }
+
+    @Override
+    public void logoutSuccessed() {
+        this.finish();
+    }
+
+    @Override
+    public void logoutUnSuccessed() {
+
+        ToastTool.getInstance().shortLength(context,"退出失败,请重试!",true);
+    }
+
 
     class EntityMenu {
         String menuTitle;

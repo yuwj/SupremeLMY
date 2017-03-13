@@ -106,7 +106,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     private void initOperator() {
         String updateInfoUrl = UrlManager.getSERVER() + UrlManager.UPDATE;
-        UpdateChecker.checkForDialog(context,updateInfoUrl);
+        UpdateChecker.checkForDialog(context,false,updateInfoUrl);
     }
 
     @Override
@@ -194,7 +194,6 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     @Override
     public void loginSuccessed(EntityUser entityUser) {
-//        entityUser.setPassword(etPassword.getText().toString());//因为服务端没有返回用户密码，此操作为保存密码
         //保存用户信息
         SharedTool.getInstance().saveUserInfo(LoginActivity.this, entityUser);
 

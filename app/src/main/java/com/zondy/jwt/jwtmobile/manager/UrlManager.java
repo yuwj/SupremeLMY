@@ -13,8 +13,9 @@ public class UrlManager {
     public static String PUSH_HOST_PORT = "4041";
 
     public static String LOGIN = "/UserLogin!login";// 登入
-    // public static String LOGOUT = "/CloseServlet.do";// 登出
     public static String LOGOUT = "/UserLogout!logout";// 登出
+    public static String UPLOAD_PHOTO = "/UserLogin!txsc";//上传头像
+    public static String GET_PHOTO = "/JQTS!getImgJYTX";//获取头像
     public static String changePwd = "/UserLogin!updatePassword";// 修改密码
     public static String UPDATE = "/CheckUpdateInfo!checkUpdateInfo";// 更新信息查询
     public static String mapFile = "/mobileInfo/MapGIS.zip";// 地图文件
