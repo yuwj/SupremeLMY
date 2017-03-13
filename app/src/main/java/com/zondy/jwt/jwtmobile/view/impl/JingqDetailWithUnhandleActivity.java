@@ -123,6 +123,14 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
         tvBaojingdianhua.setText(phoneNum);
         tvBaojingdizhi.setText(entityJingq.getBaojdz());
         tvBaojingneirong.setText("    " + entityJingq.getBaojnr());
+        if(jingq.getJingqzt()==0){
+            btnAccept.setVisibility(View.VISIBLE);
+            btnReback.setVisibility(View.GONE);
+        }
+        if(jingq.getJingqzt()==1){
+            btnAccept.setVisibility(View.GONE);
+            btnReback.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
