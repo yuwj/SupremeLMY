@@ -5,11 +5,14 @@ package com.zondy.jwt.jwtmobile.entity;
 //import io.realm.annotations.PrimaryKey;
 //import io.realm.annotations.Required;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by sheep on 2017/2/10.
  */
 
-public class EntitySearchHistory extends Object {
+public class EntitySearchHistory extends RealmObject {
     public EntitySearchHistory() {
 
     }
@@ -26,7 +29,7 @@ public class EntitySearchHistory extends Object {
     }
 
     private String id;
-//    @PrimaryKey
+    @PrimaryKey
     private String keyword;
     private String time;
 

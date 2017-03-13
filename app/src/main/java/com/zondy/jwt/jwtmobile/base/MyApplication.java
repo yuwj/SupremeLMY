@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 //import io.realm.Realm;
 //import io.realm.RealmConfiguration;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 
 /**
@@ -43,9 +45,9 @@ public class MyApplication extends Application {
         initIpAndPort();
         GPSLocationManager.getInstance(this, 10, 0).startLocation();//开启GPS定位服务
 
-//        Realm.init(this);
-//        RealmConfiguration realmConfiguration=new RealmConfiguration.Builder().name("JWTLMY.realm").deleteRealmIfMigrationNeeded().build();
-//        Realm.setDefaultConfiguration(realmConfiguration);
+        Realm.init(this);
+        RealmConfiguration realmConfiguration=new RealmConfiguration.Builder().name("JWTLMY.realm").deleteRealmIfMigrationNeeded().build();
+        Realm.setDefaultConfiguration(realmConfiguration);
 
         //必须调用初始化
         OkGo.init(this);
