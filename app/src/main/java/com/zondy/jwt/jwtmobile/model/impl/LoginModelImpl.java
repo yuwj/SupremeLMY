@@ -25,7 +25,7 @@ import okhttp3.Response;
 public class LoginModelImpl implements ILoginModel {
 
     @Override
-    public void login(String username, String password, final String simid, final ILoginCallback loginCallback) {
+    public void login(String username, final String password, final String simid, final ILoginCallback loginCallback) {
         String url = UrlManager.getSERVER() + UrlManager.LOGIN;
         JSONObject param=new JSONObject();
         try {
@@ -63,6 +63,7 @@ public class LoginModelImpl implements ILoginModel {
                 public void onResponse(Object response, int id) {
                     if(response instanceof EntityUser){
                         EntityUser entityUser= (EntityUser) response;
+                        entityUser.setPassword(password);
                         loginCallback.loginSuccess(entityUser);
                     }else {
                         loginCallback.loginUnSuccessed((String) response);
