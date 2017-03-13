@@ -178,7 +178,7 @@ public class EntityJingq implements Serializable {
 
         double longitude = 0;
         try {
-            Double.valueOf(this.longitude);
+            longitude=  Double.valueOf(this.longitude);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -192,7 +192,7 @@ public class EntityJingq implements Serializable {
     public double getLatitude() {
         double latitude = 0;
         try {
-            Double.valueOf(this.latitude);
+            latitude = Double.valueOf(this.latitude);
         } catch (Exception e) {
             e.printStackTrace();
         }

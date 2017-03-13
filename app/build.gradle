@@ -11,6 +11,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        /**
+         * 配置ndk,只将armeabi-v7a下的so库打包到apk中.
+         */
+        ndk {
+            ldLibs "log"
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
@@ -34,6 +41,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'com.zhy:base-rvadapter:3.0.3'
+    compile 'com.zhy:base-adapter:3.0.3'
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.zhy:okhttputils:2.6.2'
@@ -44,9 +52,22 @@ dependencies {
     compile project(':indexlib')
     compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.2.2'
     compile 'com.github.promeg:tinypinyin:1.0.0'
+    compile 'com.lzy.net:okgo:2.1.4'
+    //可以单独使用，不需要依赖下方的扩展包
+    compile 'com.lzy.net:okrx:0.1.2'
+    //RxJava扩展支持，根据需要添加
+    compile 'com.lzy.net:okserver:1.1.3'
+    //下载管理和上传管理扩展，根据需要添加
+    compile project(':appupdatelib')
+    compile project(':mpush')
 
-    compile 'com.lzy.net:okgo:2.1.4'        //可以单独使用，不需要依赖下方的扩展包
-    compile 'com.lzy.net:okrx:0.1.2'        //RxJava扩展支持，根据需要添加
-    compile 'com.lzy.net:okserver:1.1.3'    //下载管理和上传管理扩展，根据需要添加
+
+
+
+    compile 'com.lzy.widget:ninegridview:0.2.1'
+    compile 'com.lzy.widget:imagepicker:0.3.2'
+    compile 'com.lzy.widget:view-core:0.2.1'
+
     compile 'com.tubb.calendarselector.library:calendar-selector:0.2.3'
+
 }

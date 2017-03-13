@@ -1,5 +1,8 @@
 package com.zondy.jwt.jwtmobile.global;
 
+import android.os.Environment;
+
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.CacheControl;
@@ -27,4 +30,6 @@ public class Constant {
             .onlyIfCached()
             .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
             .build();
+
+    public static final String mapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml";
 }

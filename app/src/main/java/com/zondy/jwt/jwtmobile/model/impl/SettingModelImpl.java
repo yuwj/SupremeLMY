@@ -3,10 +3,12 @@ package com.zondy.jwt.jwtmobile.model.impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.lzy.okgo.OkGo;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zondy.jwt.jwtmobile.callback.ILoginCallback;
 import com.zondy.jwt.jwtmobile.callback.ILogoutCallback;
+import com.zondy.jwt.jwtmobile.callback.IUpdatePasswordCallback;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.ISettingModel;
@@ -67,6 +69,54 @@ public class SettingModelImpl implements ISettingModel {
                         logoutCallback.logoutSuccessed();
                     } else {
                         logoutCallback.logoutUnSuccessed();
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updatePassword(String userName, String oldPwd, String newPwd, final IUpdatePasswordCallback updatePasswordCallback) {
+        String url = UrlManager.getSERVER() + UrlManager.changePwd;
+        JSONObject param = new JSONObject();
+        try {
+            param.put("userName", userName);
+            param.put("passwordold", oldPwd);
+            param.put("passwordnew", newPwd);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
+                    .build().execute(new Callback<Boolean>() {
+                @Override
+                public Boolean parseNetworkResponse(Response response, int id) throws Exception {
+                    String string = response.body().string();
+                    Log.i("yuwj", "parseNetworkResponse: "+string);
+                    JSONObject object = new JSONObject(string);
+                    int resultCode = object.optInt("result");
+                    switch (resultCode) {
+                        case 1:
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+
+                }
+
+                @Override
+                public void onResponse(Boolean response, int id) {
+                    if ( response) {
+                        updatePasswordCallback.onUpdateComplete(response);
+                    } else {
+                        updatePasswordCallback.onUpdateComplete(response);
                     }
                 }
             });

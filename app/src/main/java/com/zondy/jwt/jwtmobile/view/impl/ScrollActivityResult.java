@@ -2,6 +2,7 @@ package com.zondy.jwt.jwtmobile.view.impl;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,8 +13,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -29,14 +32,22 @@ import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
+import com.zondy.jwt.jwtmobile.entity.EntityJingq;
 import com.zondy.jwt.jwtmobile.entity.EntitySearchResult;
+import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.presenter.ISearchPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.SearchPresenterImpl;
+import com.zondy.jwt.jwtmobile.util.GsonUtil;
+import com.zondy.jwt.jwtmobile.util.MapManager;
 import com.zondy.jwt.jwtmobile.util.ScreenUtil;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.ISearchZHCXListView;
+import com.zondy.mapgis.android.annotation.Annotation;
+import com.zondy.mapgis.android.annotation.AnnotationView;
+import com.zondy.mapgis.android.annotation.AnnotationsOverlay;
 import com.zondy.mapgis.android.mapview.MapView;
+import com.zondy.mapgis.core.geometry.Dot;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,6 +61,9 @@ import butterknife.BindView;
  */
 
 public class ScrollActivityResult extends BaseActivity implements ISearchZHCXListView {
+    private MapManager mapManager;
+    private List<Annotation> annotations;
+
     @BindView(R.id.scrollresults_mapview)
     MapView mapview;
     private ISearchPresenter searchPresenter = new SearchPresenterImpl(this, this);
@@ -59,12 +73,12 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
     private int pagesize = 10;//每页显示条数，默认为10
     private double longitude = 114.980164;//经度
     private double latitude = 30.095831;//纬度
-    private int orderType=1;//排序类型，1 代表距离排序，2 代表采集时间排序。 默认为距离排序
+    private int orderType = 1;//排序类型，1 代表距离排序，2 代表采集时间排序。 默认为距离排序
     private List<EntitySearchResult> mDatas = new ArrayList<>();
     private CommonAdapter<EntitySearchResult> adapter;
     //屏幕宽度
     private int width;
-    private int flag=0;//默认为0，通过距离或时间排序调用的方法为1
+    private int flag = 0;//默认为0，通过距离或时间排序调用的方法为1
     private String searchMC;
     private String layerid;
     private String layername;
@@ -184,11 +198,70 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
     }
 
     private void initView() {
-        mapview.loadFromFile(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml");
-        mapview.setShowNorthArrow(false);
-//        longitude= Double.parseDouble(SharedTool.getInstance().getLocationInfo(this).getLongitude());
-//        latitude= Double.parseDouble(SharedTool.getInstance().getLocationInfo(this).getLatitude());
-        searchPresenter.queryZHCXList(layerid, layername, orderType,searchMC, radius, longitude, latitude, nowpage, pagesize);
+        mapManager = new MapManager(mapview, context);
+        mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
+            @Override
+            public void onMapLoadSuccess() {
+
+            }
+
+            @Override
+            public void onMapLoadFail() {
+
+            }
+        }, new MapManager.MapAnnotationListener() {
+            @Override
+            public AnnotationView createAnnotationView(final Annotation annotation) {
+
+                for (int i = 0; i < annotations.size(); i++) {
+                    Annotation a = annotations.get(i);
+                    Bitmap b = null;
+                    if (a.getUid().equals(annotation.getUid())) {
+                        b = mapManager.createIndexAnnotationView(context, i, 1, true);
+                    } else {
+                        b = mapManager.createIndexAnnotationView(context, i, 1, false);
+                    }
+                    a.setImage(b);
+                }
+                AnnotationView annotationView = new AnnotationView(annotation, context);
+                View contentView = LayoutInflater.from(context).inflate(R.layout.content_annotation_zonghss, null);
+
+                DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels / 2;
+                View ll = contentView.findViewById(R.id.ll_xxx);
+                LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) ll.getLayoutParams();
+                p.width = width;
+                ll.setLayoutParams(p);
+                TextView tv_annotation_dismiss = (TextView) contentView.findViewById(R.id.tv_annotation_dismiss);
+
+                TextView tv_baojsj = (TextView) contentView.findViewById(R.id.tv_baojsj);
+                TextView tv_baojnr = (TextView) contentView.findViewById(R.id.tv_baojnr);
+                TextView tv_baojr = (TextView) contentView.findViewById(R.id.tv_baojr);
+                Button btn_dismiss = (Button) contentView.findViewById(R.id.btn_dismiss);
+                EntitySearchResult jingq = GsonUtil.json2Bean(annotation.getDescription(), EntitySearchResult.class);
+                tv_baojsj.setText("名称:"+jingq.getMc());
+                tv_baojnr.setText("地址:"+jingq.getDz());
+                tv_baojr.setText("人数:"+jingq.getRs());
+                tv_annotation_dismiss.setOnClickListener(new View.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(View v) {
+                                                       annotation.hideAnnotationView();
+                                                   }
+                                               }
+                );
+
+                annotationView.setCalloutView(contentView);
+                AnnotationsOverlay annotationsOverlay = mapview.getAnnotationsOverlay();
+                int index = annotationsOverlay.indexOf(annotation);
+                //把annotation放到z轴最前面
+                annotationsOverlay.moveAnnotation(index, -1);
+                mapview.refresh();
+                // 将annotationview平移到视图中心
+                annotationView.setPanToMapViewCenter(true);
+                return annotationView;
+            }
+        });
+        searchPresenter.queryZHCXList(layerid, layername, orderType, searchMC, radius, longitude, latitude, nowpage, pagesize);
         tvSearchResultsTopMc.setText(searchMC);
         tvSearchTopMc.setText(searchMC);
 
@@ -309,7 +382,7 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
             @Override
             public void onClick(View v) {
                 View layout = ScrollActivityResult.this.getLayoutInflater().inflate(R.layout.pop_scrollresults, null);
-                List<String> mDatas = new ArrayList<String>();
+                final List<String> mDatas = new ArrayList<String>();
                 mDatas.add("距离排序");
                 mDatas.add("时间排序");
                 CommonAdapter<String> commonAdapter = new CommonAdapter<String>(ScrollActivityResult.this, R.layout.item_scrollresults_shaixuan, mDatas) {
@@ -351,17 +424,18 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                 commonAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-                        if((position+1)==orderType){
+                        if ((position + 1) == orderType) {
                             window.dismiss();
                             return;
-                        }else{
-                            orderType=(position+1);
-                            nowpage=1;
-                            pagesize=10;
-                            searchPresenter.queryZHCXList(layerid, layername, orderType,searchMC, radius, longitude, latitude, nowpage, pagesize);
-                            flag=1;
+                        } else {
+                            orderType = (position + 1);
+                            nowpage = 1;
+                            pagesize = 10;
+                            searchPresenter.queryZHCXList(layerid, layername, orderType, searchMC, radius, longitude, latitude, nowpage, pagesize);
+                            flag = 1;
                             window.dismiss();
                         }
+
 
                     }
 
@@ -423,8 +497,8 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
     }
 
     @Override
-    public void queryZHCXListSuccessed(List<EntitySearchResult> searchResults,int allpages) {
-        if(flag==0){
+    public void queryZHCXListSuccessed(List<EntitySearchResult> searchResults, int allpages) {
+        if (flag == 0) {
             if (nowpage > 1) {
                 mDatas.addAll(searchResults);
                 tvFootMc.setText("共找到\"" + searchMC + "\"相关" + mDatas.size() + "个结果");
@@ -432,16 +506,18 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
             } else {
                 mDatas.addAll(searchResults);
                 tvFootMc.setText("共找到\"" + searchMC + "\"相关" + mDatas.size() + "个结果");
-                this.allpages=allpages;
+                this.allpages = allpages;
                 loadSearchResultsList();
             }
-        }else if(flag==1){
-            this.allpages=allpages;
+        } else if (flag == 1) {
+            this.allpages = allpages;
             mDatas.clear();
             mDatas.addAll(searchResults);
             adapter.notifyDataSetChanged();
-            flag=0;
+            flag = 0;
         }
+
+        updateSearchResultOnMap(mDatas, -1);
 
     }
 
@@ -469,8 +545,8 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
             @Override
             public void convert(ViewHolder holder, EntitySearchResult entitySearchResult) {
                 holder.setImageResource(R.id.iv_item_scrollresults, R.drawable.ic_zanwutupian);
-                String dmtlj=entitySearchResult.getDmtlj().split(",")[0];
-                String dmtljCS=dmtlj.replace("61.183.129.187:4040","192.168.9.188:8080");
+                String dmtlj = entitySearchResult.getDmtlj().split(",")[0];
+                String dmtljCS = dmtlj.replace("61.183.129.187:4040", "192.168.9.188:8080");
                 Glide.with(ScrollActivityResult.this).load(dmtljCS).into((ImageView) holder.getView(R.id.iv_item_scrollresults));
                 holder.setText(R.id.tv_item_scrollresults_mc, entitySearchResult.getMc());
                 holder.setText(R.id.tv_item_scrollresults_dz, entitySearchResult.getDz());
@@ -486,9 +562,22 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 Intent intent = new Intent(ScrollActivityResult.this, SearchResultsItemActivity.class);
                 intent.putExtra("NAME", mDatas.get(position - 1).getMc());
-                intent.putExtra("DZ",mDatas.get(position-1).getDz());
-                intent.putExtra("dmtlj",mDatas.get(position-1).getDmtlj());
+                intent.putExtra("DZ", mDatas.get(position - 1).getDz());
+                intent.putExtra("dmtlj", mDatas.get(position - 1).getDmtlj());
                 startActivity(intent);
+
+                for (int i = 0; i < annotations.size(); i++) {
+                    Annotation a = annotations.get(i);
+                    Bitmap b = null;
+                    if (i == position-1) {
+                        b = mapManager.createIndexAnnotationView(context, i, 1, true);
+                    } else {
+                        b = mapManager.createIndexAnnotationView(context, i, 1, false);
+                    }
+                    a.setImage(b);
+                    a.showAnnotationView();
+                }
+                mapview.refresh();
             }
 
             @Override
@@ -513,12 +602,12 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(nowpage<allpages){
+                        if (nowpage < allpages) {
                             nowpage = nowpage + 1;
-                            searchPresenter.queryZHCXList(layerid, layername, orderType,searchMC, radius, longitude, latitude, nowpage, pagesize);
+                            searchPresenter.queryZHCXList(layerid, layername, orderType, searchMC, radius, longitude, latitude, nowpage, pagesize);
                             mXRecyclerView.loadMoreComplete();
-                        }else {
-                            ToastTool.getInstance().shortLength(ScrollActivityResult.this,"当前区域暂无更多相关结果",true);
+                        } else {
+                            ToastTool.getInstance().shortLength(ScrollActivityResult.this, "当前区域暂无更多相关结果", true);
                             mXRecyclerView.loadMoreComplete();
                         }
 
@@ -529,4 +618,26 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
 
     }
 
+
+    /**
+     * @param datas         所有的搜索结果
+     * @param selectedIndex 被选中的index
+     */
+    public void updateSearchResultOnMap(List<EntitySearchResult> datas, int selectedIndex) {
+        mapview.getAnnotationsOverlay().removeAllAnnotations();
+        if (annotations != null) {
+            annotations.clear();
+        } else {
+            annotations = new ArrayList<>();
+        }
+        for (int i = 0; i < datas.size(); i++) {
+            EntitySearchResult result = datas.get(i);
+            Bitmap bitmap = mapManager.createIndexAnnotationView(context, i, 1, i == selectedIndex);
+            double[] xy = MapManager.lonLat2Mercator(result.getLongitude(), result.getLatitude());
+            Annotation annotation = new Annotation("" + (i + 1), "搜索结果", result.getJsonStr(), new Dot(xy[0], xy[1]), bitmap);
+            annotations.add(annotation);
+        }
+        mapview.getAnnotationsOverlay().addAnnotations(annotations);
+        mapview.refresh();
+    }
 }

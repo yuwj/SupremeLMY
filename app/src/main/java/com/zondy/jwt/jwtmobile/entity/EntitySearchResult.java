@@ -1,5 +1,8 @@
 package com.zondy.jwt.jwtmobile.entity;
 
+import com.google.gson.annotations.SerializedName;
+import com.zondy.jwt.jwtmobile.util.GsonUtil;
+
 /**
  * Created by sheep on 2016/12/28.
  */
@@ -11,6 +14,10 @@ public class EntitySearchResult {
     private String distance;
     private String rs;
     private String dmtlj;
+    @SerializedName("x")
+    private double longitude;
+    @SerializedName("y")
+    private double latitude;
 
     public EntitySearchResult() {
 
@@ -69,5 +76,25 @@ public class EntitySearchResult {
 
     public void setRs(String rs) {
         this.rs = rs;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getJsonStr(){
+        return GsonUtil.bean2Json(this);
     }
 }

@@ -15,8 +15,8 @@ import com.zondy.jwt.jwtmobile.util.SharedTool;
 import java.util.concurrent.TimeUnit;
 
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+//import io.realm.Realm;
+//import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 
 /**
@@ -43,9 +43,9 @@ public class MyApplication extends Application {
         initIpAndPort();
         GPSLocationManager.getInstance(this, 10, 0).startLocation();//开启GPS定位服务
 
-        Realm.init(this);
-        RealmConfiguration realmConfiguration=new RealmConfiguration.Builder().name("JWTLMY.realm").deleteRealmIfMigrationNeeded().build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+//        Realm.init(this);
+//        RealmConfiguration realmConfiguration=new RealmConfiguration.Builder().name("JWTLMY.realm").deleteRealmIfMigrationNeeded().build();
+//        Realm.setDefaultConfiguration(realmConfiguration);
 
         //必须调用初始化
         OkGo.init(this);
@@ -93,14 +93,14 @@ public class MyApplication extends Application {
                 defaultIps[3] = "5222";
             } else if (Constant.JWT_AREA_SELECTED
                     .equals(Constant.JWT_AREA_ZJG)) {
-                defaultIps[0] = "192.168.9.188";
-                defaultIps[1] = "8080";
+                defaultIps[0] = "172.28.1.11";
+                defaultIps[1] = "8088";
                 defaultIps[2] = "192.168.9.188";
                 defaultIps[3] = "5222";
             } else if (Constant.JWT_AREA_SELECTED
                     .equals(Constant.JWT_AREA_WH)) {
-                defaultIps[0] = "61.183.129.187";
-                defaultIps[1] = "4040";
+                defaultIps[0] = "192.168.9.188";
+                defaultIps[1] = "8080";
                 defaultIps[2] = "61.183.129.187";
                 defaultIps[3] = "4041";
             } else if (Constant.JWT_AREA_SELECTED

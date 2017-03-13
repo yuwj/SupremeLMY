@@ -2,35 +2,45 @@ package com.zondy.jwt.jwtmobile.view.impl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityJingq;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
+import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.presenter.IJingqHandlePresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.JingqHandlePresenterImpl;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
+import com.zondy.jwt.jwtmobile.util.GsonUtil;
+import com.zondy.jwt.jwtmobile.util.MapManager;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.IJingqDetailWithUnhandleView;
+import com.zondy.mapgis.android.annotation.Annotation;
+import com.zondy.mapgis.android.annotation.AnnotationView;
+import com.zondy.mapgis.android.annotation.AnnotationsOverlay;
 import com.zondy.mapgis.android.mapview.MapView;
-
-import java.io.File;
+import com.zondy.mapgis.core.geometry.Dot;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 
 public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJingqDetailWithUnhandleView {
-
 
 
     EntityJingq entityJingq;
@@ -58,6 +68,11 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
     Button btnAccept;
     @BindView(R.id.btn_reback)
     Button btnReback;
+    @BindView(R.id.sv_jingq_container)
+    ScrollView scrollView;
+
+    MapManager mapManager;
+    Annotation annoJingq;
 
     public static Intent createIntent(Context context, EntityJingq jingq) {
         Intent intent = new Intent(context, JingqDetailWithUnhandleActivity.class);
@@ -82,24 +97,99 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
         entityJingq = (EntityJingq) getIntent().getSerializableExtra("entityJingq");
         jingqHandlePresenter = new JingqHandlePresenterImpl(this);
         user = SharedTool.getInstance().getUserInfo(context);
+
+
     }
 
     public void initView() {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        com.zondy.mapgis.android.environment.Environment.requestAuthorization(this, new com.zondy.mapgis.android.environment.Environment.AuthorizeCallback() {
+        //解决mapview同scrollview的滑动冲突
+        mapview.getChildAt(0).setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onComplete() {
-                initMap();
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    scrollView.requestDisallowInterceptTouchEvent(false);
+                }else{
+                    scrollView.requestDisallowInterceptTouchEvent(true);
+                }
+                return false;
+            }
+        });
+        mapManager = new MapManager(mapview, context);
+        mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
+            @Override
+            public void onMapLoadSuccess() {
+                Log.i("xxxx", "" + entityJingq.getLongitude());
+                Log.i("xxxx", "" + entityJingq.getLatitude());
+                if (entityJingq.getLongitude() > 0 && entityJingq.getLatitude() > 0) {
+                    double[] xy = MapManager.lonLat2Mercator(entityJingq.getLongitude(), entityJingq.getLatitude());
+                    Log.i("xxxx", "xy: " + xy[0] + "   " + xy[1]);
+
+                    double[] yz = MapManager.Mercator2lonLat(1.2735793594229463E7, 3567123.954291529);
+                    Log.i("xxxx", "yz: " + yz[0] + "   " + yz[1]);
+                    double[] za = MapManager.lonLat2Mercator(yz[0], yz[1]);
+                    Log.i("xxxx", "za: " + za[0] + "   " + za[1]);
+                    annoJingq = new Annotation("警情", entityJingq.toJsonStr(), new Dot(xy[0], xy[1]), BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_position_blue_type1));
+                    mapManager.addAnnotaion(annoJingq);
+                    annoJingq.showAnnotationView();
+                    mapview.refresh();
+                }
+//                mapview.setTapListener(new MapView.MapViewTapListener() {
+//                    @Override
+//                    public void mapViewTap(PointF pointF) {
+//                        Dot point = mapview.viewPointToMapPoint(pointF);
+//                        Log.i("xxxx", "onMapLoadSuccess2: " + point.getX() + "   " + point.getY());
+//                        Annotation annoJingq = new Annotation("警情", entityJingq.toJsonStr(), point, BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_position_blue_type1));
+//                        mapManager.addAnnotaion(annoJingq);
+//                    }
+//                });
+            }
+
+            @Override
+            public void onMapLoadFail() {
+                ToastTool.getInstance().shortLength(context, "地图加载失败", true);
+            }
+        }, new MapManager.MapAnnotationListener() {
+            @Override
+            public AnnotationView createAnnotationView(final Annotation annotation) {
+                AnnotationView annotationView = new AnnotationView(annotation, context);
+                View contentView = LayoutInflater.from(context).inflate(R.layout.content_annotation_jingq, null);
+
+                DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels / 2;
+                View ll = contentView.findViewById(R.id.ll_xxx);
+                LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) ll.getLayoutParams();
+                p.width = width;
+                ll.setLayoutParams(p);
+                TextView tv_baojsj = (TextView) contentView.findViewById(R.id.tv_baojsj);
+                TextView tv_baojnr = (TextView) contentView.findViewById(R.id.tv_baojnr);
+                TextView tv_baojr = (TextView) contentView.findViewById(R.id.tv_baojr);
+                Button btn_dismiss = (Button) contentView.findViewById(R.id.btn_dismiss);
+                EntityJingq jingq = GsonUtil.json2Bean(annotation.getDescription(), EntityJingq.class);
+                tv_baojsj.setText(jingq.getBaojsj());
+                tv_baojnr.setText(jingq.getBaojnr());
+                tv_baojr.setText(jingq.getBaojr());
+                btn_dismiss.setOnClickListener(new View.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(View v) {
+                                                       annotation.hideAnnotationView();
+                                                   }
+                                               }
+                );
+
+                annotationView.setCalloutView(contentView);
+                AnnotationsOverlay annotationsOverlay = mapview.getAnnotationsOverlay();
+                int index = annotationsOverlay.indexOf(annotation);
+                //把annotation放到z轴最前面
+                annotationsOverlay.moveAnnotation(index, -1);
+                mapview.refresh();
+                // 将annotationview平移到视图中心
+                annotationView.setPanToMapViewCenter(true);
+                return annotationView;
             }
         });
         updateJingqView(entityJingq);
-    }
-
-    private void initMap() {
-        mapview.loadFromFile(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml");
-        mapview.setZoomControlsEnabled(false);
-        mapview.setShowLogo(false);
     }
 
     public void updateJingqView(EntityJingq jingq) {
@@ -204,7 +294,6 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
         dismissLoadingDialog();
         ToastTool.getInstance().shortLength(context, e.getMessage(), true);
     }
-
 
 
     @OnClick({R.id.btn_reached_confirm, R.id.btn_accept, R.id.btn_reback})

@@ -1,6 +1,7 @@
 package com.zondy.jwt.jwtmobile.presenter.impl;
 
 import com.zondy.jwt.jwtmobile.callback.ILoginCallback;
+import com.zondy.jwt.jwtmobile.callback.ILogoutCallback;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.model.ILoginModel;
 import com.zondy.jwt.jwtmobile.model.impl.LoginModelImpl;

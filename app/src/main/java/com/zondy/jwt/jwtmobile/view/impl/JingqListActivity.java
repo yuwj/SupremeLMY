@@ -187,7 +187,17 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                 EntityJingq jingq = jingqDatas.get(position - 1);
                 ivChay= (ImageView) holder.itemView.findViewById(R.id.iv_jingqcl_chayue);
                 ivChay.setImageDrawable(getDrawable(R.drawable.ic_weichayue));
-                startActivity(JingqDetailWithUnhandleActivity.createIntent(context, jingq));
+                switch (jingq.getState()){
+                    case EntityJingq.HADREACHCONFIRM:
+
+                        startActivity(JingqHandleActivity.createIntent(context, jingq));
+                        break;
+                    case EntityJingq.UNREAD:
+                    case EntityJingq.HADREAD:
+                        startActivity(JingqDetailWithUnhandleActivity.createIntent(context, jingq));
+                        break;
+
+                }
                 etSearch.clearFocus();
 
             }

@@ -33,6 +33,7 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     Toolbar toolbar;
     @BindView(R.id.btn_xunlpc_search)
     Button btnXunlpcSearch;
+
     @BindView(R.id.rl_kaisrq)
     RelativeLayout rlKaisrq;
     @BindView(R.id.rl_jiezrq)
@@ -41,6 +42,7 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     TextView tvKaisrq;
     @BindView(R.id.tv_jiezrq)
     TextView tvJiezrq;
+
 
     @Override
     public int setCustomContentViewResourceId() {
@@ -73,8 +75,10 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         btnXunlpcSearch.setOnClickListener(this);
+
         rlKaisrq.setOnClickListener(this);
         rlJiezrq.setOnClickListener(this);
+
     }
 
     @Override
@@ -111,6 +115,7 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
                 }
                 XunlpcRycxlistActivity.actionStart(XunlpcActivity.this);
                 break;
+
             case R.id.rl_kaisrq:
                 Intent intent = new Intent(XunlpcActivity.this, CalendarSelectorActivity.class);
                 startActivityForResult(intent, 8888);
@@ -153,6 +158,7 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
                 }
                 tvJiezrq.setText(day.getYear() + "-" + month + "-" + date);
             }
+
 
         }
     }
