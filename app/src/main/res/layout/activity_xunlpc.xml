@@ -118,12 +118,11 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/shape_rl_huikuang">
 
             <EditText
+                android:textSize="15sp"
                 android:paddingLeft="5dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
@@ -210,6 +209,7 @@
             android:background="@drawable/shape_rl_huikuang">
 
             <EditText
+                android:textSize="15sp"
                 android:paddingLeft="5dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
@@ -246,24 +246,24 @@
             android:text="开始日期"/>
 
         <RelativeLayout
+            android:id="@+id/rl_kaisrq"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
+            android:gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:background="@drawable/shape_rl_huikuang">
 
-            <EditText
-                android:paddingLeft="5dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
+            <TextView
+                android:textSize="15sp"
+                android:id="@+id/tv_kaisrq"
                 android:textColor="#000000"
                 android:background="@null"
+                android:gravity="center_vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="10dp"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -291,24 +291,23 @@
             android:text="截止日期"/>
 
         <RelativeLayout
+            android:id="@+id/rl_jiezrq"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
-            android:focusableInTouchMode="true"
-            android:focusable="true"
             android:layout_marginRight="10dp"
             android:background="@drawable/shape_rl_huikuang">
 
-            <EditText
-                android:paddingLeft="5dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
+            <TextView
+                android:id="@+id/tv_jiezrq"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
                 android:textColor="#000000"
+                android:gravity="center_vertical"
                 android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginLeft="10dp"/>
 
         </RelativeLayout>
     </LinearLayout>
@@ -345,6 +344,7 @@
             android:background="@drawable/shape_rl_huikuang">
 
             <EditText
+                android:textSize="15sp"
                 android:paddingLeft="5dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
@@ -371,7 +371,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_jingqcl_btn_bg"
-            android:text="搜索"
+            android:text="搜  索"
             android:textColor="#ffffff"
             android:textStyle="bold"/>
 

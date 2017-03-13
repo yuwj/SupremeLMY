@@ -63,8 +63,11 @@ dependencies {
 
 
 
-    //
+
     compile 'com.lzy.widget:ninegridview:0.2.1'
     compile 'com.lzy.widget:imagepicker:0.3.2'
     compile 'com.lzy.widget:view-core:0.2.1'
+
+    compile 'com.tubb.calendarselector.library:calendar-selector:0.2.3'
+
 }

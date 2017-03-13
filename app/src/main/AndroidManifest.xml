@@ -120,7 +120,15 @@
         <activity
             android:name=".view.impl.SettingAccountInfo"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+
+            android:theme="@style/CollapsingToolbarTheme">
+        </activity>
+        <activity
+            android:name=".view.impl.CalendarSelectorActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme">
+        </activity>
+
         <!-- 警情列表 -->
         <activity
             android:name=".view.impl.JingqListActivity"

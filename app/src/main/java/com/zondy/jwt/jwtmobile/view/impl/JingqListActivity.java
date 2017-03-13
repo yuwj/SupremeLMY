@@ -84,9 +84,69 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
         adapterJingqList = new CommonAdapter<EntityJingq>(context, R.layout.item_jingqcl_list, jingqDatas) {
             @Override
             protected void convert(ViewHolder holder, EntityJingq entityJingq, int position) {
+                ImageView iv1=holder.getView(R.id.iv_jingqcl_state1);
+                ImageView iv2=holder.getView(R.id.iv_jingqcl_state2);
+                ImageView iv3=holder.getView(R.id.iv_jingqcl_state3);
+                ImageView iv4=holder.getView(R.id.iv_jingqcl_state4);
+                TextView tvState=holder.getView(R.id.tv_state);
+                TextView tvBaojsj=holder.getView(R.id.tv_time_baojsj);
+                TextView tvJiejsj=holder.getView(R.id.tv_time_jiejsj);
+                TextView tvDaodsj=holder.getView(R.id.tv_time_chujsj);
+                TextView tvFanksj=holder.getView(R.id.tv_time_wancsj);
                 holder.setText(R.id.tv_area, entityJingq.getBaojdz());
                 holder.setText(R.id.tv_message, entityJingq.getBaojnr());
                 holder.setText(R.id.tv_time, entityJingq.getBaojsj());
+                if(entityJingq.getJingqzt()==0){
+                    iv1.setVisibility(View.VISIBLE);
+                    iv2.setVisibility(View.GONE);
+                    iv3.setVisibility(View.GONE);
+                    iv4.setVisibility(View.GONE);
+                    tvState.setText("未接警");
+                    tvBaojsj.setText(entityJingq.getBaojsj().substring(11));
+                    tvJiejsj.setText("五分钟内");
+                    tvDaodsj.setText("三十分钟内");
+                    tvFanksj.setText("一小时内");
+                }else if(entityJingq.getJingqzt()==1){
+                    iv1.setVisibility(View.GONE);
+                    iv2.setVisibility(View.VISIBLE);
+                    iv3.setVisibility(View.GONE);
+                    iv4.setVisibility(View.GONE);
+                    tvState.setText("已接警");
+                    tvBaojsj.setText(entityJingq.getBaojsj());
+                    tvJiejsj.setText(entityJingq.getChujsj());
+                    tvDaodsj.setText("三十分钟内");
+                    tvFanksj.setText("一小时内");
+                }else if(entityJingq.getJingqzt()==2){
+                    iv1.setVisibility(View.GONE);
+                    iv2.setVisibility(View.GONE);
+                    iv3.setVisibility(View.VISIBLE);
+                    iv4.setVisibility(View.GONE);
+                    tvState.setText("到达现场");
+                    tvBaojsj.setText(entityJingq.getBaojsj());
+                    tvJiejsj.setText(entityJingq.getChujsj());
+                    tvDaodsj.setText(entityJingq.getDaodsj());
+                    tvFanksj.setText("一小时内");
+                }else if(entityJingq.getJingqzt()==3){
+                    iv1.setVisibility(View.GONE);
+                    iv2.setVisibility(View.GONE);
+                    iv3.setVisibility(View.GONE);
+                    iv4.setVisibility(View.VISIBLE);
+                    tvState.setText("处警完毕，资料提交成功");
+                    tvBaojsj.setText(entityJingq.getBaojsj());
+                    tvJiejsj.setText(entityJingq.getChujsj());
+                    tvDaodsj.setText(entityJingq.getDaodsj());
+                    tvFanksj.setText(entityJingq.getFanksj());
+                }else if(entityJingq.getJingqzt()==4){
+                    iv1.setVisibility(View.GONE);
+                    iv2.setVisibility(View.GONE);
+                    iv3.setVisibility(View.GONE);
+                    iv4.setVisibility(View.VISIBLE);
+                    tvState.setText("处警完毕，资料提交失败");
+                    tvBaojsj.setText(entityJingq.getBaojsj());
+                    tvJiejsj.setText(entityJingq.getChujsj());
+                    tvDaodsj.setText(entityJingq.getDaodsj());
+                    tvFanksj.setText(entityJingq.getFanksj());
+                }
             }
 
 
