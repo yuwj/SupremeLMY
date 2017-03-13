@@ -100,16 +100,16 @@ public class SearchActivity extends BaseActivity implements ISearchTCFLView {
 
     public void initDatas() {
         mDatas.clear();
-//        List<EntitySearchHistory> histories=mRealmHelper.queryAllhistory();
-//        if(histories.size()>0){
-//            for(EntitySearchHistory history:histories  ){
-//                mDatas.add(history.getKeyword());
-//                Log.i("sheep",history.getKeyword()+":"+history.getId());
-//            }
-//            commonAdapter.notifyDataSetChanged();
-//        }else {
-//            commonAdapter.notifyDataSetChanged();
-//        }
+        List<EntitySearchHistory> histories=mRealmHelper.queryAllhistory();
+        if(histories.size()>0){
+            for(EntitySearchHistory history:histories  ){
+                mDatas.add(history.getKeyword());
+                Log.i("sheep",history.getKeyword()+":"+history.getId());
+            }
+            commonAdapter.notifyDataSetChanged();
+        }else {
+            commonAdapter.notifyDataSetChanged();
+        }
     }
 
     private void initParams() {
