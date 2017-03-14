@@ -361,13 +361,22 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
                         //上传成功
-
+                        Log.d("submitJingq",response.body().toString());
+                        jingqHandleCallback.jingqHandleSuccess();
                     }
 
 
                     @Override
                     public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
                         //这里回调上传进度(该回调在主线程,可以直接更新ui)
+                        Log.d("submitJingq","进度"+progress);
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        super.onError(call, response, e);
+                        jingqHandleCallback.jingqHandleFailed(e);
+                        Log.d("submitJingq",e.getMessage());
                     }
                 });
 
