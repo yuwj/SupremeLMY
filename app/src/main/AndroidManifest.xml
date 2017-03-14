@@ -98,6 +98,14 @@
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme"></activity>
         <activity
+            android:name=".view.impl.XunlpcJDCXXActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
+            android:name=".view.impl.XunlpcRYHCRYXXActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
             android:name=".view.impl.ContactsActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
