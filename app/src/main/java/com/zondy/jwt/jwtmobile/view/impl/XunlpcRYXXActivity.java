@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.R;
@@ -18,7 +20,7 @@ import butterknife.BindView;
  * Created by sheep on 2017/3/6.
  */
 
-public class XunlpcRYXXActivity extends BaseActivity {
+public class XunlpcRYXXActivity extends BaseActivity implements View.OnClickListener{
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.tv_sex)
@@ -39,6 +41,10 @@ public class XunlpcRYXXActivity extends BaseActivity {
     TextView tvXueli;
     @BindView(R.id.tv_hunyin)
     TextView tvHunyin;
+    @BindView(R.id.btn_xuanzcl)
+    Button btnXuanzcl;
+    @BindView(R.id.btn_zhengcfx)
+    Button btnZhengcfx;
     private EntityXunlpcRYXX entityXunlpcRYXX;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -69,6 +75,8 @@ public class XunlpcRYXXActivity extends BaseActivity {
     private void initView() {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        btnXuanzcl.setOnClickListener(this);
+        btnZhengcfx.setOnClickListener(this);
         tvName.setText(entityXunlpcRYXX.getName());
         tvNation.setText(entityXunlpcRYXX.getNation());
         tvSex.setText(entityXunlpcRYXX.getSex());
@@ -90,5 +98,17 @@ public class XunlpcRYXXActivity extends BaseActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_xuanzcl:
+                XunlpcPCJBXXActivity.actionStart(XunlpcRYXXActivity.this);
+                break;
+            case R.id.btn_zhengcfx:
+                finish();
+                break;
+        }
     }
 }

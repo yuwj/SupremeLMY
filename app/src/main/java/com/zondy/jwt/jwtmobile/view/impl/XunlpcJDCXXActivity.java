@@ -96,7 +96,7 @@ public class XunlpcJDCXXActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_jdcxx_renyhc:
-
+                XunlpcRYHCRYXXActivity.actionStart(this,entityXunlpcJDCXX);
                 break;
         }
     }
