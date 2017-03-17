@@ -1,6 +1,7 @@
 package com.zondy.jwt.jwtmobile.callback;
 
 import com.zondy.jwt.jwtmobile.entity.EntityBaseGuij;
+import com.zondy.jwt.jwtmobile.entity.EntityGuijWithWangb;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ import java.util.List;
  */
 
 public interface IXunlpcQueryGuijWithWangbCallBack {
-    public void queryWangbSuccess(List<EntityBaseGuij> guijDatas);
+    public void queryWangbSuccess(List<EntityGuijWithWangb> guijDatas);
     public void queryWangbFail(Exception e);
 }

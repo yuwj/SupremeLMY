@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityBaseGuij;
+import com.zondy.jwt.jwtmobile.entity.EntityGuijWithLvg;
 import com.zondy.jwt.jwtmobile.entity.EntityXunlpcRYXX;
 
 import java.util.ArrayList;
@@ -111,10 +112,11 @@ public class XunlpcRYXXActivity extends BaseActivity{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_wangbsw:
-                startActivity(GuijMapWithLvgActivity.createIntent(context, createGuijPathDatas(2),"上网轨迹",2));
+                startActivity(GuijTimeSelectActivity.createIntent(context,"李敏阳",EntityBaseGuij.GUIJI_WANGB));
                 break;
             case R.id.tv_lvgzs:
-                startActivity(GuijMapWithLvgActivity.createIntent(context, createGuijPathDatas(1),"住宿轨迹",1));
+                startActivity(GuijTimeSelectActivity.createIntent(context,"李敏阳",EntityBaseGuij.GUIJI_LVG));
+
                 break;
             case R.id.btn_xuanzcl:
                 XunlpcPCJBXXActivity.actionStart(XunlpcRYXXActivity.this);
@@ -125,11 +127,11 @@ public class XunlpcRYXXActivity extends BaseActivity{
         }
     }
 
-    public List<EntityBaseGuij> createGuijPathDatas(int type){
+    public List<EntityGuijWithLvg> createGuijPathDatas(int type){
         //1-旅馆,2-网吧
-        List<EntityBaseGuij> pathDatas = new ArrayList<>();
+        List<EntityGuijWithLvg> pathDatas = new ArrayList<>();
         for(int i = 0;i<10;i++){
-            EntityBaseGuij entitySearchResult = new EntityBaseGuij();
+            EntityGuijWithLvg entitySearchResult = new EntityGuijWithLvg();
             switch (type){
                 case 1:
 

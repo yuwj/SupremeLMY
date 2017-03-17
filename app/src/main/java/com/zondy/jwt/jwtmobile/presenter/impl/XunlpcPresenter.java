@@ -1,10 +1,14 @@
 package com.zondy.jwt.jwtmobile.presenter.impl;
 
 import com.zondy.jwt.jwtmobile.callback.IXunlpcQueryGuijWithLvgCallBack;
+import com.zondy.jwt.jwtmobile.callback.IXunlpcQueryGuijWithWangbCallBack;
+import com.zondy.jwt.jwtmobile.entity.EntityBaseGuij;
 import com.zondy.jwt.jwtmobile.entity.EntityGuijWithLvg;
+import com.zondy.jwt.jwtmobile.entity.EntityGuijWithWangb;
 import com.zondy.jwt.jwtmobile.model.IXunlpcModel;
 import com.zondy.jwt.jwtmobile.model.impl.XunlpcModelImpl;
 import com.zondy.jwt.jwtmobile.presenter.IXunlpcPresenter;
+import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.IXunlpcView;
 
 import java.util.List;
@@ -40,5 +44,17 @@ public class XunlpcPresenter implements IXunlpcPresenter {
     @Override
     public void searchGuijWithWangb(String startTime, String endTime, String userId) {
 
+        xunlpcModel.queryGuijWithWangb(userId, startTime, endTime, new IXunlpcQueryGuijWithWangbCallBack() {
+
+            @Override
+            public void queryWangbSuccess(List<EntityGuijWithWangb> guijDatas) {
+                xunlpcView.showGuijWithWangbInMap(guijDatas);
+            }
+
+            @Override
+            public void queryWangbFail(Exception e) {
+
+            }
+        });
     }
 }

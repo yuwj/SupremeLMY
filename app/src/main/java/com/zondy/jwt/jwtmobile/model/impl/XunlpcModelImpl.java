@@ -3,6 +3,7 @@ package com.zondy.jwt.jwtmobile.model.impl;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zondy.jwt.jwtmobile.callback.IXunlpcQueryGuijWithLvgCallBack;
+import com.zondy.jwt.jwtmobile.callback.IXunlpcQueryGuijWithWangbCallBack;
 import com.zondy.jwt.jwtmobile.entity.EntityGuijWithLvg;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.IXunlpcModel;
@@ -69,7 +70,7 @@ public class XunlpcModelImpl implements IXunlpcModel {
     }
 
     @Override
-    public void queryGuijWithWangb(String userId, String startTime, String endTime, IXunlpcQueryGuijWithLvgCallBack xunlpcQueryGuijWithWangbCallBack) {
+    public void queryGuijWithWangb(String userId, String startTime, String endTime, IXunlpcQueryGuijWithWangbCallBack xunlpcQueryGuijWithWangbCallBack) {
 
     }
 }
