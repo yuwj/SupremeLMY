@@ -7,6 +7,6 @@ package com.zondy.jwt.jwtmobile.presenter;
 public interface ISettingPresenter {
     void logout(String jh,String simid);
     void logoutAccout(String jh,String simid);
-    void updatePassword(String userName, String oldPwd, String newPwd);
+    void updatePassword(String userName, String oldPwd, String newPwd,String jh,String simid);
 
 }

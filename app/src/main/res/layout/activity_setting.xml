@@ -40,11 +40,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/ic_launcher" />
 
             <ImageView
@@ -54,9 +53,10 @@
                 android:background="#A000" />
 
             <com.zondy.jwt.jwtmobile.ui.ProgressPieView
+                android:layout_margin="5dp"
                 android:id="@+id/civ"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:textColor="#FFF"
                 app:ppvBackgroundColor="#AAA"

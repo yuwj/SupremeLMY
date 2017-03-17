@@ -123,12 +123,12 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
                 Log.i("xxxx", "" + entityJingq.getLongitude());
                 Log.i("xxxx", "" + entityJingq.getLatitude());
                 if (entityJingq.getLongitude() > 0 && entityJingq.getLatitude() > 0) {
-                    double[] xy = MapManager.lonLat2Mercator(entityJingq.getLongitude(), entityJingq.getLatitude());
+                    double[] xy = mapManager.lonLat2Mercator(entityJingq.getLongitude(), entityJingq.getLatitude());
                     Log.i("xxxx", "xy: " + xy[0] + "   " + xy[1]);
 
-                    double[] yz = MapManager.Mercator2lonLat(1.2735793594229463E7, 3567123.954291529);
+                    double[] yz = mapManager.Mercator2lonLat(1.2735793594229463E7, 3567123.954291529);
                     Log.i("xxxx", "yz: " + yz[0] + "   " + yz[1]);
-                    double[] za = MapManager.lonLat2Mercator(yz[0], yz[1]);
+                    double[] za = mapManager.lonLat2Mercator(yz[0], yz[1]);
                     Log.i("xxxx", "za: " + za[0] + "   " + za[1]);
                     annoJingq = new Annotation("警情", entityJingq.toJsonStr(), new Dot(xy[0], xy[1]), BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_position_blue_type1));
                     mapManager.addAnnotaion(annoJingq);
@@ -165,12 +165,12 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
                 TextView tv_baojsj = (TextView) contentView.findViewById(R.id.tv_baojsj);
                 TextView tv_baojnr = (TextView) contentView.findViewById(R.id.tv_baojnr);
                 TextView tv_baojr = (TextView) contentView.findViewById(R.id.tv_baojr);
-                Button btn_dismiss = (Button) contentView.findViewById(R.id.btn_dismiss);
+                TextView tv_annotation_dismiss = (TextView) contentView.findViewById(R.id.tv_annotation_dismiss);
                 EntityJingq jingq = GsonUtil.json2Bean(annotation.getDescription(), EntityJingq.class);
-                tv_baojsj.setText(jingq.getBaojsj());
-                tv_baojnr.setText(jingq.getBaojnr());
-                tv_baojr.setText(jingq.getBaojr());
-                btn_dismiss.setOnClickListener(new View.OnClickListener() {
+                tv_baojsj.setText("报警时间:"+jingq.getBaojsj());
+                tv_baojnr.setText("报警内容:"+jingq.getBaojnr());
+                tv_baojr.setText("报警人:"+jingq.getBaojr());
+                tv_annotation_dismiss.setOnClickListener(new View.OnClickListener() {
                                                    @Override
                                                    public void onClick(View v) {
                                                        annotation.hideAnnotationView();
@@ -183,10 +183,19 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
                 int index = annotationsOverlay.indexOf(annotation);
                 //把annotation放到z轴最前面
                 annotationsOverlay.moveAnnotation(index, -1);
+                if(mapview.getResolution() > MapManager.goodResolution){//缩放地图到最佳大小
+                    mapview.zoomToCenter(annotation.getPoint(), MapManager.goodResolution, false);
+                }
                 mapview.refresh();
                 // 将annotationview平移到视图中心
                 annotationView.setPanToMapViewCenter(true);
                 return annotationView;
+            }
+        });
+        mapview.setZoomChangedListener(new MapView.MapViewZoomChangedListener() {
+            @Override
+            public void mapViewZoomChanged(MapView mapView, double v, double v1) {
+                Log.i("xxx",v+"-->"+v1);
             }
         });
         updateJingqView(entityJingq);
@@ -284,6 +293,8 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
     @Override
     public void rollbackJingqSuccess() {
         dismissLoadingDialog();
+
+        ToastTool.getInstance().shortLength(context, "回退成功", true);
         entityJingq.setState(EntityJingq.UNREAD);
         btnAccept.setVisibility(View.VISIBLE);
         btnReback.setVisibility(View.GONE);

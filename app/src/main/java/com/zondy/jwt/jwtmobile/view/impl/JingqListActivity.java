@@ -213,6 +213,9 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                 ivChays.add(ivChay);
                 ivChay.setImageDrawable(getDrawable(R.drawable.ic_weichayue));
                 switch (jingq.getState()){
+                    case EntityJingq.HADHANDLED:
+                        startActivity(JingqDetailWithHandledActivity2.createIntent(JingqListActivity.this,jingq));
+                        break;
                     case EntityJingq.HADREACHCONFIRM:
 
                         startActivity(JingqHandleActivity.createIntent(context, jingq));

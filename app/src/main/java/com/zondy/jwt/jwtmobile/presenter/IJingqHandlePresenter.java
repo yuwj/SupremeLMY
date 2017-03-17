@@ -21,6 +21,7 @@ public interface IJingqHandlePresenter {
      */
     public void reloadJingqWithJingqUnhandle(String jingqid, String jh, String simid);
 
+
     /**
      * 已处理警情界面,根据id加载警情
      * @param jingqid

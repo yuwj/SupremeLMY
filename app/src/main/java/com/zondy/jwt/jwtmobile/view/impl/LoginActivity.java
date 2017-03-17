@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.yuwj.appupdate.UpdateChecker;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
@@ -97,6 +98,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
             tvUsername.setText(entityUser.getUserName());
             etPasswordRecorded.setText(entityUser.getPassword());
             rlBg.setBackground(getDrawable(R.drawable.bg_login_recorded));
+            Glide.with(context).load(entityUser.getUserPhotoUrl()).into(iconImage);
         }
         btnLoginRecorded.setOnClickListener(this);
         btnLogin.setOnClickListener(this);

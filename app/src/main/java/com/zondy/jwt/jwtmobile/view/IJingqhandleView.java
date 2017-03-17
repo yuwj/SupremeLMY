@@ -1,5 +1,6 @@
 package com.zondy.jwt.jwtmobile.view;
 
+import com.zondy.jwt.jwtmobile.entity.EntityJingq;
 import com.zondy.jwt.jwtmobile.entity.EntityZD;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  */
 
 public interface IJingqhandleView {
-    public void handleJingqSuccess();
+    public void handleJingqSuccess(EntityJingq jingq);
     public void handleJingqFalied(Exception e);
     public void updateJingqTypes(List<EntityZD> jignqtypes);
     public void updateJingqKuaisclTypes(List<EntityZD> jignqKuaiscltypes);

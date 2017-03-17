@@ -3,16 +3,20 @@ package com.zondy.jwt.jwtmobile.view.impl;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
+import com.zondy.jwt.jwtmobile.entity.EntityBaseResponse;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.presenter.ISettingPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.SettingPresenterImpl;
+import com.zondy.jwt.jwtmobile.util.CommonUtil;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.ISettingAccountUpdatePasswordView;
@@ -29,6 +33,10 @@ public class SettingAccountUpdatePwdActivity extends BaseActivity implements ISe
     EditText etNewPwd2;
     @BindView(R.id.btn_change_pwd)
     Button btnChangePwd;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     public int setCustomContentViewResourceId() {
@@ -37,13 +45,18 @@ public class SettingAccountUpdatePwdActivity extends BaseActivity implements ISe
 
 
     @Override
-    public void updatePwd(Boolean isUpdateSuccess) {
-        if (isUpdateSuccess) {
-            ToastTool.getInstance().shortLength(context, "修改成功", true);
-            this.finish();
-        } else {
-
-            ToastTool.getInstance().shortLength(context, "修改失败,请重试", true);
+    public void updatePwd(EntityBaseResponse resp) {
+        switch (resp.getResult()) {
+            case 1:
+                ToastTool.getInstance().shortLength(context, resp.getMessage(), true);
+                this.finish();
+                break;
+            case 0:
+                ToastTool.getInstance().shortLength(context, resp.getMessage(), true);
+                break;
+            case 2:
+                ToastTool.getInstance().shortLength(context, resp.getMessage(), true);
+                break;
         }
     }
 
@@ -69,6 +82,8 @@ public class SettingAccountUpdatePwdActivity extends BaseActivity implements ISe
     public void initView() {
 
         btnChangePwd.setOnClickListener(this);
+
+        initActionBar(toolbar, tvTitle, "修改密码");
 
     }
 
@@ -98,7 +113,9 @@ public class SettingAccountUpdatePwdActivity extends BaseActivity implements ISe
 
                         EntityUser userInfo = SharedTool.getInstance().getUserInfo(
                                 context);
-                        settingPresenter.updatePassword(userInfo.getUserName(),oldPwd,newPwd);
+                        String jh = userInfo.getUserName();
+                        String simid = CommonUtil.getDeviceId(context);
+                        settingPresenter.updatePassword(userInfo.getUserName(), oldPwd, newPwd, jh, simid);
 
                     }
                 }

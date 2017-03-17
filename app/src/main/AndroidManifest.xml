@@ -64,15 +64,15 @@
         <activity
             android:name=".view.impl.ScrollActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.SearchActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.ScrollActivityResult"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.MainActivity"
             android:launchMode="singleTask"
@@ -84,19 +84,19 @@
         <activity
             android:name=".view.impl.SettingActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcRycxlistActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcRYXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcJDCXXActivity"
             android:launchMode="singleTask"
@@ -132,26 +132,27 @@
         <activity
             android:name=".view.impl.SearchMoreActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.SettingAboutJWTActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.SettingFunctionIntroduceActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.SettingAccountInfo"
             android:launchMode="singleTask"
-
-            android:theme="@style/CollapsingToolbarTheme">
-        </activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
+        <!-- 修改密码-->
+        <activity
+            android:name=".view.impl.SettingAccountUpdatePwdActivity"
+            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.CalendarSelectorActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme">
-        </activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
 
         <!-- 警情列表 -->
         <activity
@@ -163,16 +164,26 @@
             android:name=".view.impl.JingqDetailWithUnhandleActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
-        <!-- 已处理警情详情页 -->
+
         <!-- 警情处理页 -->
         <activity
             android:name=".view.impl.JingqHandleActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
-        <!-- 搜索出来的未处理的警情详情页 -->
+
         <!-- 警情处理时的图片编辑页面 -->
         <activity
             android:name=".view.impl.JingqImageEditActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <!-- 警情已处理页 -->
+        <activity
+            android:name=".view.impl.JingqDetailWithHandledActivity2"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <!-- 轨迹路线页 -->
+        <activity
+            android:name=".view.impl.GuijMapWithLvgActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
 
@@ -232,19 +243,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- rxgalleryfinal 图片选择界面 -->
-        <activity
-            android:name="cn.finalteam.rxgalleryfinal.ui.activity.MediaActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/CollapsingToolbarTheme" />
-
-        <!-- rxgalleryfinal 图片裁剪界面 -->
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CollapsingToolbarTheme" />
-        <activity android:name=".view.impl.SettingAccountUpdatePwdActivity"></activity>
     </application>
 
 </manifest>

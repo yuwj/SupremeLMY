@@ -43,7 +43,7 @@ public class MyApplication extends Application {
 
         OkHttpUtils.initClient(okHttpClient);
         initIpAndPort();
-        GPSLocationManager.getInstance(this, 10, 0).startLocation();//开启GPS定位服务
+        GPSLocationManager.getInstance(this, 2, 0).startLocation();//开启GPS定位服务
 
         Realm.init(this);
         RealmConfiguration realmConfiguration=new RealmConfiguration.Builder().name("JWTLMY.realm").deleteRealmIfMigrationNeeded().build();

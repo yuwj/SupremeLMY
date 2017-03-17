@@ -99,7 +99,10 @@ public class JingqHandlePresenterImpl implements IJingqHandlePresenter {
 //                jingqdcView.reLoadJIngqFalied(exception);
             }
         });
-    }@Override
+    }
+
+
+    @Override
     public void reloadJingqWithJingqHandled(String jingqid, String jh, String simid) {
         jingqHandleModel.reloadJingq(jingqid, jh, simid, new IReloadJingqCallback() {
             @Override
@@ -165,11 +168,21 @@ public class JingqHandlePresenterImpl implements IJingqHandlePresenter {
     }
 
     @Override
-    public void jingqHandle(String jingyid, String jingqid, String chuljg, String bjlb, String bjlx, String bjxl, String chuljgms, String filesPath, String jh, String simid) {
+    public void jingqHandle(String jingyid, final String jingqid, String chuljg, String bjlb, String bjlx, String bjxl, String chuljgms, String filesPath, final String jh, final String simid) {
         jingqHandleModel.submitJingq(jingyid, jingqid, chuljg, bjlb, bjlx, bjxl, chuljgms, filesPath, jh, simid, new IJingqHandleCallback() {
             @Override
             public void jingqHandleSuccess() {
-                jingqHandleView.handleJingqSuccess();
+                jingqHandleModel.reloadJingq(jingqid, jh, simid, new IReloadJingqCallback() {
+                            @Override
+                            public void loadJingqSuccess(EntityJingq jingq) {
+                                jingqHandleView.handleJingqSuccess(jingq);
+                            }
+
+                            @Override
+                            public void loadJingqFailed(Exception exception) {
+
+                            }
+                        });
             }
 
             @Override

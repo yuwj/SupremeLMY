@@ -396,10 +396,10 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
 
 
     @Override
-    public void handleJingqSuccess() {
+    public void handleJingqSuccess(EntityJingq jingq) {
 
         ToastTool.getInstance().shortLength(context, "处理成功", true);
-        startActivity(JingqListActivity.createIntent(context));
+        startActivity(JingqDetailWithHandledActivity2.createIntent(context,jingq));
         this.finish();
     }
 
