@@ -163,9 +163,9 @@ public class MainActivity extends BaseActivity implements ISettingView{
             tvName.setText(user.getCtname());
             tvJh.setText("警号：" + user.getUserName());
 
-            String photoUrl = user.getUserPhotoUrl();
-            if(!TextUtils.isEmpty(photoUrl)){
-                Glide.with(context).load(photoUrl).into(icon_image);}
+//            String photoUrl = user.getUserPhotoUrl();
+//            if(!TextUtils.isEmpty(photoUrl)){
+//                Glide.with(context).load(photoUrl).into(icon_image);}
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
