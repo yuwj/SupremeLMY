@@ -143,7 +143,7 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu:
-                ToastTool.getInstance().shortLength(this, "盘查记录", true);
+                XunlpcPCJLActivity.actionStart(this);
                 break;
             case android.R.id.home:
                 finish();
