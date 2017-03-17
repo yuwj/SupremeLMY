@@ -7,43 +7,47 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tubb.calendarselector.library.FullDay;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityBaseGuij;
 import com.zondy.jwt.jwtmobile.entity.EntityGuijWithLvg;
+import com.zondy.jwt.jwtmobile.entity.EntityGuijWithWangb;
 import com.zondy.jwt.jwtmobile.presenter.IXunlpcPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.XunlpcPresenter;
+import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.IXunlpcView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class GuijTimeSelectActivity extends BaseActivity implements IXunlpcView{
+public class GuijTimeSelectActivity extends BaseActivity implements IXunlpcView {
 
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @BindView(R.id.tv_start_time)
-    TextView tvStartTime;
-    @BindView(R.id.tv_end_time)
-    TextView tvEndTime;
-    @BindView(R.id.btn_search)
-    Button btnSearch;
+    @BindView(R.id.tv_kaisrq)
+    TextView tvKaisrq;
+    @BindView(R.id.tv_jiezrq)
+    TextView tvJiezrq;
 
     String userName;
     int searchType;
     IXunlpcPresenter xunlpcPresenter;
 
-    public static Intent createIntent(Context context,String userName,int searchType) {
+    public static Intent createIntent(Context context, String userName, int searchType) {
         Intent intent = new Intent(context, GuijTimeSelectActivity.class);
-        intent.putExtra("userName",userName);
-        intent.putExtra("searchType",searchType);
+        intent.putExtra("userName", userName);
+        intent.putExtra("searchType", searchType);
         return intent;
     }
 
@@ -68,52 +72,101 @@ public class GuijTimeSelectActivity extends BaseActivity implements IXunlpcView{
 
     public void initView() {
         String title = userName;
-        switch (searchType){
+        switch (searchType) {
             case EntityBaseGuij.GUIJI_LVG:
-                title+="的住宿轨迹";
+                title += "的住宿轨迹";
                 break;
             case EntityBaseGuij.GUIJI_WANGB:
-                title+="的上网轨迹";
+                title += "的上网轨迹";
                 break;
         }
-        initActionBar(toolbar,tvTitle,title);
+        initActionBar(toolbar, tvTitle, title);
 
-    }
-
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                break;
-            default:
-                break;
-        }
-        return true;
-    }
-
-    @OnClick({R.id.tv_start_time, R.id.tv_end_time, R.id.btn_search})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_start_time:
-                //TODO 调用李敏阳写好的时间选择控件
-                break;
-            case R.id.tv_end_time:
-                //TODO 调用李敏阳写好的时间选择控件
-                break;
-            case R.id.btn_search:
-                //TODO 搜索
-                String startTime = tvStartTime.getText().toString().trim();
-                String endTime = tvEndTime.getText().toString().trim();
-                xunlpcPresenter.searchGuijWithLvg(startTime,endTime,"用户id");
-                break;
-        }
     }
 
     @Override
     public void showGuijWithLvgInMap(List<EntityGuijWithLvg> guijDatas) {
-        startActivity(GuijMapWithLvgActivity.createIntent(context,guijDatas,tvTitle.getText().toString()));
+        startActivity(GuijMapWithLvgActivity.createIntent(context, guijDatas, tvTitle.getText().toString()));
+    }
+
+    @Override
+    public void showGuijWithWangbInMap(List<EntityGuijWithWangb> guijDatas) {
+        startActivity(GuijMapWithWangbActivity.createIntent(context, guijDatas, tvTitle.getText().toString()));
+    }
+
+    @OnClick({R.id.tv_kaisrq, R.id.tv_jiezrq, R.id.btn_xunlpc_search})
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.btn_xunlpc_search:
+                String startTime = tvKaisrq.getText().toString();
+                String endTime = tvJiezrq.getText().toString();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    if (simpleDateFormat.parse(startTime).getTime() > simpleDateFormat.parse(endTime).getTime()) {
+                        ToastTool.getInstance().shortLength(this, "截止日期不能小于开始日期！", true);
+                        return;
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                switch (searchType) {
+                    case EntityBaseGuij.GUIJI_LVG:
+
+                        xunlpcPresenter.searchGuijWithLvg(startTime, endTime, "用户id");
+                        break;
+                    case EntityBaseGuij.GUIJI_WANGB:
+                        xunlpcPresenter.searchGuijWithWangb(startTime, endTime, "用户id");
+                        break;
+                }
+                break;
+
+            case R.id.rl_kaisrq:
+                Intent intent = new Intent(context, CalendarSelectorActivity.class);
+                startActivityForResult(intent, 8888);
+                break;
+            case R.id.rl_jiezrq:
+                Intent intent1 = new Intent(context, CalendarSelectorActivity.class);
+                startActivityForResult(intent1, 9999);
+                break;
+
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 8888) {
+            if (resultCode == RESULT_OK) {
+                FullDay day = (FullDay) data.getExtras().get("day");
+                String month = "" + day.getMonth();
+                if (day.getMonth() < 10) {
+                    month = "0" + day.getMonth();
+                }
+                String date = "" + day.getDay();
+                if (day.getDay() < 10) {
+                    date = "0" + day.getDay();
+                }
+                tvKaisrq.setText(day.getYear() + "-" + month + "-" + date);
+            }
+
+        }
+        if (requestCode == 9999) {
+            if (resultCode == RESULT_OK) {
+                FullDay day = (FullDay) data.getExtras().get("day");
+                String month = "" + day.getMonth();
+                if (day.getMonth() < 10) {
+                    month = "0" + day.getMonth();
+                }
+                String date = "" + day.getDay();
+                if (day.getDay() < 10) {
+                    date = "0" + day.getDay();
+                }
+                tvJiezrq.setText(day.getYear() + "-" + month + "-" + date);
+            }
+
+
+        }
     }
 }

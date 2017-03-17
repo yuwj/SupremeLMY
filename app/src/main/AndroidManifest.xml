@@ -144,15 +144,15 @@
         <activity
             android:name=".view.impl.SettingAccountInfo"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
         <!-- 修改密码-->
         <activity
             android:name=".view.impl.SettingAccountUpdatePwdActivity"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.CalendarSelectorActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
 
         <!-- 警情列表 -->
         <activity
@@ -181,11 +181,17 @@
             android:name=".view.impl.JingqDetailWithHandledActivity2"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
-        <!-- 轨迹路线页 -->
+        <!-- 轨迹路线旅馆页 -->
         <activity
             android:name=".view.impl.GuijMapWithLvgActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
+        <!-- 轨迹路线网吧页 -->
+        <activity
+            android:name=".view.impl.GuijMapWithWangbActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
+
 
         <service
             android:name=".service.GPSService"
