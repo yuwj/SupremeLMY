@@ -98,6 +98,30 @@
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
+            android:name=".view.impl.XunlpcJDCXXActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
+            android:name=".view.impl.XunlpcRYHCRYXXActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
+            android:name=".view.impl.XunlpcPCJBXXActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
+            android:name=".view.impl.XunlpcPCGLXXActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
+            android:name=".view.impl.XunlpcPCFKXXActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
+            android:name=".view.impl.XunlpcPCJLActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme"></activity>
+        <activity
             android:name=".view.impl.ContactsActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.R;
@@ -24,7 +25,7 @@ import butterknife.OnClick;
  * Created by sheep on 2017/3/6.
  */
 
-public class XunlpcRYXXActivity extends BaseActivity {
+public class XunlpcRYXXActivity extends BaseActivity{
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.tv_sex)
@@ -45,6 +46,10 @@ public class XunlpcRYXXActivity extends BaseActivity {
     TextView tvXueli;
     @BindView(R.id.tv_hunyin)
     TextView tvHunyin;
+    @BindView(R.id.btn_xuanzcl)
+    Button btnXuanzcl;
+    @BindView(R.id.btn_zhengcfx)
+    Button btnZhengcfx;
     @BindView(R.id.tv_wangbsw)
     TextView tvWangbsw;
     @BindView(R.id.tv_lvgzs)
@@ -102,7 +107,7 @@ public class XunlpcRYXXActivity extends BaseActivity {
         return true;
     }
 
-    @OnClick({R.id.tv_wangbsw, R.id.tv_lvgzs})
+    @OnClick({R.id.tv_wangbsw, R.id.tv_lvgzs,R.id.btn_xuanzcl,R.id.btn_zhengcfx})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_wangbsw:
@@ -110,6 +115,12 @@ public class XunlpcRYXXActivity extends BaseActivity {
                 break;
             case R.id.tv_lvgzs:
                 startActivity(GuijMapWithLvgActivity.createIntent(context, createGuijPathDatas(1),"住宿轨迹",1));
+                break;
+            case R.id.btn_xuanzcl:
+                XunlpcPCJBXXActivity.actionStart(XunlpcRYXXActivity.this);
+                break;
+            case R.id.btn_zhengcfx:
+                finish();
                 break;
         }
     }

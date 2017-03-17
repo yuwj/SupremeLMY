@@ -50,7 +50,8 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
     EditText etSearch;
     @BindView(R.id.iv_search)
     ImageView ivSearch;
-    private ImageView ivChay;
+    public List<ImageView> ivChays=new ArrayList<>();
+
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, JingqListActivity.class);
         return intent;
@@ -186,9 +187,14 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                 String jh = user.getUserName();
                 String simid = CommonUtil.getDeviceId(context);
                 jingqclPresenter.queryJingqDatas(jh, simid);
-                if(ivChay!=null){
-                    ivChay.setImageDrawable(getDrawable(R.drawable.ic_yichayue));
+                if(ivChays!=null&&ivChays.size()>0){
+                    for(ImageView ivCY:ivChays){
+                        ivCY.setImageDrawable(getDrawable(R.drawable.ic_yichayue));
+                    }
                 }
+//                if(ivChay!=null){
+//                    ivChay.setImageDrawable(getDrawable(R.drawable.ic_yichayue));
+//                }
             }
 
             @Override
@@ -203,7 +209,8 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 EntityJingq jingq = jingqDatas.get(position - 1);
-                ivChay= (ImageView) holder.itemView.findViewById(R.id.iv_jingqcl_chayue);
+                ImageView ivChay= (ImageView) holder.itemView.findViewById(R.id.iv_jingqcl_chayue);
+                ivChays.add(ivChay);
                 ivChay.setImageDrawable(getDrawable(R.drawable.ic_weichayue));
                 switch (jingq.getState()){
                     case EntityJingq.HADHANDLED:

@@ -9,17 +9,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tubb.calendarselector.library.FullDay;
+import com.zhy.adapter.abslistview.CommonAdapter;
+import com.zhy.adapter.abslistview.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
+import com.zondy.jwt.jwtmobile.entity.EntityXunlpcJDCXX;
+import com.zondy.jwt.jwtmobile.util.AutoCaseTransformationMethod;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 
@@ -42,8 +52,25 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     TextView tvKaisrq;
     @BindView(R.id.tv_jiezrq)
     TextView tvJiezrq;
+    @BindView(R.id.ll_cheliang)
+    LinearLayout llCheliang;
+    @BindView(R.id.ll_renyuan)
+    LinearLayout llRenyuan;
+    @BindView(R.id.ll_renyuan_all)
+    LinearLayout llRenyuanAll;
+    @BindView(R.id.ll_cheliang_all)
+    LinearLayout llCheliangAll;
+    @BindView(R.id.sp_xunlpc_chellx)
+    Spinner spXunlpcChellx;
+    @BindView(R.id.sp_xunlpc_chep)
+    Spinner spXunlpcChep;
+    @BindView(R.id.et_xunlpc_chel_chep)
+    EditText etXunlpcChelChep;
+    @BindView(R.id.btn_xunlpc_cheliang_search)
+    Button btnXunlpcCheliangSearch;
 
-
+    private CommonAdapter<String> chellxAdapter;
+    private CommonAdapter<String> chepdAdapter;
     @Override
     public int setCustomContentViewResourceId() {
         return R.layout.activity_xunlpc;
@@ -74,11 +101,36 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     private void initView() {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
+        etXunlpcChelChep.setTransformationMethod(new AutoCaseTransformationMethod());
+        llCheliang.setOnClickListener(this);
+        llRenyuan.setOnClickListener(this);
         btnXunlpcSearch.setOnClickListener(this);
-
         rlKaisrq.setOnClickListener(this);
         rlJiezrq.setOnClickListener(this);
-
+        btnXunlpcCheliangSearch.setOnClickListener(this);
+        List<String> chellxDatas=new ArrayList<>();
+        chellxDatas.add("小型汽车");
+        chellxDatas.add("大型货车");
+        chellxDatas.add("中型客车");
+        chellxDatas.add("牵引车");
+        chellxDatas.add("大型客车");
+        spXunlpcChellx.setAdapter(chellxAdapter=new CommonAdapter<String>(this,R.layout.item_jingqhandle_sp,chellxDatas) {
+            @Override
+            protected void convert(ViewHolder viewHolder, String item, int position) {
+                viewHolder.setText(R.id.tv_value,item);
+            }
+        });
+        List<String> chepdDatas=new ArrayList<>();
+        chepdDatas.add("鄂");
+        chepdDatas.add("沪");
+        chepdDatas.add("京");
+        chepdDatas.add("粤");
+        spXunlpcChep.setAdapter(chepdAdapter=new CommonAdapter<String>(this,R.layout.item_jingqhandle_sp,chepdDatas) {
+            @Override
+            protected void convert(ViewHolder viewHolder, String item, int position) {
+                viewHolder.setText(R.id.tv_value,item);
+            }
+        });
     }
 
     @Override
@@ -91,7 +143,7 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu:
-                ToastTool.getInstance().shortLength(this, "盘查记录", true);
+                XunlpcPCJLActivity.actionStart(this);
                 break;
             case android.R.id.home:
                 finish();
@@ -104,10 +156,10 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_xunlpc_search:
-                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 try {
-                    if(simpleDateFormat.parse(tvKaisrq.getText().toString()).getTime()>simpleDateFormat.parse(tvJiezrq.getText().toString()).getTime()){
-                        ToastTool.getInstance().shortLength(this,"截止日期不能小于开始日期！",true);
+                    if (simpleDateFormat.parse(tvKaisrq.getText().toString()).getTime() > simpleDateFormat.parse(tvJiezrq.getText().toString()).getTime()) {
+                        ToastTool.getInstance().shortLength(this, "截止日期不能小于开始日期！", true);
                         return;
                     }
                 } catch (ParseException e) {
@@ -123,6 +175,51 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
             case R.id.rl_jiezrq:
                 Intent intent1 = new Intent(XunlpcActivity.this, CalendarSelectorActivity.class);
                 startActivityForResult(intent1, 9999);
+                break;
+            case R.id.ll_cheliang:
+                if (llRenyuanAll.getVisibility() == View.VISIBLE) {
+                    etXunlpcChelChep.setFocusable(true);
+                    etXunlpcChelChep.setFocusableInTouchMode(true);
+                    etXunlpcChelChep.requestFocus();
+                    llRenyuanAll.setVisibility(View.GONE);
+                    llCheliangAll.setVisibility(View.VISIBLE);
+                    llCheliang.setBackground(getDrawable(R.drawable.selector_xunlpc_huang));
+                    llRenyuan.setBackground(getDrawable(R.drawable.selector_xunlpc_hui));
+                }
+                break;
+            case R.id.ll_renyuan:
+                if (llRenyuanAll.getVisibility() != View.VISIBLE) {
+                    llRenyuanAll.setVisibility(View.VISIBLE);
+                    llCheliangAll.setVisibility(View.GONE);
+                    llRenyuan.setBackground(getDrawable(R.drawable.selector_xunlpc_huang));
+                    llCheliang.setBackground(getDrawable(R.drawable.selector_xunlpc_hui));
+                }
+                break;
+            case R.id.btn_xunlpc_cheliang_search:
+                if(etXunlpcChelChep.getText().toString().length()==0){
+                    ToastTool.getInstance().shortLength(XunlpcActivity.this,"车牌号码不能为空!",true);
+                    return;
+                }
+                Pattern p=Pattern.compile("[a-zA-Z]");
+                if(etXunlpcChelChep.getText().toString().length()>0){
+                    String a=String.valueOf(etXunlpcChelChep.getText().toString().charAt(0));
+                    if(etXunlpcChelChep.getText().toString().length()!=6||!p.matcher(a).matches()){
+                        ToastTool.getInstance().shortLength(XunlpcActivity.this,"车牌号码不符合规范!",true);
+                        return;
+                    }
+                }
+
+                //车辆假数据
+                EntityXunlpcJDCXX entityXunlpcJDCXX=new EntityXunlpcJDCXX();
+                entityXunlpcJDCXX.setSuoyr("哈登");
+                entityXunlpcJDCXX.setZhengjh("420593197811237485");
+                entityXunlpcJDCXX.setPinpys("法拉利 红色");
+                entityXunlpcJDCXX.setChelxh("Ferrari458");
+                entityXunlpcJDCXX.setChucrq("2014-08-28");
+                entityXunlpcJDCXX.setFadjh("482245829450");
+                entityXunlpcJDCXX.setShibm("DMWIYFS45582042");
+                entityXunlpcJDCXX.setHaop(etXunlpcChelChep.getText().toString().toUpperCase());
+                XunlpcJDCXXActivity.actionStart(XunlpcActivity.this,entityXunlpcJDCXX);
                 break;
         }
     }
