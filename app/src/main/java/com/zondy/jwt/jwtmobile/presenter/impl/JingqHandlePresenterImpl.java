@@ -101,22 +101,6 @@ public class JingqHandlePresenterImpl implements IJingqHandlePresenter {
         });
     }
 
-    @Override
-    public void reloadJingqWithJingqHandle(String jingqid, String jh, String simid) {
-
-        jingqHandleModel.reloadJingq(jingqid, jh, simid, new IReloadJingqCallback() {
-            @Override
-            public void loadJingqSuccess(EntityJingq jingq) {
-//                jingqdcView.reLoadJingqSuccess(jingq);
-            }
-
-            @Override
-            public void loadJingqFailed(Exception exception) {
-//                jingqdcView.reLoadJIngqFalied(exception);
-            }
-        });
-
-    }
 
     @Override
     public void reloadJingqWithJingqHandled(String jingqid, String jh, String simid) {

@@ -71,8 +71,8 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
     private int allpages;//分页查询总页数
     private int nowpage = 1;//分页页码，首次查询为1
     private int pagesize = 10;//每页显示条数，默认为10
-    private double longitude = 114.980164;//经度
-    private double latitude = 30.095831;//纬度
+    private double longitude = 114.3765164268;//经度
+    private double latitude = 30.4933471077573;//纬度
     private int orderType = 1;//排序类型，1 代表距离排序，2 代表采集时间排序。 默认为距离排序
     private List<EntitySearchResult> mDatas = new ArrayList<>();
     private CommonAdapter<EntitySearchResult> adapter;
@@ -217,9 +217,9 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                     Annotation a = annotations.get(i);
                     Bitmap b = null;
                     if (a.getUid().equals(annotation.getUid())) {
-                        b = mapManager.createIndexAnnotationView(context, i, 1, true);
+                        b = mapManager.createIndexAnnotationView( i, 1, true);
                     } else {
-                        b = mapManager.createIndexAnnotationView(context, i, 1, false);
+                        b = mapManager.createIndexAnnotationView( i, 1, false);
                     }
                     a.setImage(b);
                 }
@@ -237,7 +237,6 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                 TextView tv_baojsj = (TextView) contentView.findViewById(R.id.tv_baojsj);
                 TextView tv_baojnr = (TextView) contentView.findViewById(R.id.tv_baojnr);
                 TextView tv_baojr = (TextView) contentView.findViewById(R.id.tv_baojr);
-                Button btn_dismiss = (Button) contentView.findViewById(R.id.btn_dismiss);
                 EntitySearchResult jingq = GsonUtil.json2Bean(annotation.getDescription(), EntitySearchResult.class);
                 tv_baojsj.setText("名称:"+jingq.getMc());
                 tv_baojnr.setText("地址:"+jingq.getDz());
@@ -255,6 +254,9 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                 int index = annotationsOverlay.indexOf(annotation);
                 //把annotation放到z轴最前面
                 annotationsOverlay.moveAnnotation(index, -1);
+                if(mapview.getResolution() > MapManager.goodResolution){//缩放地图到最佳大小
+                    mapview.zoomToCenter(annotation.getPoint(), MapManager.goodResolution, false);
+                }
                 mapview.refresh();
                 // 将annotationview平移到视图中心
                 annotationView.setPanToMapViewCenter(true);
@@ -570,9 +572,9 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                     Annotation a = annotations.get(i);
                     Bitmap b = null;
                     if (i == position-1) {
-                        b = mapManager.createIndexAnnotationView(context, i, 1, true);
+                        b = mapManager.createIndexAnnotationView( i, 1, true);
                     } else {
-                        b = mapManager.createIndexAnnotationView(context, i, 1, false);
+                        b = mapManager.createIndexAnnotationView( i, 1, false);
                     }
                     a.setImage(b);
                     a.showAnnotationView();
@@ -632,8 +634,8 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
         }
         for (int i = 0; i < datas.size(); i++) {
             EntitySearchResult result = datas.get(i);
-            Bitmap bitmap = mapManager.createIndexAnnotationView(context, i, 1, i == selectedIndex);
-            double[] xy = MapManager.lonLat2Mercator(result.getLongitude(), result.getLatitude());
+            Bitmap bitmap = mapManager.createIndexAnnotationView( i, 1, i == selectedIndex);
+            double[] xy = mapManager.lonLat2Mercator(result.getLongitude(), result.getLatitude());
             Annotation annotation = new Annotation("" + (i + 1), "搜索结果", result.getJsonStr(), new Dot(xy[0], xy[1]), bitmap);
             annotations.add(annotation);
         }

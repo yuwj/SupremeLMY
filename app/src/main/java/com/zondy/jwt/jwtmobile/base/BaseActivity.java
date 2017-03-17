@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.manager.ActivityCollector;
@@ -79,5 +80,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (loadingProgressDialog != null && loadingProgressDialog.isShowing()) {
             loadingProgressDialog.dismiss();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

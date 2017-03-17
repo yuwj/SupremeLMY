@@ -1,6 +1,7 @@
 package com.zondy.jwt.jwtmobile.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -8,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.zondy.jwt.jwtmobile.entity.EntityLocation;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 
@@ -24,6 +26,7 @@ public class GPSLocationManager {
     private static float distanceInterval = 10;//单位m
     private static GPSLocationManager gpsLocationManager;//单例
     private  MyLocationListener listener=new MyLocationListener();
+    public final static String LOCATION_SUCCESS_BROADCAST = GPSLocationManager.class.getName()+".action.locationsuccess";
 
     //私有化构造方法
     private GPSLocationManager() {
@@ -64,10 +67,18 @@ public class GPSLocationManager {
          */
         @Override
         public void onLocationChanged(Location location) {
-//            ToastTool.getInstance().shortLength(context,"定位经度："+location.getLongitude()+"--定位纬度："+location.getLatitude(),true);
+            ToastTool.getInstance().shortLength(context,"定位经度："+location.getLongitude()+"--定位纬度："+location.getLatitude(),true);
             if (location != null && location.getLongitude() > 0
                     && location.getLatitude() > 0) {
-                SharedTool.getInstance().saveLastLocation(context, location.getLongitude(), location.getLatitude());
+                float bearing = location.getBearing();
+                SharedTool.getInstance().saveLastLocation(context, location.getLongitude(), location.getLatitude(),location.getBearing());
+                EntityLocation entityLocation = new EntityLocation();
+                entityLocation.setBearing(location.getBearing());
+                entityLocation.setLongitude(location.getLongitude());
+                entityLocation.setLatitude(location.getLatitude());
+                Intent locationSuccessIntent = new Intent(LOCATION_SUCCESS_BROADCAST);
+                locationSuccessIntent.putExtra("entityLocation",entityLocation);
+                context.sendBroadcast(locationSuccessIntent);
             }
         }
 
@@ -108,6 +119,7 @@ public class GPSLocationManager {
         criteria.setPowerRequirement(Criteria.POWER_MEDIUM);// 耗电量中等
         criteria.setSpeedRequired(true);// 速度变化敏感
         criteria.setCostAllowed(true);// 产生开销 通信费用
+        criteria.setBearingRequired(true);//方向
         // 返回最好的位置提供者 true 表示只返回当前已经打开的定位设备
         return manager.getBestProvider(criteria, true);
     }

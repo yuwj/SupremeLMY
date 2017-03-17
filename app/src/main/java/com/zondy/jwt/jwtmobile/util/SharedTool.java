@@ -1,5 +1,7 @@
 package com.zondy.jwt.jwtmobile.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,12 +53,36 @@ public class SharedTool {
      * @param longitude
      * @param latitude
      */
-    public void saveLastLocation(Context context, double longitude, double latitude) {
+    public void saveLastLocation(Context context, double longitude, double latitude,float bearing) {
         SharedPreferences preferences = context.getSharedPreferences(Constant.USER_SHARED_FILE, Activity.MODE_PRIVATE);
         Editor editor=preferences.edit();
         editor.putString("longitude",longitude+"");
         editor.putString("latitude",latitude+"");
+        editor.putString("bearing",bearing+"");
+        editor.putString("time",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         editor.commit();
+    }
+
+    /**
+     * 读取偏好存储中最近的gps定位信息
+     * @param context
+     * @return
+     */
+    public EntityLocation getLocationInfo(Context context){
+        SharedPreferences preferences=context.getSharedPreferences(USER_SHARED_FILE,Activity.MODE_PRIVATE);
+
+        String lon = preferences.getString("longitude","114.40758042680389");
+        String lat = preferences.getString("latitude","30.493347107757284");
+        String bear = preferences.getString("bearing","0.0");
+        double longitude = Double.valueOf(lon);
+        double latitude = Double.valueOf(lat);
+        float bearing = Float.valueOf(bear);
+        EntityLocation entityLocation=new EntityLocation();
+        entityLocation.setLongitude(longitude);
+        entityLocation.setLatitude(latitude);
+        entityLocation.setBearing(bearing);
+        entityLocation.setTime(preferences.getString("time",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
+        return entityLocation;
     }
 
     /**
@@ -84,6 +110,8 @@ public class SharedTool {
 
     }
 
+
+
     /**
      * 清除用户信息
      *
@@ -104,22 +132,11 @@ public class SharedTool {
         editor.remove("roleId");// user.getRoleId());
         editor.remove("ssxq");// user.getSsxq());
         editor.remove("phone");// user.getSsxq());
-        editor.remove("userPhotoUrl");// user.getSsxq());
+//        editor.remove("userPhotoUrl");// user.getSsxq());
         editor.commit();
     }
 
-    /**
-     * 读取偏好存储中最近的gps定位信息
-     * @param context
-     * @return
-     */
-    public EntityLocation getLocationInfo(Context context){
-        SharedPreferences preferences=context.getSharedPreferences(USER_SHARED_FILE,Activity.MODE_PRIVATE);
-        EntityLocation entityLocation=new EntityLocation();
-        entityLocation.setLongitude(preferences.getString("longitude",""));
-        entityLocation.setLatitude(preferences.getString("latitude",""));
-        return entityLocation;
-    }
+
     /**
      * 功能描述：读取本地用户信息设置
      *
@@ -140,7 +157,7 @@ public class SharedTool {
         entityUser.setSsxq(preferences.getString("ssxq", ""));
         entityUser.setZzjgmc(preferences.getString("zzjgmc", ""));
         entityUser.setPhone(preferences.getString("phone", ""));
-        entityUser.setUserPhotoUrl(preferences.getString("userPhotoUrl", ""));
+        entityUser.setUserPhotoUrl(preferences.getString("userPhotoUrl", "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3362323298,2919159828&fm=23&gp=0.jpg"));
         return entityUser;
     }
 

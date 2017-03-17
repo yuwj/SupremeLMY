@@ -135,10 +135,10 @@ public class JingqDetailWithHandledActivity2 extends BaseActivity implements IJi
 
         rvBaojInfo.setLayoutManager(new FullyLinearLayoutManager(context));
         rvBaojInfo.setAdapter(adapterJiejProperties);
-        rvBaojInfo.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL_LIST));
+        rvBaojInfo.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
         rvChujInfo.setLayoutManager(new FullyLinearLayoutManager(context));
         rvChujInfo.setAdapter(adapterChujProperties);
-        rvBaojInfo.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL_LIST));
+        rvBaojInfo.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
     }
 
 
@@ -149,6 +149,7 @@ public class JingqDetailWithHandledActivity2 extends BaseActivity implements IJi
 
 
         if (entityJingq != null && !TextUtils.isEmpty(entityJingq.getFilesPath())) {
+            imageDatas.clear();
             String[] filePaths = entityJingq.getFilesPath().split(",");
             for (String s : filePaths) {
                 imageDatas.add(s);
@@ -157,7 +158,8 @@ public class JingqDetailWithHandledActivity2 extends BaseActivity implements IJi
         }
 
         if (entityJingq != null) {
-
+            jiejPropertyDatas.clear();
+            chujPropertyDatas.clear();
             String baojsj = entityJingq.getBaojsj();
             JingqProperty p1 = new JingqProperty("报警时间", baojsj, "报警信息", "", 0);
             String baojr = entityJingq.getBaojr();
@@ -241,20 +243,6 @@ public class JingqDetailWithHandledActivity2 extends BaseActivity implements IJi
     public void loadJIngqFalied(Exception e) {
         dismissLoadingDialog();
         ToastTool.getInstance().shortLength(context, e.getMessage(), true);
-    }
-
-
-    @OnClick({R.id.tv_reload})
-    public void onClick(View view) {
-        String jingqid = entityJingq.getJingqid();
-        String jh = user.getUserName();
-        String simid = CommonUtil.getDeviceId(context);
-        switch (view.getId()) {
-            case R.id.tv_reload:
-                jingqHandlePresenter.reloadJingqWithJingqHandled(jingqid, jh, simid);
-                showLoadingDialog();
-                break;
-        }
     }
 
     class JingqProperty {

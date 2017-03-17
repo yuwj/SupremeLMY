@@ -3,11 +3,13 @@ package com.zondy.jwt.jwtmobile.entity;
 import com.google.gson.annotations.SerializedName;
 import com.zondy.jwt.jwtmobile.util.GsonUtil;
 
+import java.io.Serializable;
+
 /**
  * Created by sheep on 2016/12/28.
  */
 
-public class EntitySearchResult {
+public class EntitySearchResult implements Serializable {
     private int imageResourceID;
     private String mc;
     private String dz;

@@ -3,6 +3,7 @@ package com.zondy.jwt.jwtmobile.presenter.impl;
 import com.zondy.jwt.jwtmobile.callback.ILoginCallback;
 import com.zondy.jwt.jwtmobile.callback.ILogoutCallback;
 import com.zondy.jwt.jwtmobile.callback.IUpdatePasswordCallback;
+import com.zondy.jwt.jwtmobile.entity.EntityBaseResponse;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.model.ILoginModel;
 import com.zondy.jwt.jwtmobile.model.ISettingModel;
@@ -81,11 +82,11 @@ public class SettingPresenterImpl implements ISettingPresenter {
     }
 
     @Override
-    public void updatePassword(String userName, String oldPwd, String newPwd) {
-        settingModel.updatePassword(userName, oldPwd, newPwd, new IUpdatePasswordCallback() {
+    public void updatePassword(String userName, String oldPwd, String newPwd,String jh,String simid) {
+        settingModel.updatePassword(userName, oldPwd, newPwd,jh,simid, new IUpdatePasswordCallback() {
             @Override
-            public void onUpdateComplete(Boolean isUpdateSuccess) {
-                settingAccountUpdatePasswordView.updatePwd(isUpdateSuccess);
+            public void onUpdateComplete(EntityBaseResponse resp) {
+                settingAccountUpdatePasswordView.updatePwd(resp);
             }
         });
     }

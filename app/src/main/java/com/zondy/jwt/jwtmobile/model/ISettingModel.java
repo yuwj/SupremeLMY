@@ -10,5 +10,5 @@ import com.zondy.jwt.jwtmobile.callback.IUpdatePasswordCallback;
 public interface ISettingModel {
     void logout(String jh, String simid, ILogoutCallback logoutCallback);
 
-    void updatePassword(String userName, String oldPwd, String newPwd, IUpdatePasswordCallback updateCallback);
+    void updatePassword(String userName, String oldPwd, String newPwd,String jh,String simid, IUpdatePasswordCallback updateCallback);
 }

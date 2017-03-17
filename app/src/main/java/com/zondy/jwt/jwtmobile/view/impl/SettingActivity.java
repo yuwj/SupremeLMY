@@ -36,6 +36,7 @@ import com.zondy.jwt.jwtmobile.manager.ActivityCollector;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.presenter.ISettingPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.SettingPresenterImpl;
+import com.zondy.jwt.jwtmobile.ui.ProgressPieView;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
 import com.zondy.jwt.jwtmobile.util.GlideImageLoader;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
@@ -46,11 +47,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Response;
 
 /**
@@ -80,14 +80,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     TextView tvCheckUpdate;
     @BindView(R.id.tv_update_password)
     TextView tv_update_password;
-    @BindView(R.id.imageView)
-    ImageView imageView;
     @BindView(R.id.mask)
     ImageView mask;
     @BindView(R.id.civ)
-    com.zondy.jwt.jwtmobile.ui.ProgressPieView civ;
+    ProgressPieView civ;
     @BindView(R.id.fl_update_photo)
     FrameLayout flUpdatePhoto;
+    @BindView(R.id.iv_photo)
+    CircleImageView ivPhoto;
 
     @Override
     public int setCustomContentViewResourceId() {
@@ -106,10 +106,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             tvName.setText(user.getCtname());
             tvJh.setText("警号：" + user.getUserName());
             String photoUrl = user.getUserPhotoUrl();
-            if(!TextUtils.isEmpty(photoUrl)){
-
-
-            Glide.with(context).load(photoUrl).into(imageView);}
+            if (!TextUtils.isEmpty(photoUrl)) {
+                Glide.with(context).load(photoUrl).into(ivPhoto);
+            }
         }
 
         tvLogout.setOnClickListener(this);
@@ -200,7 +199,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 break;
             case R.id.tv_check_update:
                 String updateInfoUrl = UrlManager.getSERVER() + UrlManager.UPDATE;
-                UpdateChecker.checkForDialog(context,true, updateInfoUrl);
+                UpdateChecker.checkForDialog(context, true, updateInfoUrl);
                 break;
             case R.id.tv_update_password:
                 startActivity(SettingAccountUpdatePwdActivity.createIntent(context));
@@ -248,16 +247,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                         @Override
                         public void onFinish(Object o) {
-                            Log.i("xxx", "onFinish: "+o.toString());
+                            Log.i("xxx", "onFinish: " + o.toString());
 //                            tvProgress.setText("上传成功");
                             civ.setVisibility(View.GONE);
                             mask.setVisibility(View.GONE);
-                            imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+                            ivPhoto.setImageBitmap(BitmapFactory.decodeFile(path));
                         }
 
                         @Override
                         public void onError(UploadInfo uploadInfo, String errorMsg, Exception e) {
-                            Log.i("xx",e.getMessage());
+                            Log.i("xx", e.getMessage());
                         }
 
                         @Override
@@ -268,7 +267,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                     String uploadUrl = UrlManager.getSERVER() + UrlManager.UPLOAD_PHOTO;
                     EntityUser user = SharedTool.getInstance().getUserInfo(context);
-                    File file  = new File(path);
+                    File file = new File(path);
                     List<File> fileList = new ArrayList<File>();
                     fileList.add(file);
 
@@ -285,7 +284,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                             .tag(this)
                             .isMultipart(true)  //
                             .params("strBody", jsonParam.toString())//
-                            .addFileParams("fileKey" , fileList);
+                            .addFileParams("fileKey", fileList);
                     UploadManager uploadManager = UploadManager.getInstance();
                     uploadManager.getThreadPool().setCorePoolSize(1);
                     uploadManager.addTask(path, postRequest, listener);
