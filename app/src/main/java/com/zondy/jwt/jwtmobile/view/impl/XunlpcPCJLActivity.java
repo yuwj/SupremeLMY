@@ -109,7 +109,7 @@ public class XunlpcPCJLActivity extends BaseActivity implements View.OnClickList
                     holder.setText(R.id.tv_pancjl_suoyr, entityPANCJL.getChesyr());
                     holder.setText(R.id.tv_pancjl_haom, entityPANCJL.getChesyrhm());
                     if (Integer.valueOf(entityPANCJL.getPczt()) == 2) {
-                        holder.setImageDrawable(R.id.iv_pancjl_che, getDrawable(R.drawable.ic_xunlpcpcjl_person_xianyi));
+                        holder.setImageDrawable(R.id.iv_pancjl_che, getDrawable(R.drawable.ic_xunlpcpcjl_car_xianyi));
                     } else if (Integer.valueOf(entityPANCJL.getPczt()) == 1) {
                         holder.setImageDrawable(R.id.iv_pancjl_che, getDrawable(R.drawable.ic_xunlpcpcjl_car));
                     }
