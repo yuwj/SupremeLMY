@@ -107,7 +107,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             tvJh.setText("警号：" + user.getUserName());
             String photoUrl = user.getUserPhotoUrl();
             if (!TextUtils.isEmpty(photoUrl)) {
-                Glide.with(context).load(photoUrl).into(ivPhoto);
+                Glide.with(context).load(photoUrl)
+                        .placeholder(R.drawable.ic_default_photo)//
+                        .error(R.drawable.ic_default_photo)//
+                        .animate( android.R.anim.fade_in).into(ivPhoto);
             }
         }
 

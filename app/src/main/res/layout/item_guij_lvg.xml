@@ -3,53 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="left|center_vertical"
         android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/iv_index"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_position_blue_type1" />
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/ic_position_red_type2" />
 
         <TextView
             android:id="@+id/tv_lvg_name"
             android:layout_width="wrap_content"
-            android:gravity="left|center_vertical"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:gravity="left|center_vertical"
             android:padding="5dp"
-            android:text="旅馆名称" />
+            android:textStyle="bold"
+            android:text="旅馆名称"
+            android:textSize="18sp" />
 
+        <!--
+        style="@android:style/Widget.Holo.RatingBar.Small" -->
         <RatingBar
             android:id="@+id/rb_star"
-            style="@android:style/Widget.Holo.RatingBar.Small"
+            style="@style/roomRatingBar"
+            android:rating="3.5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:rating="3" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_time"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left|center_vertical"
-        android:textSize="15sp"
-        android:padding="5dp"
-        android:text="2011 ~ 2017" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_address_name"
-        android:gravity="left|center_vertical"
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/ic_guij_date" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:padding="5dp"
+            android:text="2011 ~ 2017"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:textSize="15sp"
-        android:padding="5dp"
         android:layout_height="wrap_content"
-        android:text="香港路" />
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:srcCompat="@drawable/ic_guij_position" />
+
+        <TextView
+            android:id="@+id/tv_address_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:padding="5dp"
+            android:text="香港路"
+            android:textSize="15sp" />
+    </LinearLayout>
 </LinearLayout>

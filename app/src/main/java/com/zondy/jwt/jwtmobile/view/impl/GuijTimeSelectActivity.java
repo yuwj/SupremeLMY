@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tubb.calendarselector.library.FullDay;
@@ -39,6 +37,8 @@ public class GuijTimeSelectActivity extends BaseActivity implements IXunlpcView 
     TextView tvKaisrq;
     @BindView(R.id.tv_jiezrq)
     TextView tvJiezrq;
+    @BindView(R.id.btn_xunlpc_search)
+    Button btnXunlpcSearch;
 
     String userName;
     int searchType;
@@ -121,11 +121,11 @@ public class GuijTimeSelectActivity extends BaseActivity implements IXunlpcView 
                 }
                 break;
 
-            case R.id.rl_kaisrq:
+            case R.id.tv_kaisrq:
                 Intent intent = new Intent(context, CalendarSelectorActivity.class);
                 startActivityForResult(intent, 8888);
                 break;
-            case R.id.rl_jiezrq:
+            case R.id.tv_jiezrq:
                 Intent intent1 = new Intent(context, CalendarSelectorActivity.class);
                 startActivityForResult(intent1, 9999);
                 break;

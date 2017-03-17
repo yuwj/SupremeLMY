@@ -181,6 +181,10 @@
             android:name=".view.impl.JingqDetailWithHandledActivity2"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
+        <!-- 轨迹查询时间选择页 -->
+        <activity
+            android:name=".view.impl.GuijTimeSelectActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
         <!-- 轨迹路线旅馆页 -->
         <activity
             android:name=".view.impl.GuijMapWithLvgActivity"

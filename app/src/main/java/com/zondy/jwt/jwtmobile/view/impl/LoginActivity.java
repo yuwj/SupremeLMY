@@ -98,7 +98,11 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
             tvUsername.setText(entityUser.getUserName());
             etPasswordRecorded.setText(entityUser.getPassword());
             rlBg.setBackground(getDrawable(R.drawable.bg_login_recorded));
-            Glide.with(context).load(entityUser.getUserPhotoUrl()).into(iconImage);
+            Glide.with(context).load(entityUser.getUserPhotoUrl())
+                    .placeholder(R.drawable.ic_default_photo)//
+                    .error(R.drawable.ic_default_photo)//
+                    .animate( android.R.anim.fade_in)
+                    .into(iconImage);
         }
         btnLoginRecorded.setOnClickListener(this);
         btnLogin.setOnClickListener(this);

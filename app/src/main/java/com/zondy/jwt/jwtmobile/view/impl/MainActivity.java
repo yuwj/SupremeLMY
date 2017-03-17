@@ -185,9 +185,13 @@ public class MainActivity extends BaseActivity implements ISettingView {
             tvJh.setText("警号：" + user.getUserName());
 
 
-//            String photoUrl = user.getUserPhotoUrl();
-//            if(!TextUtils.isEmpty(photoUrl)){
-//                Glide.with(context).load(photoUrl).into(icon_image);}
+            String photoUrl = user.getUserPhotoUrl();
+            if (!TextUtils.isEmpty(photoUrl)) {
+                Glide.with(context).load(photoUrl)
+                        .placeholder(R.drawable.ic_default_photo)//
+                        .error(R.drawable.ic_default_photo)//
+                        .animate(android.R.anim.fade_in).into(icon_image);
+            }
         }
 
         EntityLocation l = SharedTool.getInstance().getLocationInfo(context);
@@ -251,7 +255,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
                 EntityLocation location = (EntityLocation) intent.getSerializableExtra("entityLocation");
                 if (mapManager != null) {
                     String oldStr = tv_locationInfo.getText().toString();
-                    tv_locationInfo.setText("\n" + location.getJsonStr()+oldStr);
+                    tv_locationInfo.setText("\n" + location.getJsonStr() + oldStr);
                     mapManager.updateUserLocation(location);
                 }
             }
@@ -268,7 +272,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
             drawerLayout.closeDrawer(Gravity.LEFT);
             return;
         }

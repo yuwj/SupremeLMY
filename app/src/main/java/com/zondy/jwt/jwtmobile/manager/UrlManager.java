@@ -120,7 +120,7 @@ public class UrlManager {
     public static String panchaQueryPersonWithHecjs = "/XLPC!querypcxx";// 根据输入信息查询人员信息,若返回多条,则跳转到人员列表界面,否则跳转到盘查信息补录界面
     public static String panchaQueryPancReocrds = "/XLPC!pcxxlist";// 根据人员信息查询盘查记录
 
-    public static String guijWithLvg = "/xxxx";//张三的住宿轨迹
+    public static String guijWithLvg = "/CheckUpdateInfo!checkUpdateInfo";//张三的住宿轨迹
     // ========盘查分析 end========
     // ========综合查询 start========
     public static String zonghcxQueryAddress = "/ZhongheQuery!queryDZJBXXList";// 查询地址信息

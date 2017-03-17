@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ import com.zondy.jwt.jwtmobile.entity.EntityGuijWithWangb;
 import com.zondy.jwt.jwtmobile.entity.EntitySearchResult;
 import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.ui.DividerItemDecoration;
+import com.zondy.jwt.jwtmobile.util.CommonUtil;
 import com.zondy.jwt.jwtmobile.util.GsonUtil;
 import com.zondy.jwt.jwtmobile.util.MapManager;
 import com.zondy.mapgis.android.annotation.Annotation;
@@ -99,6 +101,13 @@ public class GuijMapWithWangbActivity extends BaseActivity {
             @Override
             protected void convert(ViewHolder holder, EntityGuijWithWangb entitySearchResult, int position) {
 
+
+                ImageView iv = holder.getView(R.id.iv_index);
+                Bitmap bitmap = CommonUtil.createIndexAnnotationView(context,position-1,1,true);
+                if(bitmap != null){
+
+                    iv.setImageBitmap(bitmap);
+                }
 
                 holder.setText(R.id.tv_lvg_name, entitySearchResult.getPositionName());
                 holder.setText(R.id.tv_address_name, entitySearchResult.getAddress());
