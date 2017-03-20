@@ -96,7 +96,7 @@ public class MyApplication extends Application {
             } else if (Constant.JWT_AREA_SELECTED
                     .equals(Constant.JWT_AREA_ZJG)) {
                 defaultIps[0] = "192.168.9.188";
-                defaultIps[1] = "8088";
+                defaultIps[1] = "8080";
                 defaultIps[2] = "192.168.9.188";
                 defaultIps[3] = "5222";
             } else if (Constant.JWT_AREA_SELECTED

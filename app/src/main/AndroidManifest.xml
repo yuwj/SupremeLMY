@@ -44,6 +44,15 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <!-- mpush end -->
+    <!--&lt;!&ndash; 百度语音 start &ndash;&gt;-->
+    <!--<uses-permission android:name="android.permission.RECORD_AUDIO"  />-->
+    <!--<uses-permission android:name="android.permission.INTERNET"  />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"  />-->
+    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"  />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"  />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  />-->
+    <!--&lt;!&ndash; 百度语音 end &ndash;&gt;-->
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -51,6 +60,32 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--&lt;!&ndash; 百度语音 start &ndash;&gt;-->
+
+        <!--<meta-data android:name="com.baidu.speech.APP_ID" android:value="9410777"/>-->
+        <!--&lt;!&ndash; 请填写应用实际的API_KEY &ndash;&gt;-->
+        <!--<meta-data android:name="com.baidu.speech.API_KEY" android:value="IRbeg4427WGbSDKl3Fc2QjWF"/>-->
+        <!--&lt;!&ndash; 请填写应用实际的SECRET_KEY &ndash;&gt;-->
+        <!--<meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="3V7S84l5gmZZLbg3tpNYZUiI2qlHlfOO"/>-->
+        <!--<service android:name="com.baidu.speech.VoiceRecognitionService" android:exported="false" ></service>-->
+        <!--<activity-->
+            <!--android:name="com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenLayout"-->
+            <!--android:theme="@android:style/Theme.Dialog"-->
+            <!--android:exported="false"-->
+            <!--android:screenOrientation="portrait">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.baidu.action.RECOGNIZE_SPEECH" ></action>-->
+                <!--<category android:name="android.intent.category.DEFAULT" ></category>-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity-->
+            <!--android:name=".view.impl.BaiduyuyinActivity"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:theme="@style/CollapsingToolbarTheme" />-->
+        <!--&lt;!&ndash; 百度语音 end &ndash;&gt;-->
+
+
         <activity
             android:name=".view.impl.LoginActivity"
             android:launchMode="singleTask"
@@ -100,27 +135,27 @@
         <activity
             android:name=".view.impl.XunlpcJDCXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.XunlpcRYHCRYXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.XunlpcPCJBXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.XunlpcPCGLXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.XunlpcPCFKXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.XunlpcPCJLActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.ContactsActivity"
             android:launchMode="singleTask"
