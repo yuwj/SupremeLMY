@@ -1,9 +1,12 @@
 package com.zondy.jwt.jwtmobile.view.impl;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.nativecode.ImagePipelineNativeLoader;
+import com.lzy.imagepicker.loader.ImageLoader;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -47,6 +56,8 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.R.attr.id;
 
 /**
  * Created by sheep on 2017/1/5.
@@ -179,6 +190,22 @@ public class MainActivity extends BaseActivity implements ISettingView {
     }
 
     private void initViews() {
+        //测试加载gif图片 start
+        SimpleDraweeView simpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv);
+        String url = "http://img.huofar.com/data/jiankangrenwu/shizi.gif";
+        Uri uri = Uri.parse("res://" +
+                context.getPackageName() +
+                "/" + R.drawable.gif1);
+        DraweeController draweeController = Fresco.newDraweeControllerBuilder()
+                .setUri(uri)
+                .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
+                .build();
+        RoundingParams roundingParams=simpleDraweeView.getHierarchy().getRoundingParams();
+        roundingParams.setRoundAsCircle(true);
+        simpleDraweeView.getHierarchy().setRoundingParams(roundingParams);
+        simpleDraweeView.setController(draweeController);
+//        simpleDraweeView.setImageURI(uri);
+        //测试end
         EntityUser user = SharedTool.getInstance().getUserInfo(MainActivity.this);
         if (user != null) {
             tvName.setText(user.getCtname());
@@ -251,7 +278,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
                 EntityLocation location = (EntityLocation) intent.getSerializableExtra("entityLocation");
                 if (mapManager != null) {
                     String oldStr = tv_locationInfo.getText().toString();
-                    tv_locationInfo.setText("\n" + location.getJsonStr()+oldStr);
+                    tv_locationInfo.setText("\n" + location.getJsonStr() + oldStr);
                     mapManager.updateUserLocation(location);
                 }
             }
@@ -268,7 +295,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.LEFT)){
+        if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
             drawerLayout.closeDrawer(Gravity.LEFT);
             return;
         }
@@ -332,4 +359,5 @@ public class MainActivity extends BaseActivity implements ISettingView {
             this.menuTitle = menuTitle;
         }
     }
+
 }

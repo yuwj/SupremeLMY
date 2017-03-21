@@ -3,6 +3,7 @@ package com.zondy.jwt.jwtmobile.base;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -33,7 +34,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Fresco.initialize(this);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new LoggerInterceptor("sheep", true))
