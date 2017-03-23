@@ -2,6 +2,7 @@ package com.zondy.jwt.jwtmobile.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -23,6 +24,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
     public abstract int setCustomContentViewResourceId();
     public Context context;
+    ProgressDialog.OnCancelListener taskCancelListener;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void showLoadingDialog() {
         if (loadingProgressDialog == null) {
             loadingProgressDialog = new ProgressDialog(this);
+            loadingProgressDialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+            loadingProgressDialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+            if(taskCancelListener != null){
 
+                loadingProgressDialog.setOnCancelListener(taskCancelListener);
+            }
         }
         loadingProgressDialog.show();
     }
@@ -90,5 +97,13 @@ public abstract class BaseActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public ProgressDialog.OnCancelListener getTaskCancelListener() {
+        return taskCancelListener;
+    }
+
+    public void setTaskCancelListener(ProgressDialog.OnCancelListener taskCancelListener) {
+        this.taskCancelListener = taskCancelListener;
     }
 }

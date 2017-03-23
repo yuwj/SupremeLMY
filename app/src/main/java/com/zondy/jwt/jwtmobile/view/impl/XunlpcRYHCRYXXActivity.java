@@ -13,11 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityXunlpcJDCXX;
+import com.zondy.jwt.jwtmobile.entity.EntityXunlpcRYXX;
 import com.zondy.jwt.jwtmobile.ui.FullyGridLayoutManager;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class XunlpcRYHCRYXXActivity extends BaseActivity implements View.OnClick
     Toolbar toolbar;
     @BindView(R.id.rv_media)
     RecyclerView rvMedia;
+    @BindView(R.id.tv_xunlpc_ryhcryxx_xidry)
+    TextView tvxunlpcRyhcryxxXidry;
     com.zhy.adapter.recyclerview.CommonAdapter<String> adapterImages;
     List<String> imageDatas;
 
@@ -77,6 +81,7 @@ public class XunlpcRYHCRYXXActivity extends BaseActivity implements View.OnClick
         };
         rvMedia.setLayoutManager(new FullyGridLayoutManager(this,4));
         rvMedia.setAdapter(adapterImages);
+        tvxunlpcRyhcryxxXidry.setOnClickListener(this);
     }
 
     @Override
@@ -92,7 +97,13 @@ public class XunlpcRYHCRYXXActivity extends BaseActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.tv_xunlpc_ryhcryxx_xidry:
+                EntityXunlpcRYXX ryxx = new EntityXunlpcRYXX();
+                ryxx.setName("杨阳洋");
+                ryxx.setAddress("武汉光谷广场");
+                ryxx.setSex("男");
+                startActivity(PancPersonDetailActivity.createIntent(context,ryxx,ryxx.getName()+"的吸毒信息"));
+                break;
         }
     }
     public String getResourceUri(int resId){

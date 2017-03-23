@@ -100,27 +100,32 @@
         <activity
             android:name=".view.impl.XunlpcJDCXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcRYHCRYXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcPCJBXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcPCGLXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcPCFKXXActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.XunlpcPCJLActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"></activity>
+            android:theme="@style/CollapsingToolbarTheme" />
+        <!-- 盘查人员详情(吸毒,在逃等)detail -->
+        <activity
+            android:name=".view.impl.PancPersonDetailActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.ContactsActivity"
             android:launchMode="singleTask"
@@ -145,7 +150,7 @@
             android:name=".view.impl.SettingAccountInfo"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
-        <!-- 修改密码-->
+        <!-- 修改密码 -->
         <activity
             android:name=".view.impl.SettingAccountUpdatePwdActivity"
             android:theme="@style/CollapsingToolbarTheme" />
@@ -196,7 +201,6 @@
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
 
-
         <service
             android:name=".service.GPSService"
             android:enabled="true"
@@ -207,13 +211,7 @@
         </service>
 
         <!-- mpush 设置界面 -->
-        <activity android:name="com.mpush.demo.PushActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name="com.mpush.demo.PushActivity" />
 
         <!-- mpush 接收消息界面 -->
         <receiver
@@ -253,6 +251,9 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".view.impl.NoticeListActivity" />
+        <activity android:name=".view.impl.NoticeDetailActivity" />
+        <activity android:name=".view.impl.MainWithGridActivity"></activity>
     </application>
 
 </manifest>

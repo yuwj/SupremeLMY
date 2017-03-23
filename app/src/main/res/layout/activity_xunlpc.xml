@@ -215,6 +215,7 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:paddingBottom="6dp"
+                    android:text="A55555"
                     android:paddingLeft="5dp"
                     android:paddingTop="6dp"
                     android:textColor="#000000"

@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.yinglan.scrolllayout.ScrollLayout;
@@ -217,9 +218,9 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                     Annotation a = annotations.get(i);
                     Bitmap b = null;
                     if (a.getUid().equals(annotation.getUid())) {
-                        b = mapManager.createIndexAnnotationView( i, 1, true);
+                        b = mapManager.createIndexAnnotationView(i, 1, true);
                     } else {
-                        b = mapManager.createIndexAnnotationView( i, 1, false);
+                        b = mapManager.createIndexAnnotationView(i, 1, false);
                     }
                     a.setImage(b);
                 }
@@ -238,15 +239,15 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                 TextView tv_baojnr = (TextView) contentView.findViewById(R.id.tv_baojnr);
                 TextView tv_baojr = (TextView) contentView.findViewById(R.id.tv_baojr);
                 EntitySearchResult jingq = GsonUtil.json2Bean(annotation.getDescription(), EntitySearchResult.class);
-                tv_baojsj.setText("名称:"+jingq.getMc());
-                tv_baojnr.setText("地址:"+jingq.getDz());
-                tv_baojr.setText("人数:"+jingq.getRs());
+                tv_baojsj.setText("名称:" + jingq.getMc());
+                tv_baojnr.setText("地址:" + jingq.getDz());
+                tv_baojr.setText("人数:" + jingq.getRs());
                 tv_annotation_dismiss.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
-                                                   public void onClick(View v) {
-                                                       annotation.hideAnnotationView();
-                                                   }
-                                               }
+                                                             @Override
+                                                             public void onClick(View v) {
+                                                                 annotation.hideAnnotationView();
+                                                             }
+                                                         }
                 );
 
                 annotationView.setCalloutView(contentView);
@@ -254,7 +255,7 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                 int index = annotationsOverlay.indexOf(annotation);
                 //把annotation放到z轴最前面
                 annotationsOverlay.moveAnnotation(index, -1);
-                if(mapview.getResolution() > MapManager.goodResolution){//缩放地图到最佳大小
+                if (mapview.getResolution() > MapManager.goodResolution) {//缩放地图到最佳大小
                     mapview.zoomToCenter(annotation.getPoint(), MapManager.goodResolution, false);
                 }
                 mapview.refresh();
@@ -548,8 +549,12 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
             public void convert(ViewHolder holder, EntitySearchResult entitySearchResult) {
                 holder.setImageResource(R.id.iv_item_scrollresults, R.drawable.ic_zanwutupian);
                 String dmtlj = entitySearchResult.getDmtlj().split(",")[0];
-                String dmtljCS = dmtlj.replace("61.183.129.187:4040", "192.168.9.188:8080");
-                Glide.with(ScrollActivityResult.this).load(dmtljCS).into((ImageView) holder.getView(R.id.iv_item_scrollresults));
+                Glide.with(ScrollActivityResult.this).load(dmtlj)
+                        .placeholder(R.drawable.ic_img_loading)// 这行貌似是glide的bug,在部分机型上会导致第一次图片不在中间
+                        .error(R.drawable.ic_img_load_fail)//
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)//
+                        .crossFade()
+                        .into((ImageView) holder.getView(R.id.iv_item_scrollresults));
                 holder.setText(R.id.tv_item_scrollresults_mc, entitySearchResult.getMc());
                 holder.setText(R.id.tv_item_scrollresults_dz, entitySearchResult.getDz());
                 String distance = entitySearchResult.getDistance();
@@ -571,10 +576,10 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
                 for (int i = 0; i < annotations.size(); i++) {
                     Annotation a = annotations.get(i);
                     Bitmap b = null;
-                    if (i == position-1) {
-                        b = mapManager.createIndexAnnotationView( i, 1, true);
+                    if (i == position - 1) {
+                        b = mapManager.createIndexAnnotationView(i, 1, true);
                     } else {
-                        b = mapManager.createIndexAnnotationView( i, 1, false);
+                        b = mapManager.createIndexAnnotationView(i, 1, false);
                     }
                     a.setImage(b);
                     a.showAnnotationView();
@@ -634,7 +639,7 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
         }
         for (int i = 0; i < datas.size(); i++) {
             EntitySearchResult result = datas.get(i);
-            Bitmap bitmap = mapManager.createIndexAnnotationView( i, 1, i == selectedIndex);
+            Bitmap bitmap = mapManager.createIndexAnnotationView(i, 1, i == selectedIndex);
             double[] xy = mapManager.lonLat2Mercator(result.getLongitude(), result.getLatitude());
             Annotation annotation = new Annotation("" + (i + 1), "搜索结果", result.getJsonStr(), new Dot(xy[0], xy[1]), bitmap);
             annotations.add(annotation);

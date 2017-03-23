@@ -28,7 +28,7 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
     public final static boolean IS_PRODUCT_ENVIRONMENT = true;
-    public final static boolean IS_TEST_JINGQLIST = false;
+    public final static boolean IS_TEST_JINGQLIST = true;
 
     @Override
     public void onCreate() {
