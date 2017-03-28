@@ -8,5 +8,5 @@ import static android.R.attr.radius;
 
 public interface ISearchPresenter {
     void queryZHCXList(String layerid,String layername,int orderType,String keyword,double radius,double longitude,double latitude,int nowpage,int pagesize);
-    void queryTCFZList();
+    void queryTCFZList(String jh,String simid);
 }

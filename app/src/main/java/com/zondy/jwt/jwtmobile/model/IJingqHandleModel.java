@@ -6,6 +6,7 @@ import com.zondy.jwt.jwtmobile.callback.IJingqHandleCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryAllJingqKuaisclTypesCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryAllJingqTypesCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryJinqDatasCallback;
+import com.zondy.jwt.jwtmobile.callback.IQueryUnacceptJingqCountCallback;
 import com.zondy.jwt.jwtmobile.callback.IReloadJingqCallback;
 import com.zondy.jwt.jwtmobile.callback.IRollbackJingqCallback;
 
@@ -85,4 +86,12 @@ public interface IJingqHandleModel {
      */
     public void queryAllJingqTypes(String jh, String simid, IQueryAllJingqTypesCallback queryAllJingqTypesCallback);
         public void queryAllJingqKuaisclTypes(String jh, String simid, IQueryAllJingqKuaisclTypesCallback queryAllJingqKuaisclTypesCallback);
+
+    /**
+     * 获取所有未接收的警情数量
+     * @param jh
+     * @param simid
+     * @param queryUnacceptJingqCountCallback
+     */
+    public void queryUnacceptJingqCount(String jh, String simid, String zzjgdm,IQueryUnacceptJingqCountCallback queryUnacceptJingqCountCallback);
 }

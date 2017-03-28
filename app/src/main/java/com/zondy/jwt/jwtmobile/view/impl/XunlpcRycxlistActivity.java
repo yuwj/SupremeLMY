@@ -205,12 +205,12 @@ public class XunlpcRycxlistActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_qiehuan:
                 if (state == 1) {
-                    menuItem.setIcon(getDrawable(R.drawable.ic_xianxlb));
+                    menuItem.setIcon(getResources().getDrawable(R.drawable.ic_xianxlb));
                     wanggeView.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                     state = 2;
                 } else if (state == 2) {
-                    menuItem.setIcon(getDrawable(R.drawable.ic_wangglb));
+                    menuItem.setIcon(getResources().getDrawable(R.drawable.ic_wangglb));
                     listView.setVisibility(View.VISIBLE);
                     wanggeView.setVisibility(View.GONE);
                     state = 1;

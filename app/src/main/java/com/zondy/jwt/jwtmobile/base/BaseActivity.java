@@ -64,10 +64,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     ProgressDialog loadingProgressDialog;
-    /**
+  /**
      * 显示加载时的对话框
      */
-    public void showLoadingDialog() {
+    public void showLoadingDialog(String loadInfo) {
         if (loadingProgressDialog == null) {
             loadingProgressDialog = new ProgressDialog(this);
             loadingProgressDialog.setCancelable(true);// 设置是否可以通过点击Back键取消
@@ -77,6 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 loadingProgressDialog.setOnCancelListener(taskCancelListener);
             }
         }
+        loadingProgressDialog.setTitle(loadInfo);
         loadingProgressDialog.show();
     }
 

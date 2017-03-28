@@ -66,7 +66,6 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.tv_zzjg)
     TextView tvZzjg;
 
-    EntityZD lianygsjZD = new EntityZD("320700000000", "连云港市公安局", "");
     int currentLevel = 1;//当前展示的机构级别
     List<EntityZD> mZZJGDatas = new ArrayList<EntityZD>();//选择组织机构的数据源
     CommonAdapter<EntityZD> commonAdapterZZJG;//选择组织机构的adapter
@@ -76,6 +75,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     private List<EntityContact> mDatas = new ArrayList<>();
     private SuspensionDecoration mDecoration;
     private CommonAdapter<EntityContact> adapter;
+
+    PopupWindow window;//popupWindowSelectZZJG;//选择组织结构的popupwindow
 
     @Override
     public int setCustomContentViewResourceId() {
@@ -137,7 +138,8 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initDatas() {
-        contactPresenter.queryContactsByZZJG("320923000000");
+        contactPresenter.queryZDDatasByZZJG("");
+        contactPresenter.queryContactsByZZJG("320800000000");
     }
 
     @Override
@@ -182,6 +184,12 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                         tvChooseTitle.setText(mZZJGDatas.get(position).getMc());
                         dwbm=mZZJGDatas.get(position).getBm();
+
+                        zzjg=tvChooseTitle.getText().toString();
+                        contactPresenter.queryContactsByZZJG(dwbm);
+                        if(window != null){
+                            window.dismiss();
+                        }
                     }
 
                     @Override
@@ -203,10 +211,15 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                 DisplayMetrics dm = resources.getDisplayMetrics();
                 float density1 = dm.density;
                 int width = dm.widthPixels;
-                final PopupWindow window = new PopupWindow(layout, width - 150, 1300);
+                int height= dm.heightPixels;
+                if(window == null){
+
+                    window = new PopupWindow(layout, width,height);
+                }
                 window.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
                 window.setFocusable(true);
                 window.setOutsideTouchable(false);
+
                 window.showAtLocation(rlChooseZzjg, Gravity.CENTER_HORIZONTAL, 0, 0);
                 backgroundAlpha(0.3f);
                 RelativeLayout rlConfirm = (RelativeLayout) layout.findViewById(R.id.rl_confirm);
@@ -242,9 +255,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
      * @param bgAlpha
      */
     public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
+//        WindowManager.LayoutParams lp = getWindow().getAttributes();
+//        lp.alpha = bgAlpha; //0.0-1.0
+//        getWindow().setAttributes(lp);
     }
     /**
      * 获取子机构
@@ -382,7 +395,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
         initSourceDatas(allEntitys);
         mZZJGDatas.clear();
         mZZJGDatas.addAll(allEntitys);
-        commonAdapterZZJG.notifyDataSetChanged();
+        if(commonAdapterZZJG != null){
+            commonAdapterZZJG.notifyDataSetChanged();
+        }
     }
 
     /**

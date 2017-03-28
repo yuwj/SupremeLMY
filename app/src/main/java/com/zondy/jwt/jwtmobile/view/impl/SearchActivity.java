@@ -257,7 +257,7 @@ public class SearchActivity extends BaseActivity implements ISearchTCFLView {
     }
 
     @Override
-    public void queryTCFLUnSuccessed() {
+    public void queryTCFLUnSuccessed(Exception e) {
 
     }
 

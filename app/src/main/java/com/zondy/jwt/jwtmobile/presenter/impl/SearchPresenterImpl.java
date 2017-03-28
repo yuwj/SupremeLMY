@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.zondy.jwt.jwtmobile.callback.IQueryTCFZListCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryZHCXListCallback;
+import com.zondy.jwt.jwtmobile.entity.EntityPoiType;
 import com.zondy.jwt.jwtmobile.entity.EntitySearchResult;
+import com.zondy.jwt.jwtmobile.entity.EntityTCFL;
 import com.zondy.jwt.jwtmobile.model.ISearchModel;
 import com.zondy.jwt.jwtmobile.model.impl.SearchModelImpl;
 import com.zondy.jwt.jwtmobile.presenter.ISearchPresenter;
@@ -59,16 +61,17 @@ public class SearchPresenterImpl implements ISearchPresenter{
     }
 
     @Override
-    public void queryTCFZList() {
+    public void queryTCFZList(String jh,String simid) {
         searchModel.queryTCFZList(context, new IQueryTCFZListCallback() {
-            @Override
-            public void querySuccessed() {
 
+            @Override
+            public void querySuccessed(List<EntityTCFL> poiTypeList) {
+                searchTCFLView.queryTCFLSuccessed(poiTypeList);
             }
 
             @Override
-            public void queryUnSuccessed() {
-
+            public void queryUnSuccessed(Exception e) {
+                searchTCFLView.queryTCFLUnSuccessed(e);
             }
         });
     }

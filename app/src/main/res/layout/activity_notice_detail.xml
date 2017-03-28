@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sv_notice_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.zondy.jwt.jwtmobile.view.impl.NoticeDetailActivity">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <include layout="@layout/content_toolbar">
 
-    </include>
+    <include layout="@layout/content_toolbar" />
+
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/tv_time"
-        android:layout_height="wrap_content" />
-    <TextView
         android:layout_width="match_parent"
-        android:id="@+id/tv_content"
         android:layout_height="wrap_content" />
-    </LinearLayout>
-</ScrollView>
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_feedback_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

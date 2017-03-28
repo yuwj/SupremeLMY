@@ -96,9 +96,9 @@ public class XunlpcPCJLActivity extends BaseActivity implements View.OnClickList
                     holder.setText(R.id.tv_pancjl_sfzh, entityPANCJL.getSfzh());
                     holder.setText(R.id.tv_pancjl_dz, entityPANCJL.getDz());
                     if (Integer.valueOf(entityPANCJL.getPczt()) == 2) {
-                        holder.setImageDrawable(R.id.iv_pancjl_ren, getDrawable(R.drawable.ic_xunlpcpcjl_person_xianyi));
+                        holder.setImageDrawable(R.id.iv_pancjl_ren, getResources().getDrawable(R.drawable.ic_xunlpcpcjl_person_xianyi));
                     } else if (Integer.valueOf(entityPANCJL.getPczt()) == 1) {
-                        holder.setImageDrawable(R.id.iv_pancjl_ren, getDrawable(R.drawable.ic_xunlpcpcjl_person));
+                        holder.setImageDrawable(R.id.iv_pancjl_ren, getResources().getDrawable(R.drawable.ic_xunlpcpcjl_person));
                     }
 
                 } else if (Integer.valueOf(entityPANCJL.getPclx()) == 2) {
@@ -109,9 +109,9 @@ public class XunlpcPCJLActivity extends BaseActivity implements View.OnClickList
                     holder.setText(R.id.tv_pancjl_suoyr, entityPANCJL.getChesyr());
                     holder.setText(R.id.tv_pancjl_haom, entityPANCJL.getChesyrhm());
                     if (Integer.valueOf(entityPANCJL.getPczt()) == 2) {
-                        holder.setImageDrawable(R.id.iv_pancjl_che, getDrawable(R.drawable.ic_xunlpcpcjl_car_xianyi));
+                        holder.setImageDrawable(R.id.iv_pancjl_che, getResources().getDrawable(R.drawable.ic_xunlpcpcjl_car_xianyi));
                     } else if (Integer.valueOf(entityPANCJL.getPczt()) == 1) {
-                        holder.setImageDrawable(R.id.iv_pancjl_che, getDrawable(R.drawable.ic_xunlpcpcjl_car));
+                        holder.setImageDrawable(R.id.iv_pancjl_che, getResources().getDrawable(R.drawable.ic_xunlpcpcjl_car));
                     }
                 }
             }

@@ -19,7 +19,7 @@ public class Constant {
     public static final String JWT_AREA_WH = "武汉";
     public static final String JWT_AREA_TEST = "测试";
     public static final String JWT_AREA_HA = "淮安";
-    public static final String JWT_AREA_SELECTED = JWT_AREA_ZJG;
+    public static final String JWT_AREA_SELECTED = JWT_AREA_HA;
 
     public static final String USER_SHARED_FILE = "user_shared_file";
 
@@ -32,4 +32,5 @@ public class Constant {
             .build();
 
     public static final String mapPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MapGIS/map/wuhan/wuhan.xml";
+    public static final String catchPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "jwtInfo/";
 }

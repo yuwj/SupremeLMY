@@ -183,16 +183,16 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
                     etXunlpcChelChep.requestFocus();
                     llRenyuanAll.setVisibility(View.GONE);
                     llCheliangAll.setVisibility(View.VISIBLE);
-                    llCheliang.setBackground(getDrawable(R.drawable.selector_xunlpc_huang));
-                    llRenyuan.setBackground(getDrawable(R.drawable.selector_xunlpc_hui));
+                    llCheliang.setBackgroundResource(R.drawable.selector_xunlpc_huang);
+                    llRenyuan.setBackgroundResource(R.drawable.selector_xunlpc_hui);
                 }
                 break;
             case R.id.ll_renyuan:
                 if (llRenyuanAll.getVisibility() != View.VISIBLE) {
                     llRenyuanAll.setVisibility(View.VISIBLE);
                     llCheliangAll.setVisibility(View.GONE);
-                    llRenyuan.setBackground(getDrawable(R.drawable.selector_xunlpc_huang));
-                    llCheliang.setBackground(getDrawable(R.drawable.selector_xunlpc_hui));
+                    llRenyuan.setBackgroundResource(R.drawable.selector_xunlpc_huang);
+                    llCheliang.setBackgroundResource(R.drawable.selector_xunlpc_hui);
                 }
                 break;
             case R.id.btn_xunlpc_cheliang_search:

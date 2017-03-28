@@ -237,20 +237,22 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="110dp"
+                android:layout_height="wrap_content"
                 android:focusable="true"
                 android:focusableInTouchMode="true">
 
                 <EditText
                     android:layout_width="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:lines="4"
                     android:layout_alignParentTop="true"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="18dp"
-                    android:layout_marginTop="8dp"
+                    android:gravity="top|left"
                     android:background="@null"
-                    android:hint="点击可输入您要反馈的内容"
+                    android:hint="请输入您要反馈的内容"
                     android:textColor="@color/gray_color_2"/>
             </RelativeLayout>
 
@@ -264,6 +266,7 @@
 
             <LinearLayout
                 android:layout_marginTop="8dp"
+                android:id="@+id/ll_add_img_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -315,6 +318,13 @@
             <!--android:textSize="@dimen/font_size_second_level"/>-->
             <!--</LinearLayout>-->
             <!--</ScrollView>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:textColor="@color/gray_color_1"
+                android:layout_marginLeft="20dp"
+                android:padding="5dp"
+                android:text="点击' + '添加反馈图片"
+                android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_media"
@@ -352,6 +362,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:visibility="gone"
             android:background="@drawable/selector_jingqcl_btn_bg"
             android:text="添加资料"
             android:textColor="#ffffff"

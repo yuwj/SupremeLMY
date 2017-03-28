@@ -97,7 +97,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
             tvMore.setVisibility(View.VISIBLE);
             tvUsername.setText(entityUser.getUserName());
             etPasswordRecorded.setText(entityUser.getPassword());
-            rlBg.setBackground(getDrawable(R.drawable.bg_login_recorded));
+            rlBg.setBackgroundResource(R.drawable.bg_login_recorded);
             Glide.with(context).load(entityUser.getUserPhotoUrl())
                     .placeholder(R.drawable.ic_default_photo)//
                     .error(R.drawable.ic_default_photo)//
@@ -123,7 +123,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                 tvIp.setVisibility(View.VISIBLE);
                 llRecorded.setVisibility(View.GONE);
                 tvMore.setVisibility(View.GONE);
-                rlBg.setBackground(getDrawable(R.drawable.bg_login));
+                rlBg.setBackgroundResource(R.drawable.bg_login);
                 break;
             case R.id.btn2:
                 ipSetManager.showSetIpDialog(LoginActivity.this,ipSetListener);
@@ -146,7 +146,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                     return;
                 }
                 String deviceId = CommonUtil.getDeviceId(context);
-                loginPresenter.login(userName, password, deviceId);
+                loginPresenter.login(context,userName, password, deviceId);
+                showLoadingDialog("正在登录...");
                 break;
             case btn_login_recorded:
                 final String userNameRecorded = tvUsername.getText().toString().trim();
@@ -162,7 +163,8 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                     return;
                 }
                 String deviceIdRecorded = CommonUtil.getDeviceId(context);
-                loginPresenter.login(userNameRecorded, passwordRecorded, deviceIdRecorded);
+                loginPresenter.login(context,userNameRecorded, passwordRecorded, deviceIdRecorded);
+                showLoadingDialog("正在登录...");
                 break;
             case tv_ip:
                 ipSetManager.showSetIpDialog(LoginActivity.this, ipSetListener);
@@ -200,21 +202,25 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     @Override
     public void loginSuccessed(EntityUser entityUser) {
+        dismissLoadingDialog();
         //保存用户信息
         SharedTool.getInstance().saveUserInfo(LoginActivity.this, entityUser);
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent = MainWithGridActivity.createIntent(context);
         startActivity(intent);
         this.finish();
     }
 
     @Override
     public void loginFailed() {
+        dismissLoadingDialog();
         ToastTool.getInstance().shortLength(this, "网络请求失败！", true);
     }
 
     @Override
     public void loginUnSuccessed(String msg) {
+        dismissLoadingDialog();
         ToastTool.getInstance().shortLength(this, msg, true);
     }
 

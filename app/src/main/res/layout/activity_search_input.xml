@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/gray_color_0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp">
+
+        <ImageView
+            android:padding="5dp"
+            android:id="@+id/iv_search_back"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_huijiantou"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:background="@drawable/bg_sousuolan"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/sousuotu"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_sousuo"/>
+
+            <EditText
+                android:id="@+id/et_activity_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/sousuotu"
+                android:paddingLeft="10dp"
+                android:background="@null"
+                android:hint="搜索"
+                android:maxLines="1"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/iv_search_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:src="@drawable/ic_yuanhuix"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <TextView
+
+            android:id="@+id/tv_search_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+
+            android:background="@drawable/selector_btn_bg"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
+        android:id="@+id/rv_common_poi_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:background="@color/gray_color_0">
+    </View>
+
+
+        <TextView
+            android:id="@+id/tv_clear_history"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="清空历史记录"
+            android:background="#ffffff"
+            android:textSize="15sp"/>
+
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:visibility="visible"
+        android:id="@+id/rv_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>

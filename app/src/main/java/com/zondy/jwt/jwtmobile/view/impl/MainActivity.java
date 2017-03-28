@@ -25,9 +25,10 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityLocation;
+import com.zondy.jwt.jwtmobile.entity.EntityNotice;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.global.Constant;
-import com.zondy.jwt.jwtmobile.manager.GPSLocationManager;
+import com.zondy.jwt.jwtmobile.manager.JWTLocationManager;
 import com.zondy.jwt.jwtmobile.presenter.ISettingPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.SettingPresenterImpl;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
@@ -122,6 +123,9 @@ public class MainActivity extends BaseActivity implements ISettingView {
         menus.add(new EntityMenu("警情处理", R.drawable.ic_jingqcl));
         menus.add(new EntityMenu("巡逻盘查", R.drawable.ic_pancbd));
         menus.add(new EntityMenu("数据采集", R.drawable.ic_shujucj));
+        menus.add(new EntityMenu("通知公告", R.drawable.ic_shujucj));
+        menus.add(new EntityMenu("布控布防", R.drawable.ic_shujucj));
+        menus.add(new EntityMenu("请求服务", R.drawable.ic_shujucj));
         menus.add(new EntityMenu("设置", R.drawable.ic_shezhi));
         adapterMenuList = new CommonAdapter<EntityMenu>(context, R.layout.item_main_menu, menus) {
             @Override
@@ -169,6 +173,22 @@ public class MainActivity extends BaseActivity implements ISettingView {
                     ToastTool.getInstance().shortLength(context, menuTxt, true);
                     return;
                 }
+                if ("通知公告".equals(menuTxt)) {
+                    startActivity(NoticeListActivity.createIntent(context, EntityNotice.NOTICE_TYPE_TONGZGG));
+                    return;
+                }
+                if ("布控布防".equals(menuTxt)) {
+                    startActivity(NoticeListActivity.createIntent(context, EntityNotice.NOTICE_TYPE_BUK));
+                    return;
+                }
+                if ("请求服务".equals(menuTxt)) {
+                    ToastTool.getInstance().shortLength(context, menuTxt, true);
+                    return;
+                }
+                if ("预测方格".equals(menuTxt)) {
+                    ToastTool.getInstance().shortLength(context, menuTxt, true);
+                    return;
+                }
             }
 
             @Override
@@ -210,27 +230,30 @@ public class MainActivity extends BaseActivity implements ISettingView {
         rlSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
-                etSearch.clearFocus();
+//                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+//                startActivity(intent);
+//                etSearch.clearFocus();
+                startActivity(SearchInputActivityYuwj.createIntent(MainActivity.this));
             }
         });
         etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                    startActivity(intent);
-                    etSearch.clearFocus();
-                }
+//                if (hasFocus) {
+//                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+//                    startActivity(intent);
+//                    etSearch.clearFocus();
+//                }
+                startActivity(SearchInputActivityYuwj.createIntent(MainActivity.this));
             }
         });
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(intent);
-                etSearch.clearFocus();
+//                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+//                startActivity(intent);
+//                etSearch.clearFocus();
+                startActivity(SearchInputActivityYuwj.createIntent(MainActivity.this));
             }
         });
     }
@@ -260,7 +283,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
                 }
             }
         };
-        registerReceiver(locationSuccessReceiver, new IntentFilter(GPSLocationManager.LOCATION_SUCCESS_BROADCAST));
+        registerReceiver(locationSuccessReceiver, new IntentFilter(JWTLocationManager.LOCATION_SUCCESS_BROADCAST));
     }
 
     public void unregisterBroadcast() {

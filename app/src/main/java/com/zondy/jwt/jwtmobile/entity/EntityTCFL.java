@@ -1,15 +1,24 @@
 package com.zondy.jwt.jwtmobile.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by sheep on 2017/1/19.
  */
 
-public class EntityTCFL {
-    private int id;
-    private int layerid;
-    private String layername;
-    private String mc;
-    private int parentid;
+public class EntityTCFL implements Serializable {
+    private int id;//classCode
+    private int layerid;//classCode
+    private String layername;//largeClass
+    private String mc;//largeClass
+    private int parentid;//partentClassCode
+
+//    String largeClass;
+//    String middleClass;
+//    String tinyClass;
+//    String classCode;
+//    String partentClassCode;
+
 
     public int getId() {
         return id;

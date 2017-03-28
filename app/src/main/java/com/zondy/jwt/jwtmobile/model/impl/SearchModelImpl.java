@@ -8,7 +8,9 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zondy.jwt.jwtmobile.callback.IQueryTCFZListCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryZHCXListCallback;
+import com.zondy.jwt.jwtmobile.entity.EntityPoiType;
 import com.zondy.jwt.jwtmobile.entity.EntitySearchResult;
+import com.zondy.jwt.jwtmobile.entity.EntityTCFL;
 import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.ISearchModel;
@@ -115,7 +117,7 @@ public class SearchModelImpl implements ISearchModel{
      * @param queryTCFZListCallback
      */
     @Override
-    public void queryTCFZList(Context context, IQueryTCFZListCallback queryTCFZListCallback) {
+    public void queryTCFZList(Context context, final IQueryTCFZListCallback queryTCFZListCallback) {
         String url= UrlManager.getSERVER()+UrlManager.queryTCFZList;
         JSONObject param=new JSONObject();
         try {
@@ -126,21 +128,36 @@ public class SearchModelImpl implements ISearchModel{
         }
         try {
             OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
-                    .build().execute(new Callback() {
+                    .build().execute(new Callback<List<EntityTCFL>>() {
 
                 @Override
-                public Object parseNetworkResponse(Response response, int id) throws Exception {
-                    return null;
+                public List<EntityTCFL> parseNetworkResponse(Response response, int id) throws Exception {
+                    List<EntityTCFL> list = new ArrayList<EntityTCFL>();
+                    for(int i = 0;i< 20;i++){
+                        EntityTCFL poiType = new EntityTCFL();
+                        poiType.setLayername("汽车服务相关"+(i+1));
+                        poiType.setMc("汽车服务相关"+(i+1));
+                        poiType.setLayerid(i);
+                        list.add(poiType);
+                    }
+
+                    EntityTCFL poiType = new EntityTCFL();
+                    poiType.setLayername("网吧");
+                    poiType.setMc("网吧");
+                    poiType.setLayerid(21);
+                    list.add(0,poiType);
+                    return list;
                 }
 
                 @Override
                 public void onError(Call call, Exception e, int id) {
 
+                    queryTCFZListCallback.queryUnSuccessed(e);
                 }
 
                 @Override
-                public void onResponse(Object response, int id) {
-
+                public void onResponse(List<EntityTCFL> response, int id) {
+                    queryTCFZListCallback.querySuccessed(response);
                 }
             });
         } catch (Exception e) {

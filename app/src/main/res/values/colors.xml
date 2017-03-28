@@ -7,7 +7,20 @@
     <color name="gray_color_0">#E0E0E0</color><!-- 灰度值：0;灰度值越大，颜色越深-->
     <color name="gray_color_1">#999999</color><!-- 灰度值：1;灰度值越大，颜色越深-->
     <color name="gray_color_2">#666666</color><!-- 灰度值：2;灰度值越大，颜色越深-->
+    <color name="gray_color_2_with_translucence">#88666666</color><!-- 灰度值：2;灰度值越大，颜色越深-->
     <color name="gray_color_3">#333333</color><!-- 灰度值：3;灰度值越大，颜色越深 -->
+
+
+    <!-- 首页各菜单的颜色-->
+    <color name="main_menu_jiecj">#F5B031</color>
+    <color name="main_menu_zonghcx">#45AFD7</color>
+    <color name="main_menu_yucfg">#4CCB7C</color>
+    <color name="main_menu_bufbk">#95C13A</color>
+    <color name="main_menu_tongzgg">#FF7084</color>
+    <color name="main_menu_qingqfw">#15CAC5</color>
+    <color name="main_menu_tongxl">#7CA3FF</color>
+
+
 
     <!-- 关于actionBbar -->
     <color name="actionbar_title_color">#002D4A</color> <!-- Color.rgb(0, 156, 131) -->
@@ -22,5 +35,13 @@
     <color name="actionbar_color_gray_deeper">#666666</color>
     <color name="partTranslucent">#39000000</color>
     <color name="jingqclbg">#f3f3f3</color>
+
+    <color name="main_with_grid_menu1">#f3f3f3</color>
+    <color name="main_with_grid_menu2">#f313f3</color>
+    <color name="main_with_grid_menu3">#13d3f3</color>
+    <color name="main_with_grid_menu4">#93f3f3</color>
+    <color name="main_with_grid_menu5">#ff03f3</color>
+    <color name="main_with_grid_menu6">#f6f3f3</color>
+    <color name="main_with_grid_menu7">#205ADD</color>
 
 </resources>

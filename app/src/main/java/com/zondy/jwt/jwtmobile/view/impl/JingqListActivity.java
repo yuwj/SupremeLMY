@@ -187,9 +187,10 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                 String jh = user.getUserName();
                 String simid = CommonUtil.getDeviceId(context);
                 jingqclPresenter.queryJingqDatas(jh, simid);
+                showLoadingProgress(true);
                 if(ivChays!=null&&ivChays.size()>0){
                     for(ImageView ivCY:ivChays){
-                        ivCY.setImageDrawable(getDrawable(R.drawable.ic_yichayue));
+                        ivCY.setImageDrawable(getResources().getDrawable(R.drawable.ic_yichayue));
                     }
                 }
 //                if(ivChay!=null){
@@ -211,7 +212,7 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                 EntityJingq jingq = jingqDatas.get(position - 1);
                 ImageView ivChay= (ImageView) holder.itemView.findViewById(R.id.iv_jingqcl_chayue);
                 ivChays.add(ivChay);
-                ivChay.setImageDrawable(getDrawable(R.drawable.ic_weichayue));
+                ivChay.setImageDrawable(getResources().getDrawable(R.drawable.ic_weichayue));
                 switch (jingq.getState()){
                     case EntityJingq.HADHANDLED:
                         startActivity(JingqDetailWithHandledActivity2.createIntent(JingqListActivity.this,jingq));
@@ -265,6 +266,7 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
         String jh = user.getUserName();
         String simid = CommonUtil.getDeviceId(context);
         jingqclPresenter.queryJingqDatas(jh, simid);
+        showLoadingProgress(true);
     }
 
 
@@ -288,6 +290,7 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
     public void recyclerViewLoadFinish() {
         rlJingqdatas.refreshComplete();
         rlJingqdatas.loadMoreComplete();
+        dismissLoadingDialog();
     }
 
     @Override
@@ -299,7 +302,7 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
     @Override
     public void showLoadingProgress(boolean isShow) {
         if (isShow) {
-            showLoadingDialog();
+            showLoadingDialog("正在加载...");
         } else {
             dismissLoadingDialog();
         }

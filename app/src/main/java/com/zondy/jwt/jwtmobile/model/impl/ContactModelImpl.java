@@ -17,6 +17,7 @@ import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.IContactModel;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
+import com.zondy.jwt.jwtmobile.util.SDCardUtil;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 
 import org.json.JSONArray;
@@ -100,7 +101,14 @@ public class ContactModelImpl implements IContactModel {
 
     @Override
     public void queryZZJG(Context context, String zdlx, final IQueryZZJGCallback queryZZJGCallback) {
-        String url = UrlManager.getSERVER() + UrlManager.queryZZJGZD;
+
+        final StringBuffer sb = new StringBuffer();
+
+
+
+
+        final String url = UrlManager.getSERVER() + UrlManager.queryZZJGZD;
+        sb.append("\n\nurl:"+url);
         JSONObject param = new JSONObject();
         try {
             param.put("jh", SharedTool.getInstance().getUserInfo(context).getUserName());
@@ -108,11 +116,12 @@ public class ContactModelImpl implements IContactModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        sb.append("\n\n"+param.toString());
         try {
             OkGo.post(url)
                     .upString(param.toString())
-                    .cacheKey("queryZZJG")
-                    .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+//                    .cacheKey("queryZZJG")
+//                    .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
                     .execute(new StringCallback() {
                         @Override
                         public void onCacheSuccess(String s, Call call) {
@@ -151,6 +160,8 @@ public class ContactModelImpl implements IContactModel {
                         public void onSuccess(String s, Call call, Response response) {
                             Log.i("sheep", "response=" + response.toString());
                             Log.i("sheep", "s=" + s);
+
+                            sb.append("\n\n"+s);
                             JSONObject object = null;
                             try {
                                 object = new JSONObject(s);
@@ -175,20 +186,39 @@ public class ContactModelImpl implements IContactModel {
                                         queryZZJGCallback.queryUnSuccessed(msg);
                                 }
                             } catch (JSONException e) {
+                                sb.append("\n\n"+e.getMessage());
+                                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                                 e.printStackTrace();
                             }
 
+                            SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                         }
 
+                        @Override
+                        public void onError(Call call, Response response, Exception e) {
+                            super.onError(call, response, e);
+                            sb.append("\n\n"+e.getMessage());
+                            SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                        }
                     });
         } catch (Exception e) {
+            sb.append("\n\n"+e.getMessage());
+            SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
             e.printStackTrace();
         }
     }
 
     @Override
     public void queryContactsByZZJG(Context context, final String zzjg, final IQueryContactsByZZJGCallback queryContactsByZZJGCallback) {
-        String url = UrlManager.getSERVER() + "/ZhongheQuery!queryConnectionByDwdm";
+
+        final StringBuffer sb = new StringBuffer();
+
+
+
+
+
+        final String url = UrlManager.getSERVER() + "/ZhongheQuery!queryConnectionByDwdm";
+        sb.append("\n\nurl:"+url);
         JSONObject param = new JSONObject();
         try {
             param.put("dwdm", zzjg);
@@ -197,14 +227,16 @@ public class ContactModelImpl implements IContactModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        sb.append("\n\n"+param.toString());
         try {
             OkGo.post(url)
                     .upString(param.toString())
-                    .cacheKey("queryConnectionByDwdm："+zzjg)
-                    .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+//                    .cacheKey("queryConnectionByDwdm："+zzjg)
+//                    .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(String s, Call call, Response response) {
+                            sb.append("\n\n"+s);
                             Log.i("sheep","response="+response.toString());
                             Log.i("sheep","s="+s);
                             JSONObject object = null;
@@ -231,8 +263,10 @@ public class ContactModelImpl implements IContactModel {
                                         queryContactsByZZJGCallback.queryUnSuccessed(msg);
                                 }
                             } catch (JSONException e) {
+                                sb.append("\n\n"+e.getMessage());
                                 e.printStackTrace();
                             }
+                            SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                         }
 
                         @Override
@@ -265,11 +299,22 @@ public class ContactModelImpl implements IContactModel {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                sb.append("\n\n"+e.getMessage());
+                                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                             }
+                        }
+
+                        @Override
+                        public void onError(Call call, Response response, Exception e) {
+                            super.onError(call, response, e);
+                            sb.append("\n\n"+e.getMessage());
+                            SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                         }
                     });
         } catch (Exception e) {
             e.printStackTrace();
+            sb.append("\n\n"+e.getMessage());
+            SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
         }
 
     }

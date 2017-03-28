@@ -1,5 +1,6 @@
 package com.zondy.jwt.jwtmobile.view;
 
+import com.zondy.jwt.jwtmobile.entity.EntityPoiType;
 import com.zondy.jwt.jwtmobile.entity.EntityTCFL;
 
 import java.util.List;
@@ -10,5 +11,5 @@ import java.util.List;
 
 public interface ISearchTCFLView {
     void queryTCFLSuccessed(List<EntityTCFL> tcfls);
-    void queryTCFLUnSuccessed();
+    void queryTCFLUnSuccessed(Exception e);
 }

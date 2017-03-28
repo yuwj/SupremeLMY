@@ -48,7 +48,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/iv_zzjg"
-            android:text="阜宁县公安局"
+            android:text="淮安市公安局"
             android:textColor="#333333"
             android:textSize="16sp"/>
 

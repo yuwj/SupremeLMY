@@ -69,9 +69,18 @@
             android:name=".view.impl.SearchActivity"
             android:launchMode="singleTop"
             android:theme="@style/CollapsingToolbarTheme" />
+
         <activity
             android:name=".view.impl.ScrollActivityResult"
             android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
+            android:name=".view.impl.SearchInputActivityYuwj"
+            android:launchMode="singleTop"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
+            android:name=".view.impl.SearchResultListActivity"
+            android:launchMode="singleTop"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.MainActivity"
@@ -202,7 +211,7 @@
             android:theme="@style/CollapsingToolbarTheme" />
 
         <service
-            android:name=".service.GPSService"
+            android:name=".service.PollService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -251,9 +260,24 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".view.impl.NoticeListActivity" />
-        <activity android:name=".view.impl.NoticeDetailActivity" />
-        <activity android:name=".view.impl.MainWithGridActivity"></activity>
+        <!-- 通知通告-->
+        <activity android:name=".view.impl.NoticeListActivity"
+            android:theme="@style/CollapsingToolbarTheme"  />
+        <activity android:name=".view.impl.NoticeDetailActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity android:name=".view.impl.NoticeFeedbackActivity"
+            android:theme="@style/CollapsingToolbarTheme"  />
+
+        <!--布防布控-->
+        <activity android:name=".view.impl.BufbkListActivity"
+            android:theme="@style/CollapsingToolbarTheme"  />
+        <activity android:name=".view.impl.BufbkDetailActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity android:name=".view.impl.BufbkFeedbackActivity"
+            android:theme="@style/CollapsingToolbarTheme"  />
+
+        <activity android:name=".view.impl.MainWithGridActivity"
+            android:theme="@style/CollapsingToolbarTheme" ></activity>
     </application>
 
 </manifest>

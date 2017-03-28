@@ -4,14 +4,22 @@ package com.zondy.jwt.jwtmobile.model.impl;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
+import com.zondy.jwt.jwtmobile.callback.IGPSUploadCallback;
 import com.zondy.jwt.jwtmobile.callback.ILoginCallback;
+import com.zondy.jwt.jwtmobile.callback.IQueryUnacceptBufbkIdsCallback;
+import com.zondy.jwt.jwtmobile.callback.IUpdateDLSSXXCallback;
+import com.zondy.jwt.jwtmobile.callback.IUpdatePasswordCallback;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.ILoginModel;
+import com.zondy.jwt.jwtmobile.util.GsonUtil;
+import com.zondy.jwt.jwtmobile.util.SDCardUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -68,6 +76,160 @@ public class LoginModelImpl implements ILoginModel {
                     }else {
                         loginCallback.loginUnSuccessed((String) response);
                     }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void uploadGPS(String username, String simid, double longitude, double latitude, final IGPSUploadCallback gpsUploadCallback) {
+        final StringBuffer sb = new StringBuffer();
+        final String url = UrlManager.getSERVER() + UrlManager.uploadGPS;
+        sb.append("\n\nurl:"+url);
+        JSONObject param=new JSONObject();
+        try {
+            param.put("username",username);
+            param.put("simid",simid);
+            param.put("longitude",longitude);
+            param.put("latitude",latitude);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        sb.append("\n\nparam:"+param);
+        try {
+            OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
+                    .build().execute(new Callback<String>() {
+                @Override
+                public String parseNetworkResponse(Response response, int id) throws Exception {
+
+
+                    String string=response.body().string();
+                    sb.append("\n\nresponse:"+string);
+                    JSONObject object=new JSONObject(string);
+                    int resultCode=object.optInt("result");
+                    String msg=object.optString("message");
+                    switch (resultCode){
+                        case 1:
+                            return msg;
+                        default:
+                            throw new Exception(msg);
+                    }
+                }
+
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    sb.append("\n\nresponse error:"+e.getMessage());
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    gpsUploadCallback.uploadFail(e);
+                }
+
+                @Override
+                public void onResponse(String response, int id) {
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    gpsUploadCallback.uploadSuccess();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateDLSSXX(String username, String simid, final IUpdateDLSSXXCallback updateDLSSXXCallback) {
+        final StringBuffer sb = new StringBuffer();
+        final String url = UrlManager.getSERVER() + UrlManager.uploadDlxx;
+        sb.append("\n\nurl:"+url);
+        JSONObject param=new JSONObject();
+        try {
+            param.put("username",username);
+            param.put("simid",simid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }sb.append("\n\n param:"+param.toString());
+        try {
+            OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
+                    .build().execute(new Callback<String>() {
+                @Override
+                public String parseNetworkResponse(Response response, int id) throws Exception {
+                    String string=response.body().string();
+                    sb.append("\n\n resp:"+string);
+                    JSONObject object=new JSONObject(string);
+                    int resultCode=object.optInt("result");
+                    String msg=object.optString("message");
+                    switch (resultCode){
+                        case 1:
+                            return msg;
+                        default:
+                            throw new Exception(msg);
+                    }
+                }
+
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    sb.append("\n\n resp error:"+e.getMessage());
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    updateDLSSXXCallback.updateFail(e);
+                }
+
+                @Override
+                public void onResponse(String response, int id) {
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    updateDLSSXXCallback.updateSuccess();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void queryUnacceptBufbkIds(String xingm, final IQueryUnacceptBufbkIdsCallback queryUnacceptBufbkIdsCallback) {
+        final StringBuffer sb = new StringBuffer();
+        final String url = UrlManager.getSERVER() + UrlManager.queryUnacceptBufbkIds;
+        sb.append("\n\n url:"+url);
+        final JSONObject param=new JSONObject();
+        try {
+            param.put("xingm",xingm);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        sb.append("\n\n param:"+param.toString());
+        try {
+            OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
+                    .build().execute(new Callback<List<String>>() {
+                @Override
+                public List<String> parseNetworkResponse(Response response, int id) throws Exception {
+                    String string=response.body().string();
+                    sb.append("\n\n resp:"+string);
+                    JSONObject object=new JSONObject(string);
+                    int resultCode=object.optInt("result");
+                    String msg=object.optString("message");
+                    switch (resultCode){
+                        case 1:
+                            String res = object.optString("unaccptBufbkIds");
+                            List<String> unaccptBufbkIds = GsonUtil.json2BeanList(res,String.class);
+                            return unaccptBufbkIds;
+                        default:
+                            throw new Exception(msg);
+                    }
+                }
+
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    sb.append("\n\n resp error:"+e.getMessage());
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    queryUnacceptBufbkIdsCallback.queryUnacceptBufbkIdsFail(e);
+                }
+
+                @Override
+                public void onResponse(List<String> response, int id) {
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    queryUnacceptBufbkIdsCallback.queryUnacceptBufbkIdsSuccess(response);
                 }
             });
         } catch (Exception e) {

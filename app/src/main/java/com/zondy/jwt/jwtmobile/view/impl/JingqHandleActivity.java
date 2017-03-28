@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,8 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
     TextView tv_confirm_handle;// 确认处理
     @BindView(R.id.rv_media)
     RecyclerView rv_media;
+    @BindView(R.id.ll_add_img_indicator)
+    LinearLayout ll_add_img_indicator;
     public final int imgCountLimit = 4;
 
     EntityJingq entityJingq;
@@ -175,6 +178,8 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
         updateJingqView(entityJingq);
         rv_media.setLayoutManager(new GridLayoutManager(context, 4));
         rv_media.setAdapter(adapterImages);
+        ll_add_img_indicator.setVisibility(View.GONE);
+        tv_add_media.setVisibility(View.GONE);
     }
 
 
@@ -397,7 +402,7 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
 
     @Override
     public void handleJingqSuccess(EntityJingq jingq) {
-
+        dismissLoadingDialog();
         ToastTool.getInstance().shortLength(context, "处理成功", true);
         startActivity(JingqDetailWithHandledActivity2.createIntent(context,jingq));
         this.finish();
@@ -405,6 +410,7 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
 
     @Override
     public void handleJingqFalied(Exception e) {
+        dismissLoadingDialog();
         ToastTool.getInstance().shortLength(context, "处理失败," + e.getMessage(), true);
     }
 
@@ -509,6 +515,7 @@ public class JingqHandleActivity extends BaseActivity implements IJingqhandleVie
                 String jh = user.getUserName();
                 String simid = CommonUtil.getDeviceId(context);
                 jingqHandlePresenter.jingqHandle(jingyid, jingqid, chuljg, ajlb, ajlx, ajxl, "", filesPath, jh, simid);
+                showLoadingDialog("正在提交...");
                 break;
             case R.id.tv_add_media:
                 //==========================

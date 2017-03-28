@@ -8,8 +8,8 @@ import com.lzy.okgo.cache.CacheEntity;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.log.LoggerInterceptor;
 import com.zondy.jwt.jwtmobile.global.Constant;
-import com.zondy.jwt.jwtmobile.manager.GPSLocationManager;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
+import com.zondy.jwt.jwtmobile.util.CrashHandler;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 
 import java.util.concurrent.TimeUnit;
@@ -28,13 +28,14 @@ import okhttp3.OkHttpClient;
 
 public class MyApplication extends Application {
     public final static boolean IS_PRODUCT_ENVIRONMENT = true;
-    public final static boolean IS_TEST_JINGQLIST = true;
+    public final static boolean IS_TEST_JINGQLIST = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-
+        CrashHandler crashHandler = CrashHandler.getInstance();// 设置全局未捕获异常记录
+        crashHandler.init(getApplicationContext());// 初始化全局未捕获异常
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new LoggerInterceptor("sheep", true))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
@@ -43,7 +44,6 @@ public class MyApplication extends Application {
 
         OkHttpUtils.initClient(okHttpClient);
         initIpAndPort();
-        GPSLocationManager.getInstance(this, 2, 0).startLocation();//开启GPS定位服务
 
         Realm.init(this);
         RealmConfiguration realmConfiguration=new RealmConfiguration.Builder().name("JWTLMY.realm").deleteRealmIfMigrationNeeded().build();
@@ -109,6 +109,12 @@ public class MyApplication extends Application {
                     .equals(Constant.JWT_AREA_TEST)) {
                 defaultIps[0] = "192.168.10.217";
                 defaultIps[1] = "8080";
+                defaultIps[2] = "192.168.10.217";
+                defaultIps[3] = "5222";
+            }  else if (Constant.JWT_AREA_SELECTED
+                    .equals(Constant.JWT_AREA_HA)) {
+                defaultIps[0] = "127.0.0.1";
+                defaultIps[1] = "7000/whzd";
                 defaultIps[2] = "192.168.10.217";
                 defaultIps[3] = "5222";
             } else {

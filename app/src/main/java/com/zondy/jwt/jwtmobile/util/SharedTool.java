@@ -156,6 +156,7 @@ public class SharedTool {
         entityUser.setRoleId(preferences.getString("roleId", ""));
         entityUser.setSsxq(preferences.getString("ssxq", ""));
         entityUser.setZzjgmc(preferences.getString("zzjgmc", ""));
+        entityUser.setZzjgdm(preferences.getString("zzjgdm", ""));
         entityUser.setPhone(preferences.getString("phone", ""));
         entityUser.setUserPhotoUrl(preferences.getString("userPhotoUrl", "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3362323298,2919159828&fm=23&gp=0.jpg"));
         return entityUser;

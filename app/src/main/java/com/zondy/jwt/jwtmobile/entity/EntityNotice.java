@@ -1,6 +1,11 @@
 package com.zondy.jwt.jwtmobile.entity;
 
+import android.text.TextUtils;
+
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,17 +14,22 @@ import java.util.List;
 
 public class EntityNotice implements Serializable {
 
-    public static final int NOTICE_TYPE_TONGZGG= 1;//通知公告
-    public static final int NOTICE_TYPE_BUK= 2;//布控
+    public static final int NOTICE_TYPE_TONGZGG = 1;//通知公告
+    public static final int NOTICE_TYPE_BUK = 2;//布控
 
 
     String id;
     String title;
+    @SerializedName("messageType")
     int type;
+    @SerializedName("message")
     String content;
+    @SerializedName("tssj")
     String time;
-    List<String> filePaths;
-    List<EntityFeedback> feedbacks;
+    @SerializedName("dmtlj")
+    String mediaPaths;
+    List<String> filePaths;//通知的多媒体信息
+    List<EntityFeedback> feedbacks;//反馈信息集合.
 
     public String getId() {
         return id;
@@ -54,7 +64,16 @@ public class EntityNotice implements Serializable {
     }
 
     public List<String> getFilePaths() {
-        return filePaths;
+        List<String> datas = new ArrayList<>();
+        if (!TextUtils.isEmpty(mediaPaths)) {
+            String[] d = mediaPaths.split(",");
+            if (d != null && d.length > 0) {
+                for (String s : d) {
+                    datas.add(s);
+                }
+            }
+        }
+        return datas;
     }
 
     public void setFilePaths(List<String> filePaths) {

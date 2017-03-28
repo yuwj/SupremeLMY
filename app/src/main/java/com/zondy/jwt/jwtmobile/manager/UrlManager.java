@@ -27,6 +27,7 @@ public class UrlManager {
     public static String receiveJingqingConfirm = "/ConfirmArrive!confirmReceiveJingqing";// 接收警情确认
     public static String receiveJingqingReBack = "/ConfirmArrive!reBackJingqing";// 回退警情确认
     public static String handleJingqing = "/HandleJQCLXX!handleJqxx";// 处理警情
+    public static String queryUnacceptJingqCount = "/QueryJQ!queryUnacceptJingqCount";// 查询未接收警情数量
     public static String handleJingqingWithZJG = "/HandleJQCLXX!handleJqxx_ZJG";// 处理张家港警情
     public static String queryJingqingByCondition = "/QueryJQ!queryJingqListByCondition2";// 根据不同条件查询警情
     public static String queryXiectsxxDetailByID = "xxxxxxxxxxxxx";// 查询协查推送信息详情
@@ -36,6 +37,20 @@ public class UrlManager {
     public static String sendJingq = "/HandleJQXX!saveJQXX";// 发送警情
     public static String getIdentifyCardInfo = "/QueryPeople!queryRyxxBySfzhm";// 获取身份证信息
     public static String uploadMedia = "/UploadMedia!saveMedia";// 上传多媒体信息
+    //===========通知通告===============
+    public static String queryNoticeDatas = "/Tuisxx!queryTuisxxDatasByType";//推送信息列表
+    public static String queryNoticeFeedbackDatas = "/Tuisxx!queryFKXXDatasByTuisxxID";//推送信息反馈信息列表
+    public static String NoticeFeedback = "/Tuisxx!addTuisxxFKXX";//推送信息反馈
+    //===========布防布控===============
+    public static String queryBufbkDatas = "/Bufbk!queryEffectiveBufbkDatas";//布防布控信息列表
+    public static String queryBufbkFeedbackDatas = "/Bufbk!queryFankxxDatasByBufbkId";//布防布控反馈信息列表
+    public static String addBufbkFankxx = "/Bufbk!addBufbkFankxx";//布控信息反馈
+    public static String queryUnacceptBufbkIds = "/Bufbk!queryUnacceptBufbkIds";//查询未接收的布控信息id集合
+    public static String queryUnacceptBufbkCount = "/Bufbk!queryUnacceptBufbkCount";//查询未接收的布控信息数量
+
+
+
+
 
     public static String queryWangba = "/ZhongheQuery!queryWangba";// 查询网吧信息
     public static String queryLvdian = "/ZhongheQuery!queryLvdian";// 查询旅店信息

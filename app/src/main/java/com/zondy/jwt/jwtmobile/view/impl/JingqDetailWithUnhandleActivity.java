@@ -319,15 +319,15 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
                 String longitude = "120";
                 String latitude = "31";
                 jingqHandlePresenter.arriveConfirm(jingyid, jingqid, longitude, latitude, jh, simid);
-                showLoadingDialog();
+                showLoadingDialog("到场确认中...");
                 break;
             case R.id.btn_accept:
                 jingqHandlePresenter.acceptJingq(jingqid, carid, jh, simid);
-                showLoadingDialog();
+                showLoadingDialog("接警中...");
                 break;
             case R.id.btn_reback:
                 jingqHandlePresenter.rollbackJingq(jingqid, jh, simid);
-                showLoadingDialog();
+                showLoadingDialog("回退中...");
                 break;
         }
     }
