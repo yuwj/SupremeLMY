@@ -8,6 +8,9 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -104,7 +108,6 @@ public class MainActivity extends BaseActivity implements ISettingView {
 
 
     private void initParams() {
-
         mapManager = new MapManager(mapView, context);
         mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
             @Override
@@ -177,7 +180,8 @@ public class MainActivity extends BaseActivity implements ISettingView {
                     return;
                 }
                 if ("数据采集".equals(menuTxt)) {
-                    ToastTool.getInstance().shortLength(context, menuTxt, true);
+                    ShujcjActivity.actionStart(MainActivity.this);
+                    etSearch.clearFocus();
                     return;
                 }
             }
