@@ -87,6 +87,7 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
                 @Override
                 public List<EntityJingq> parseNetworkResponse(Response response, int id) throws Exception {
                     String string = response.body().string();
+                    sb.append("\n\n resp:"+string);
                     JSONObject object = new JSONObject(string);
                     int resultCode = object.optInt("result");
                     msg = object.optString("message");

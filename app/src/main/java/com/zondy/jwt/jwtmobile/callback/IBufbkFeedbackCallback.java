@@ -9,6 +9,6 @@ import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
 
 public interface IBufbkFeedbackCallback {
 
-    public void bufbkFeedbackSuccess(EntityBufbkFeedback entityFeedback);
+    public void bufbkFeedbackSuccess();
     public void bufbkFeedbackFail(Exception e);
 }

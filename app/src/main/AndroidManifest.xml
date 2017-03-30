@@ -75,11 +75,15 @@
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
-            android:name=".view.impl.SearchInputActivityYuwj"
+            android:name=".view.impl.CompositeSearchMainActivity"
             android:launchMode="singleTop"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
-            android:name=".view.impl.SearchResultListActivity"
+            android:name=".view.impl.CompositeSearchInputActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
+            android:name=".view.impl.CompositeSearchResultListActivity"
             android:launchMode="singleTop"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity

@@ -8,6 +8,6 @@ import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
  */
 
 public interface IBufbkFeedbackView {
-    public void feedbackSuccess(EntityBufbkFeedback entityFeedback);
-    public void feedbackFalied(Exception e);
+    public void feedbackSuccess();
+    public void feedbackFali(Exception e);
 }

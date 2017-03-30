@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.entity.EntityLocation;
+import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.mapgis.android.annotation.Annotation;
 import com.zondy.mapgis.android.annotation.AnnotationView;
 import com.zondy.mapgis.android.annotation.AnnotationsOverlay;
@@ -29,7 +30,7 @@ import java.util.List;
 public class MapManager {
     MapView mapView;
     Context context;
-    public static final double goodResolution = 2.0839483373047303;//地图展现比较好的分辨率
+    public static double goodResolution = 0.00001;//地图展现比较好的分辨率
 
     public MapManager(MapView mapView, Context context) {
         this.mapView = mapView;
@@ -188,9 +189,9 @@ public class MapManager {
                 R.layout.content_anno, null);
         TextView tv = (TextView) view.findViewById(R.id.tv_value);
         if(isSelected){
-            view.setBackground(context.getResources().getDrawable(R.drawable.ic_position_red_type2));
+            view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_position_red_type2));
         }else{
-            view.setBackground(context.getResources().getDrawable(R.drawable.ic_position_blue_type2));
+            view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_position_blue_type2));
         }
 
         switch (type) {
@@ -257,8 +258,20 @@ public class MapManager {
         }
         if(location != null){
             ToastTool.getInstance().shortLength(context,"更新位置",true);
-            double[] xy = lonLat2Mercator(location.getLongitude(),location.getLatitude());
-            Dot dot = new Dot(xy[0],xy[1]);
+            Dot dot = null;
+            switch (Constant.JWT_AREA_SELECTED){
+                case Constant.JWT_AREA_HA:
+                    dot = new Dot(location.getLongitude(),location.getLatitude());
+                    break;
+                case Constant.JWT_AREA_WH:
+                    double[] xy = lonLat2Mercator(location.getLongitude(),location.getLatitude());
+                    dot = new Dot(xy[0],xy[1]);
+                    break;
+                default:
+                    dot = new Dot(location.getLongitude(),location.getLatitude());
+                    break;
+            }
+
 
             graphicImageCurrentPosition.setPoint(dot);
             graphicImageCurrentPosition.setRotateAngle(location.getBearing());

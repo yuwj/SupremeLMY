@@ -200,7 +200,7 @@ public class ScrollActivityResult extends BaseActivity implements ISearchZHCXLis
 
     private void initView() {
         mapManager = new MapManager(mapview, context);
-        mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
+        mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
             @Override
             public void onMapLoadSuccess() {
 

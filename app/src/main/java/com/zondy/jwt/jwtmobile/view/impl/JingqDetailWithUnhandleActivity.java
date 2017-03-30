@@ -117,7 +117,7 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
             }
         });
         mapManager = new MapManager(mapview, context);
-        mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
+        mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
             @Override
             public void onMapLoadSuccess() {
                 Log.i("xxxx", "" + entityJingq.getLongitude());

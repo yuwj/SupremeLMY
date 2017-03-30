@@ -25,6 +25,7 @@ public class EntityPage {
     public EntityPage() {
         this.pageNo = 1;
         this.pageSize = DEFAULT_PAGE_SIZE;
+        this.totalPages = 100;
     }
 
     public EntityPage(int pageNo, int pageSize) {

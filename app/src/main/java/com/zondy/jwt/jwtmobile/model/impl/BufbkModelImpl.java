@@ -7,6 +7,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
+import com.zondy.jwt.jwtmobile.callback.IAcceptBufbkCallback;
 import com.zondy.jwt.jwtmobile.callback.IBufbkFeedbackCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryBufbkDetailCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryBufbkListCallback;
@@ -38,6 +39,61 @@ import okhttp3.Response;
 
 public class BufbkModelImpl implements IBufbkModel {
     String tag = this.getClass().getSimpleName();
+
+    @Override
+    public void acceptBufbk(String jh, String simid, String xingm, final IAcceptBufbkCallback acceptBufbkCallback) {
+        final String url = UrlManager.getSERVER() + UrlManager.acceptBufbk;
+        final StringBuffer sb = new StringBuffer();
+        sb.append("\n\nurl:"+url);
+        JSONObject param=new JSONObject();
+        try {
+            param.put("jh",jh);
+            param.put("simid",simid);
+            param.put("xingm",xingm);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        sb.append("\n\n param:"+param.toString());
+        try {
+            OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
+                    .build().execute(new Callback<Boolean>() {
+                @Override
+                public Boolean parseNetworkResponse(Response response, int id) throws Exception {
+                    String string=response.body().string();
+                    sb.append("\n\n response:"+string);
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    JSONObject object=new JSONObject(string);
+                    int resultCode=object.optInt("result");
+                    String msg=object.optString("message");
+                    switch (resultCode){
+                        case 1:
+
+                            boolean acceptBufbkResult = object.optBoolean("acceptBufbkResult");
+                            return  acceptBufbkResult;
+                        default:
+                            throw new Exception(msg);
+                    }
+                }
+
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    acceptBufbkCallback.acceptBufbkFailed(e);
+                    sb.append("\n\n responese:"+e.getMessage());
+
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                }
+
+                @Override
+                public void onResponse(Boolean response, int id) {
+                    SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                    acceptBufbkCallback.acceptBufbkSuccess();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void queryBufbkList(String jh, String simid,String xingm,int pageSize,int pageNo, final IQueryBufbkListCallback queryBufbkListCallback) {
@@ -195,11 +251,9 @@ public class BufbkModelImpl implements IBufbkModel {
                             object = new JSONObject(s);
                             int resultCode=object.optInt("result");
                             String msg=object.optString("message");
-                            String bufbkDetailStr = object.optString("bufbkFankxx");
                             switch (resultCode){
                                 case 1:
-                                    EntityBufbkFeedback data = GsonUtil.json2Bean(bufbkDetailStr, EntityBufbkFeedback.class);
-                                    bufbkFeedback.bufbkFeedbackSuccess(data);
+                                    bufbkFeedback.bufbkFeedbackSuccess();
                                 default:
                                     bufbkFeedback.bufbkFeedbackFail(new Exception(msg));
                             }
@@ -258,7 +312,7 @@ public class BufbkModelImpl implements IBufbkModel {
                     JSONObject object=new JSONObject(string);
                     int resultCode=object.optInt("result");
                     String msg=object.optString("message");
-                    int count = object.optInt("count");
+                    int count = object.optInt("unacceptBufbkCount");
                     switch (resultCode){
                         case 1:
                             return count;

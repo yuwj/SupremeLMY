@@ -39,7 +39,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_police_hat"/>
+            android:src="@drawable/ic_contact_zzjg"/>
 
         <TextView
             android:id="@+id/tv_zzjg"
@@ -49,6 +49,8 @@
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/iv_zzjg"
             android:text="淮安市公安局"
+            android:lines="1"
+            android:ellipsize="end"
             android:textColor="#333333"
             android:textSize="16sp"/>
 
@@ -58,7 +60,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            app:cardCornerRadius="4dp">
+            app:cardCornerRadius="2dp">
 
             <RelativeLayout
                 android:id="@+id/rl_choose_zzjg"

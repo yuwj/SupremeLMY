@@ -24,6 +24,7 @@ import com.zondy.jwt.jwtmobile.entity.EntityJingq;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.presenter.IJingqHandlePresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.JingqHandlePresenterImpl;
+import com.zondy.jwt.jwtmobile.ui.DividerItemDecoration;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
@@ -205,7 +206,7 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
         });
 
         rlJingqdatas.setAdapter(adapterJingqList);
-        rlJingqdatas.addItemDecoration(new SimpleDividerDecoration(context));
+        rlJingqdatas.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
         adapterJingqList.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {

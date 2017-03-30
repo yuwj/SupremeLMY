@@ -21,8 +21,14 @@ import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityBufbkFeedback;
 import com.zondy.jwt.jwtmobile.entity.EntityBufbk;
+import com.zondy.jwt.jwtmobile.entity.EntityUser;
+import com.zondy.jwt.jwtmobile.presenter.IBufbkPresenter;
+import com.zondy.jwt.jwtmobile.presenter.impl.BufbkPresenter;
 import com.zondy.jwt.jwtmobile.ui.DividerItemDecoration;
 import com.zondy.jwt.jwtmobile.ui.FullyGridLayoutManager;
+import com.zondy.jwt.jwtmobile.util.CommonUtil;
+import com.zondy.jwt.jwtmobile.util.SharedTool;
+import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.IBufbkDetailView;
 
 import java.util.ArrayList;
@@ -46,13 +52,27 @@ public class BufbkDetailActivity extends BaseActivity implements IBufbkDetailVie
     RecyclerView rvFeedbackInfo;
     List<EntityBufbkFeedback> feedbackDatas;
     CommonAdapter<EntityBufbkFeedback> feedbackAdapter;
+    IBufbkPresenter bufbkPresenter;
+    EntityUser userInfo;
 
+    /**
+     * 从列表中点进来
+     * @param context
+     * @param entityBufbk
+     * @return
+     */
     public static Intent createIntent(Context context, EntityBufbk entityBufbk) {
         Intent intent = new Intent(context, BufbkDetailActivity.class);
         intent.putExtra("entityBufbk", entityBufbk);
         return intent;
     }
 
+    /**
+     * 从通知中点进来
+     * @param context
+     * @param bufbkId
+     * @return
+     */
     public static Intent createIntent(Context context, String bufbkId) {
         Intent intent = new Intent(context, BufbkDetailActivity.class);
         intent.putExtra("bufbkId", bufbkId);
@@ -75,6 +95,21 @@ public class BufbkDetailActivity extends BaseActivity implements IBufbkDetailVie
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if((EntityBufbk.jszt_unaccept+"").equals(entityBufbk.getJszt()) ){
+            bufbkPresenter.acceptBufbk(userInfo.getUserName(), CommonUtil.getDeviceId(context),userInfo.getCtname());
+            showLoadingDialog("正在加载...");
+        }
+
+    }
+
+    public void queryBufbkFeedbackDatas(){
+        bufbkPresenter.queryBufbkFeedbackDatas(userInfo.getUserName(),CommonUtil.getDeviceId(context),entityBufbk.getId());
+        showLoadingDialog("正在加载...");
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         new MenuInflater(context).inflate(R.menu.toolbar_bufbk_feedback,menu);
         return true;
@@ -92,6 +127,8 @@ public class BufbkDetailActivity extends BaseActivity implements IBufbkDetailVie
     }
 
     public void initParam() {
+        userInfo = SharedTool.getInstance().getUserInfo(context);
+        bufbkPresenter = new BufbkPresenter(this);
         Intent intent = getIntent();
         entityBufbk = (EntityBufbk) intent.getSerializableExtra("entityBufbk");
         feedbackDatas = new ArrayList<>();
@@ -148,17 +185,33 @@ public class BufbkDetailActivity extends BaseActivity implements IBufbkDetailVie
     }
 
     public void initOperator() {
-
+        queryBufbkFeedbackDatas();
     }
 
     @Override
-    public void queryBufbkDetailSuccess(EntityBufbk entityBufbk) {
-
+    public void queryBufbkFeedbacksSuccess(List<EntityBufbkFeedback> entityBufbkFeedbacks) {
+        dismissLoadingDialog();
+        feedbackDatas.clear();
+        feedbackDatas.addAll(entityBufbkFeedbacks);
+        feedbackAdapter.notifyDataSetChanged();
     }
 
     @Override
-    public void queryBufbkDetailFail(Exception e) {
+    public void queryBufbkFeedbacksFail(Exception e) {
+        dismissLoadingDialog();
+        ToastTool.getInstance().shortLength(context,"查询布控反馈信息成功",true);
+    }
 
+    @Override
+    public void acceptBufbkSuccess() {
+        dismissLoadingDialog();
+        ToastTool.getInstance().shortLength(context,"布控信息接收成功",true);
+    }
+
+    @Override
+    public void acceptBufbkFail() {
+        dismissLoadingDialog();
+        ToastTool.getInstance().shortLength(context,"布控信息接收失败",true);
     }
 
     @Override
@@ -167,11 +220,7 @@ public class BufbkDetailActivity extends BaseActivity implements IBufbkDetailVie
 
         switch (requestCode){
             case REQ_CODE_FEEDBACK:
-                EntityBufbkFeedback feedback = (EntityBufbkFeedback) data.getSerializableExtra("entityBufbkFeedback");
-                if(feedback != null){
-                    feedbackDatas.add(feedback);
-                    feedbackAdapter.notifyDataSetChanged();
-                }
+                queryBufbkFeedbackDatas();
                 break;
         }
         }

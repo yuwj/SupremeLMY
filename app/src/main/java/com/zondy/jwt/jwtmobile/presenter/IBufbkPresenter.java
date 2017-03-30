@@ -6,7 +6,8 @@ package com.zondy.jwt.jwtmobile.presenter;
 
 public interface IBufbkPresenter {
     public void queryBufbkList( String jh, String simid, String xingm, int pageSize, int pageNo);
-    public void queryBufbkFeedbackDatas(String jh, String simid, String noticeId);
+    public void queryBufbkFeedbackDatas(String jh, String simid, String bufbkId);
 
     public void feedback(String bufbkId, String jh, String simid,String xingm, String mediaPaths, String feedbackStrInfo);
+    public void acceptBufbk(String jh,String simid, String xingm);
 }

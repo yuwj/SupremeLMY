@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
     private void initParams() {
 
         mapManager = new MapManager(mapView, context);
-        mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
+        mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
             @Override
             public void onMapLoadSuccess() {
                 EntityLocation entityLocation = SharedTool.getInstance().getLocationInfo(context);
@@ -233,7 +233,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
 //                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
 //                startActivity(intent);
 //                etSearch.clearFocus();
-                startActivity(SearchInputActivityYuwj.createIntent(MainActivity.this));
+                startActivity(CompositeSearchInputActivity.createIntent(MainActivity.this));
             }
         });
         etSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -244,7 +244,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
 //                    startActivity(intent);
 //                    etSearch.clearFocus();
 //                }
-                startActivity(SearchInputActivityYuwj.createIntent(MainActivity.this));
+                startActivity(CompositeSearchInputActivity.createIntent(MainActivity.this));
             }
         });
         etSearch.setOnClickListener(new View.OnClickListener() {
@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity implements ISettingView {
 //                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
 //                startActivity(intent);
 //                etSearch.clearFocus();
-                startActivity(SearchInputActivityYuwj.createIntent(MainActivity.this));
+                startActivity(CompositeSearchInputActivity.createIntent(MainActivity.this));
             }
         });
     }

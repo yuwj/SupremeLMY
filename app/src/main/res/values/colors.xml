@@ -7,7 +7,7 @@
     <color name="gray_color_0">#E0E0E0</color><!-- 灰度值：0;灰度值越大，颜色越深-->
     <color name="gray_color_1">#999999</color><!-- 灰度值：1;灰度值越大，颜色越深-->
     <color name="gray_color_2">#666666</color><!-- 灰度值：2;灰度值越大，颜色越深-->
-    <color name="gray_color_2_with_translucence">#88666666</color><!-- 灰度值：2;灰度值越大，颜色越深-->
+    <color name="gray_color_2_with_translucence">#55000000</color><!-- 灰度值：2;灰度值越大，颜色越深-->
     <color name="gray_color_3">#333333</color><!-- 灰度值：3;灰度值越大，颜色越深 -->
 
 

@@ -245,16 +245,14 @@ public class BufbkFeedbackActivity extends BaseActivity implements IBufbkFeedbac
     }
 
     @Override
-    public void feedbackSuccess(EntityBufbkFeedback entityBufbkFeedback) {
+    public void feedbackSuccess() {
         dismissLoadingDialog();
-        Intent intent = new Intent();
-        intent.putExtra("entityBufbkFeedback", entityBufbkFeedback);
-        setResult(RESULT_OK, intent);
+        setResult(RESULT_OK);
         this.finish();
     }
 
     @Override
-    public void feedbackFalied(Exception e) {
+    public void feedbackFali(Exception e) {
         dismissLoadingDialog();
         ToastTool.getInstance().shortLength(context, e.getMessage(), true);
 

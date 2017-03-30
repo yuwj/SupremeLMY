@@ -217,7 +217,7 @@ public class ContactModelImpl implements IContactModel {
 
 
 
-        final String url = UrlManager.getSERVER() + "/ZhongheQuery!queryConnectionByDwdm";
+        final String url = UrlManager.getSERVER() + UrlManager.queryConnectionListByDwdm;
         sb.append("\n\nurl:"+url);
         JSONObject param = new JSONObject();
         try {

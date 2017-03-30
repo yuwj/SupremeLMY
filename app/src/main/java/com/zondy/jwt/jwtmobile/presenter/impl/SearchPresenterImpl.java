@@ -2,14 +2,19 @@ package com.zondy.jwt.jwtmobile.presenter.impl;
 
 import android.content.Context;
 
+import com.zondy.jwt.jwtmobile.callback.IQueryPoiTypesCallback;
+import com.zondy.jwt.jwtmobile.callback.IQueryPoisCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryTCFZListCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryZHCXListCallback;
+import com.zondy.jwt.jwtmobile.entity.EntityPoi;
 import com.zondy.jwt.jwtmobile.entity.EntityPoiType;
 import com.zondy.jwt.jwtmobile.entity.EntitySearchResult;
 import com.zondy.jwt.jwtmobile.entity.EntityTCFL;
 import com.zondy.jwt.jwtmobile.model.ISearchModel;
 import com.zondy.jwt.jwtmobile.model.impl.SearchModelImpl;
 import com.zondy.jwt.jwtmobile.presenter.ISearchPresenter;
+import com.zondy.jwt.jwtmobile.view.ICompositeSearchInputView;
+import com.zondy.jwt.jwtmobile.view.ICompositeSearchResultListView;
 import com.zondy.jwt.jwtmobile.view.ISearchTCFLView;
 import com.zondy.jwt.jwtmobile.view.ISearchZHCXListView;
 
@@ -22,6 +27,8 @@ import java.util.List;
 public class SearchPresenterImpl implements ISearchPresenter{
     private ISearchTCFLView searchTCFLView;
     private ISearchZHCXListView searchZHCXListView;
+    ICompositeSearchInputView compositeSearchInputView;
+    ICompositeSearchResultListView compositeSearchResultListView;
     private ISearchModel searchModel;
     Context context;
     public SearchPresenterImpl(Context context,ISearchTCFLView searchTCFLView){
@@ -33,6 +40,19 @@ public class SearchPresenterImpl implements ISearchPresenter{
     public SearchPresenterImpl(Context context, ISearchZHCXListView searchZHCXListView){
         super();
         this.searchZHCXListView=searchZHCXListView;
+        this.context=context;
+        searchModel=new SearchModelImpl();
+    }
+
+    public SearchPresenterImpl(Context context, ICompositeSearchInputView compositeSearchInputView){
+        super();
+        this.compositeSearchInputView=compositeSearchInputView;
+        this.context=context;
+        searchModel=new SearchModelImpl();
+    }
+    public SearchPresenterImpl(Context context, ICompositeSearchResultListView compositeSearchResultListView){
+        super();
+        this.compositeSearchResultListView=compositeSearchResultListView;
         this.context=context;
         searchModel=new SearchModelImpl();
     }
@@ -75,4 +95,54 @@ public class SearchPresenterImpl implements ISearchPresenter{
             }
         });
     }
+
+    @Override
+    public void queryPoiTypes(String jh, String simid) {
+        searchModel.queryPoiTypes(jh, simid, new IQueryPoiTypesCallback() {
+            @Override
+            public void queryPoiTypesSuccess(List<EntityPoiType> poiTypes) {
+                compositeSearchInputView.queryPoiTypesSuccess(poiTypes);
+            }
+
+            @Override
+            public void queryPoiTypesFail(Exception e) {
+                compositeSearchInputView.queryPoiTypesFail(e);
+            }
+        });
+    }
+
+    @Override
+    public void queryPois(String jh, String simid, String keyword,EntityPoiType poiType, int pageNo, int pageSize) {
+        if(poiType == null){
+            searchModel.queryPois(jh, simid, keyword, null, pageNo, pageSize, new IQueryPoisCallback() {
+                @Override
+                public void queryPoisSuccess(List<EntityPoi> pois) {
+                    compositeSearchResultListView.queryPoisSuccess(pois);
+                }
+
+                @Override
+                public void queryPoisFail(Exception e) {
+                    compositeSearchResultListView.queryPoisFail(e);
+
+                }
+            });
+        }else{
+            searchModel.queryPois(jh, simid, keyword, poiType.getClassCode(), pageNo, pageSize, new IQueryPoisCallback() {
+                @Override
+                public void queryPoisSuccess(List<EntityPoi> pois) {
+                    compositeSearchResultListView.queryPoisSuccess(pois);
+                }
+
+                @Override
+                public void queryPoisFail(Exception e) {
+                    compositeSearchResultListView.queryPoisFail(e);
+
+                }
+            });
+        }
+
+
+    }
+
+
 }

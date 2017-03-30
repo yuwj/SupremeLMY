@@ -1,7 +1,10 @@
 package com.zondy.jwt.jwtmobile.util;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -40,9 +43,9 @@ public class CommonUtil {
                 R.layout.content_anno, null);
         TextView tv = (TextView) view.findViewById(R.id.tv_value);
         if(isSelected){
-            view.setBackground(context.getResources().getDrawable(R.drawable.ic_position_red_type2));
+            view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_position_red_type2));
         }else{
-            view.setBackground(context.getResources().getDrawable(R.drawable.ic_position_blue_type2));
+            view.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.ic_position_blue_type2));
         }
 
         switch (type) {
@@ -64,5 +67,14 @@ public class CommonUtil {
         view.buildDrawingCache();
         Bitmap bitmap = view.getDrawingCache();
         return bitmap;
+    }
+
+    public static String getResourceUri(Context context,int resId){
+        Resources r =context.getResources();
+        Uri uri =  Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+                + r.getResourcePackageName(resId) + "/"
+                + r.getResourceTypeName(resId) + "/"
+                + r.getResourceEntryName(resId));
+        return uri.toString();
     }
 }

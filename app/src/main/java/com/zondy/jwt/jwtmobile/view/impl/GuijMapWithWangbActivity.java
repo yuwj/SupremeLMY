@@ -147,7 +147,7 @@ public class GuijMapWithWangbActivity extends BaseActivity {
 
 
         mapManager = new MapManager(mapView, context);
-        mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
+        mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
             @Override
             public void onMapLoadSuccess() {
                 initOperator();

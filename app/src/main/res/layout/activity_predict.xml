@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/content_toolbar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.zondy.mapgis.android.mapview.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_main_tongxl"
+                android:layout_height="20dp"
+                android:text="定位" />
+
+            <TextView
+                android:id="@+id/tv_zoom_in"
+                android:layout_width="20dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_main_tongxl"
+                android:layout_height="20dp"
+                android:text="放大" />
+
+            <TextView
+                android:id="@+id/tv_zoom_out"
+                android:layout_marginTop="5dp"
+                android:layout_width="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/selector_main_tongxl"
+                android:layout_height="20dp"
+                android:text="缩小" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

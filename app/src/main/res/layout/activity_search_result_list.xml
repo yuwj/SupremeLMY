@@ -22,34 +22,32 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:scaleType="fitXY"
             android:src="@drawable/ic_huijiantou" />
 
         <View
             android:layout_width="1dp"
+            android:layout_marginLeft="5dp"
+
             android:layout_height="match_parent"
-            android:background="@color/gray_color_1"></View>
+            android:background="@color/gray_color_0"></View>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:padding="5dp"
             android:hint="搜索" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_yuanhuix" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:background="@color/gray_color_1"></View>
     </LinearLayout>
 
     <com.yinglan.scrolllayout.ScrollLayout

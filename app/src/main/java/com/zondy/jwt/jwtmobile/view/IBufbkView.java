@@ -14,7 +14,7 @@ import java.util.List;
 public interface IBufbkView {
     void queryBufbkListSuccess(List<EntityBufbk> entityBufbkList);
     void queryBufbkListFail(Exception e);
-    void queryBufbkDetailSuccess(List<EntityBufbkFeedback> entityBufbk);
-    void queryBufbkDetailFail(Exception se);
+//    void queryBufbkDetailSuccess(List<EntityBufbkFeedback> entityBufbk);
+//    void queryBufbkDetailFail(Exception se);
 
 }

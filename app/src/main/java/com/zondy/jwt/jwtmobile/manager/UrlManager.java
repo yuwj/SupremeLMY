@@ -21,6 +21,7 @@ public class UrlManager {
     public static String mapFile = "/mobileInfo/MapGIS.zip";// 地图文件
     public static String queryJingliList = "/QueryZbjl!queryJinglList";// 查询警力列表
     public static String queryConnectionList = "/ZhongheQuery!queryAllConnection";// 查询联系人通讯录
+    public static String queryConnectionListByDwdm = "/ZhongheQuery!queryConnectionByDwdm";// 根据组织机构查询联系人通讯录
     public static String queryJingqList = "/QueryJQ!queryJingqList";// 查询警情列表
     public static String queryJingqByJingqid = "/QueryJQ!queryJingqByJingqid";// 重新加载警情详情
     public static String reachConfirm = "/ConfirmArrive!confirmArrive";// 到场确认
@@ -41,13 +42,18 @@ public class UrlManager {
     public static String queryNoticeDatas = "/Tuisxx!queryTuisxxDatasByType";//推送信息列表
     public static String queryNoticeFeedbackDatas = "/Tuisxx!queryFKXXDatasByTuisxxID";//推送信息反馈信息列表
     public static String NoticeFeedback = "/Tuisxx!addTuisxxFKXX";//推送信息反馈
-    //===========布防布控===============
+    //===========淮安布防布控===============
     public static String queryBufbkDatas = "/Bufbk!queryEffectiveBufbkDatas";//布防布控信息列表
     public static String queryBufbkFeedbackDatas = "/Bufbk!queryFankxxDatasByBufbkId";//布防布控反馈信息列表
     public static String addBufbkFankxx = "/Bufbk!addBufbkFankxx";//布控信息反馈
     public static String queryUnacceptBufbkIds = "/Bufbk!queryUnacceptBufbkIds";//查询未接收的布控信息id集合
     public static String queryUnacceptBufbkCount = "/Bufbk!queryUnacceptBufbkCount";//查询未接收的布控信息数量
-
+    public static String acceptBufbk = "/Bufbk!acceptBufbk";//接收布控信息
+    //===========淮安预测方格===============
+    public static String queryPredict = "/Predict!queryPredict";//预测方格
+    //===========淮安综合搜索===============
+    public static String queryAllPoiTypes = "/CompositeSearch!queryAllPoiTypes";//查询所有poi类型
+    public static String queryAllPois = "/CompositeSearch!queryAllPois";//查询所有poi数据
 
 
 
@@ -137,7 +143,7 @@ public class UrlManager {
 
     public static String guijWithLvg = "/CheckUpdateInfo!checkUpdateInfo";//张三的住宿轨迹
     // ========盘查分析 end========
-    // ========综合查询 start========
+    // ========阜宁综合查询 start========
     public static String zonghcxQueryAddress = "/ZhongheQuery!queryDZJBXXList";// 查询地址信息
     public static String zonghcxQueryAllAddressLayers = "/ZhongheQuery!queryTCFZXX";// 查询所有分类图层
     public static String zhoubssQueryAllAddressLayers = "/ZhongheQuery!queryTCFL";// 周边搜索查询所有分类图层

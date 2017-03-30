@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
+import com.zondy.jwt.jwtmobile.util.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,11 @@ public class SearchResultsItemActivity extends BaseActivity implements ViewPager
         String dh = intent.getStringExtra("DH");
 
         String dmtlj = intent.getStringExtra("dmtlj");
-        dmtljs = dmtlj.split(",");
+        if(dmtlj != null){
+            dmtljs = dmtlj.split(",");
+        }else{
+            dmtljs = new String[]{CommonUtil.getResourceUri(context,R.drawable.timg),CommonUtil.getResourceUri(context,R.drawable.timg)};
+        }
         allpics = dmtljs.length;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_searchresults_item);

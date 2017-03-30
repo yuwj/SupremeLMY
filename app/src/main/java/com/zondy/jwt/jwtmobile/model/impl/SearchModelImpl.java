@@ -6,15 +6,21 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
+import com.zondy.jwt.jwtmobile.callback.IQueryPoiTypesCallback;
+import com.zondy.jwt.jwtmobile.callback.IQueryPoisCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryTCFZListCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryZHCXListCallback;
+import com.zondy.jwt.jwtmobile.entity.EntityPoi;
 import com.zondy.jwt.jwtmobile.entity.EntityPoiType;
+import com.zondy.jwt.jwtmobile.entity.EntityPredict;
 import com.zondy.jwt.jwtmobile.entity.EntitySearchResult;
 import com.zondy.jwt.jwtmobile.entity.EntityTCFL;
 import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.ISearchModel;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
+import com.zondy.jwt.jwtmobile.util.GsonUtil;
+import com.zondy.jwt.jwtmobile.util.SDCardUtil;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 
 import org.json.JSONArray;
@@ -158,6 +164,120 @@ public class SearchModelImpl implements ISearchModel{
                 @Override
                 public void onResponse(List<EntityTCFL> response, int id) {
                     queryTCFZListCallback.querySuccessed(response);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void queryPoiTypes(String jh, String simid, final IQueryPoiTypesCallback queryPoiTypesCallback) {
+        final String url = UrlManager.getSERVER() + UrlManager.queryAllPoiTypes;
+        final StringBuffer sb = new StringBuffer();
+        sb.append("\n\nurl:" + url);
+        JSONObject param = new JSONObject();
+        try {
+            param.put("jh", jh);
+            param.put("simid", simid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        sb.append("\n\n param:" + param.toString());
+        try {
+            OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
+                    .build().execute(new Callback<List<EntityPoiType>>() {
+                @Override
+                public List<EntityPoiType> parseNetworkResponse(Response response, int id) throws Exception {
+                    String string = response.body().string();
+                    sb.append("\n\n response:" + string);
+                    JSONObject object = new JSONObject(string);
+                    int resultCode = object.optInt("result");
+                    String msg = object.optString("message");
+                    switch (resultCode) {
+                        case 1:
+
+                            String str = object.optString("poiTypes");
+                            List<EntityPoiType> data = GsonUtil.json2BeanList(str, EntityPoiType.class);
+                            return data;
+                        default:
+                            throw new Exception(msg);
+                    }
+                }
+
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    sb.append("\n\n response:" + e);
+
+                    SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
+                    queryPoiTypesCallback.queryPoiTypesFail(e);
+
+                }
+
+                @Override
+                public void onResponse(List<EntityPoiType> response, int id) {
+                    SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
+                    queryPoiTypesCallback.queryPoiTypesSuccess(response);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void queryPois(String jh, String simid, String keyword, String poiType, int pageNo, int pageSize, final IQueryPoisCallback queryPoisCallback) {
+        final String url = UrlManager.getSERVER() + UrlManager.queryAllPois;
+        final StringBuffer sb = new StringBuffer();
+        sb.append("\n\nurl:" + url);
+        JSONObject param = new JSONObject();
+        try {
+            param.put("jh", jh);
+            param.put("simid", simid);
+            param.put("keyword", keyword);
+            param.put("poiType", poiType);
+            param.put("pageNo", pageNo);
+            param.put("pageSize", pageSize);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        sb.append("\n\n param:" + param.toString());
+        try {
+            OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
+                    .build().execute(new Callback<List<EntityPoi>>() {
+                @Override
+                public List<EntityPoi> parseNetworkResponse(Response response, int id) throws Exception {
+                    String string = response.body().string();
+                    sb.append("\n\n response:" + string);
+                    JSONObject object = new JSONObject(string);
+                    int resultCode = object.optInt("result");
+                    String msg = object.optString("message");
+                    switch (resultCode) {
+                        case 1:
+
+                            String str = object.optString("pois");
+                            List<EntityPoi> data = GsonUtil.json2BeanList(str, EntityPoi.class);
+                            return data;
+                        default:
+                            throw new Exception(msg);
+                    }
+                }
+
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    sb.append("\n\n response:" + e);
+
+                    SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
+                    queryPoisCallback.queryPoisFail(e);
+
+                }
+
+                @Override
+                public void onResponse(List<EntityPoi> response, int id) {
+                    SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
+                    queryPoisCallback.queryPoisSuccess(response);
                 }
             });
         } catch (Exception e) {

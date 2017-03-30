@@ -119,10 +119,7 @@ public class BufbkListActivity extends BaseActivity implements IBufbkView {
             @Override
             public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
                 selectedEntityBufbk = bufbkDatas.get(position-1);
-                String jh = userInfo.getUserName();
-                String simid = CommonUtil.getDeviceId(context);
-                bufbkPresenter.queryBufbkFeedbackDatas(jh, simid, selectedEntityBufbk.getId());
-                showLoadingDialog("正在加载...");
+                startActivity(BufbkDetailActivity.createIntent(context,selectedEntityBufbk));
             }
 
             @Override
@@ -183,18 +180,4 @@ public class BufbkListActivity extends BaseActivity implements IBufbkView {
         ToastTool.getInstance().shortLength(context, "查询通知列表失败", true);
     }
 
-    @Override
-    public void queryBufbkDetailSuccess(List<EntityBufbkFeedback> entityFeedbacks) {
-        dismissLoadingDialog();
-        selectedEntityBufbk.setFeedbacks(entityFeedbacks);
-
-        ToastTool.getInstance().shortLength(context, "查询通知详情成功", true);
-        startActivity(BufbkDetailActivity.createIntent(context,selectedEntityBufbk));
-    }
-
-    @Override
-    public void queryBufbkDetailFail(Exception se) {
-        dismissLoadingDialog();
-        ToastTool.getInstance().shortLength(context, "查询通知详情失败功", true);
-    }
 }

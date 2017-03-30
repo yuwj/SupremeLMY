@@ -13,7 +13,10 @@ import java.util.List;
  */
 
 public class EntityBufbk implements Serializable {
+    public static final int jszt_unaccept = 0;
+    public static final int jszt_accepted = 1;
 
+    //布控基本信息
     String id;
     String mc;
     String bksy;
@@ -28,6 +31,23 @@ public class EntityBufbk implements Serializable {
     String ckr;
     String cksj;
     String dmtlj;
+
+    //布控实时信息
+    private String kdlx;//number,
+    private String kdmc;//varchar2(50),
+    private String cpz;// varchar2(50),
+    private String sgsj;//date,
+    private String ztlgsj;//varchar2(4000),
+    private String ztdgsj;//varchar2(4000),
+    private String flag;//number,
+    private String x;//;//varchar2(20),
+    private String y;//;//varchar2(20),
+    private String kdlxr;// varchar2(20),//数据库字段 lxr
+    private String kdlxdh;//varchar2(20),//数据库字段 lxdh
+    private String dthm;//varchar2(20),
+    private String sendflag;//varchar2(20),
+    private String xtsj;//date,
+    private String jszt;//number default 0
 
 
     List<String> filePaths;//通知的多媒体信息
@@ -155,6 +175,126 @@ public class EntityBufbk implements Serializable {
 
     public void setZt(String zt) {
         this.zt = zt;
+    }
+
+    public String getCpz() {
+        return cpz;
+    }
+
+    public void setCpz(String cpz) {
+        this.cpz = cpz;
+    }
+
+    public String getDthm() {
+        return dthm;
+    }
+
+    public void setDthm(String dthm) {
+        this.dthm = dthm;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public String getJszt() {
+        return jszt;
+    }
+
+    public void setJszt(String jszt) {
+        this.jszt = jszt;
+    }
+
+    public String getKdlx() {
+        return kdlx;
+    }
+
+    public void setKdlx(String kdlx) {
+        this.kdlx = kdlx;
+    }
+
+    public String getKdlxdh() {
+        return kdlxdh;
+    }
+
+    public void setKdlxdh(String kdlxdh) {
+        this.kdlxdh = kdlxdh;
+    }
+
+    public String getKdlxr() {
+        return kdlxr;
+    }
+
+    public void setKdlxr(String kdlxr) {
+        this.kdlxr = kdlxr;
+    }
+
+    public String getKdmc() {
+        return kdmc;
+    }
+
+    public void setKdmc(String kdmc) {
+        this.kdmc = kdmc;
+    }
+
+    public String getSendflag() {
+        return sendflag;
+    }
+
+    public void setSendflag(String sendflag) {
+        this.sendflag = sendflag;
+    }
+
+    public String getSgsj() {
+        return sgsj;
+    }
+
+    public void setSgsj(String sgsj) {
+        this.sgsj = sgsj;
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
+    public String getXtsj() {
+        return xtsj;
+    }
+
+    public void setXtsj(String xtsj) {
+        this.xtsj = xtsj;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public void setY(String y) {
+        this.y = y;
+    }
+
+    public String getZtdgsj() {
+        return ztdgsj;
+    }
+
+    public void setZtdgsj(String ztdgsj) {
+        this.ztdgsj = ztdgsj;
+    }
+
+    public String getZtlgsj() {
+        return ztlgsj;
+    }
+
+    public void setZtlgsj(String ztlgsj) {
+        this.ztlgsj = ztlgsj;
     }
 
     public List<EntityBufbkFeedback> getFeedbacks() {
