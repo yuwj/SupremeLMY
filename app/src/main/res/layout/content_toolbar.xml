@@ -6,6 +6,7 @@
     android:navigationIcon="@drawable/ic_back_baijiantou"
     app:navigationIcon="@drawable/ic_back_baijiantou"
     android:background="@color/colorPrimary"
+    app:popupTheme="@style/OverflowMenuStyle"
     android:layout_height="50dp">
 
     <TextView

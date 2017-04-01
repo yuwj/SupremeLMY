@@ -5,19 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
-import com.zondy.jwt.jwtmobile.entity.EntityJingq;
+import com.zondy.jwt.jwtmobile.entity.EntityPredictGridInfo;
 import com.zondy.jwt.jwtmobile.entity.EntityLocation;
+import com.zondy.jwt.jwtmobile.entity.EntityPred;
 import com.zondy.jwt.jwtmobile.entity.EntityPredict;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.global.Constant;
@@ -65,14 +70,21 @@ public class PredictActivity extends BaseActivity implements IPredictView {
     @BindView(R.id.tv_zoom_out)
     TextView tvZoomOut;
 
+    String predictId = "91";
+
+    public static Intent createIntent(Context context) {
+        Intent intent = new Intent(context, PredictActivity.class);
+        return intent;
+    }
+
     @Override
     public int setCustomContentViewResourceId() {
         return R.layout.activity_predict;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initParam();
         initView();
         initOperator();
@@ -90,6 +102,23 @@ public class PredictActivity extends BaseActivity implements IPredictView {
         unregisterBroadcast();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_predict_refresh, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.predict_refresh:
+                showLoadingDialog("正在加载...");
+                predictPresenter.queryPredict(userInfo.getUserName(), CommonUtil.getDeviceId(context), predictId);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     BroadcastReceiver locationSuccessReceiver;//接收定位成功的广播
 
@@ -117,14 +146,16 @@ public class PredictActivity extends BaseActivity implements IPredictView {
         userInfo = SharedTool.getInstance().getUserInfo(context);
         predictPresenter = new PredictPresenterImpl(this);
 
-    }
-
-    void initView() {
         mapManager = new MapManager(mapView, context);
         mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
             @Override
             public void onMapLoadSuccess() {
-
+                EntityLocation userLocation = SharedTool.getInstance().getLocationInfo(context);
+                if (userLocation != null) {
+                    mapManager.updateUserLocation(userLocation);
+//                    mapView.zoomToCenter(new Dot(userLocation.getLongitude(), userLocation.getLatitude()), MapManager.goodResolution, false);
+                    mapView.refresh();
+                }
             }
 
             @Override
@@ -147,10 +178,10 @@ public class PredictActivity extends BaseActivity implements IPredictView {
                 TextView tv_baojnr = (TextView) contentView.findViewById(R.id.tv_baojnr);
                 TextView tv_baojr = (TextView) contentView.findViewById(R.id.tv_baojr);
                 TextView tv_annotation_dismiss = (TextView) contentView.findViewById(R.id.tv_annotation_dismiss);
-                EntityPredict.EntityPred jingq = GsonUtil.json2Bean(annotation.getDescription(), EntityPredict.EntityPred.class);
-                tv_baojsj.setText("" + jingq.getCrimeGroupId());
-                tv_baojnr.setText("" + jingq.getGridNum());
-                tv_baojr.setText("" + jingq.getIntervalUpper());
+                EntityPred pred = GsonUtil.json2Bean(annotation.getDescription(), EntityPred.class);
+                tv_baojsj.setText("" + pred.getCrimeGroupId());
+                tv_baojnr.setText("" + pred.getGridNum());
+//                tv_baojr.setText("" + pred.getIntervalUpper());
                 tv_annotation_dismiss.setOnClickListener(new View.OnClickListener() {
                                                              @Override
                                                              public void onClick(View v) {
@@ -173,35 +204,49 @@ public class PredictActivity extends BaseActivity implements IPredictView {
                 return annotationView;
             }
         });
+
+    }
+
+    void initView() {
+        initActionBar(toolbar, tvTitle, "方格预测");
+
     }
 
     void initOperator() {
-        String predictId = 91 + "";
+        showLoadingDialog("正在加载...");
         predictPresenter.queryPredict(userInfo.getUserName(), CommonUtil.getDeviceId(context), predictId);
     }
 
     @Override
     public void queryPredictSuccess(EntityPredict predict) {
+        dismissLoadingDialog();
         if (predict != null) {
             mapView.getGraphicsOverlay().removeAllGraphics();
             mapView.getAnnotationsOverlay().removeAllAnnotations();
-            List<EntityPredict.EntityPred> entityPreds = predict.getPredResults();
+            List<EntityPred> entityPreds = predict.getPredResults();
             if (entityPreds != null) {
                 for (int i = 0; i < entityPreds.size(); i++) {
-                    EntityPredict.EntityPred entityPred = entityPreds.get(i);
-                    EntityPredict.EntityGridInfo gridInfo = entityPred.getGridInfo();
+                    EntityPred entityPred = entityPreds.get(i);
+                    EntityPredictGridInfo gridInfo = entityPred.getGridInfo();
                     Dot dot1 = new Dot(Double.valueOf(gridInfo.getP1X()), Double.valueOf(gridInfo.getP1Y()));
-                    Dot dot2 = new Dot(Double.valueOf(gridInfo.getP1X()), Double.valueOf(gridInfo.getP2Y()));
                     Dot dot3 = new Dot(Double.valueOf(gridInfo.getP2X()), Double.valueOf(gridInfo.getP1Y()));
                     Dot dot4 = new Dot(Double.valueOf(gridInfo.getP2X()), Double.valueOf(gridInfo.getP2Y()));
+                    Dot dot2 = new Dot(Double.valueOf(gridInfo.getP1X()), Double.valueOf(gridInfo.getP2Y()));
                     Dot dot5 = new Dot(Double.valueOf(gridInfo.getCentX()), Double.valueOf(gridInfo.getCentY()));
 
-                    Dot[] dots = new Dot[]{dot1, dot2, dot3, dot4};
+                    Dot[] dots = new Dot[]{dot1, dot3, dot4, dot2,dot1};
                     GraphicPolygon graphicPolygon = new GraphicPolygon(dots);
+                    graphicPolygon.setBorderlineColor(Color.parseColor("#557ED53D"));
+                    graphicPolygon.setBorderlineWidth(4);
+                    graphicPolygon.setColor(Color.parseColor("#55C3F4FF"));
                     mapView.getGraphicsOverlay().addGraphic(graphicPolygon);
                     Bitmap bitmap = mapManager.createIndexAnnotationView(i, 1, false);
-                    Annotation annotation = new Annotation(gridInfo.getGridNum(), "title", entityPred.getJsonStr(), dot5, bitmap);
+                    Annotation annotation = new Annotation(gridInfo.getGridNum() + "", "title", entityPred.getJsonStr(), dot5, bitmap);
                     mapView.getAnnotationsOverlay().addAnnotation(annotation);
+                    if (i == 0) {
+                        mapView.zoomToCenter(dot5, MapManager.goodResolution, false);
+                        mapView.refresh();
+                    }
                 }
             }
             mapView.refresh();
@@ -210,6 +255,7 @@ public class PredictActivity extends BaseActivity implements IPredictView {
 
     @Override
     public void queryPredictFail(Exception e) {
+        dismissLoadingDialog();
         ToastTool.getInstance().shortLength(context, e.getMessage(), true);
 
     }

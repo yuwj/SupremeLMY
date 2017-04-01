@@ -50,7 +50,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/CollapsingToolbarTheme">
         <activity
             android:name=".view.impl.LoginActivity"
             android:launchMode="singleTask"
@@ -278,6 +278,9 @@
         <activity android:name=".view.impl.BufbkDetailActivity"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity android:name=".view.impl.BufbkFeedbackActivity"
+            android:theme="@style/CollapsingToolbarTheme"  />
+        <!-- 预测方格 -->
+        <activity android:name=".view.impl.PredictActivity"
             android:theme="@style/CollapsingToolbarTheme"  />
 
         <activity android:name=".view.impl.MainWithGridActivity"

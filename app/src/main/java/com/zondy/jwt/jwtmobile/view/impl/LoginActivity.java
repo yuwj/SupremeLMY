@@ -217,6 +217,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         dismissLoadingDialog();
         ToastTool.getInstance().shortLength(this, "网络请求失败！", true);
 //        startActivity(CompositeSearchMainActivity.createIntent(context));
+        startActivity(PredictActivity.createIntent(context));
     }
 
     @Override
