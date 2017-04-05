@@ -3,6 +3,7 @@ package com.zondy.jwt.jwtmobile.base;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -34,8 +35,13 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+
         CrashHandler crashHandler = CrashHandler.getInstance();// 设置全局未捕获异常记录
         crashHandler.init(getApplicationContext());// 初始化全局未捕获异常
+
+        Fresco.initialize(this);
+
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new LoggerInterceptor("sheep", true))
                 .connectTimeout(10000L, TimeUnit.MILLISECONDS)
@@ -96,7 +102,7 @@ public class MyApplication extends Application {
             } else if (Constant.JWT_AREA_SELECTED
                     .equals(Constant.JWT_AREA_ZJG)) {
                 defaultIps[0] = "192.168.9.188";
-                defaultIps[1] = "8088";
+                defaultIps[1] = "8080";
                 defaultIps[2] = "192.168.9.188";
                 defaultIps[3] = "5222";
             } else if (Constant.JWT_AREA_SELECTED

@@ -194,9 +194,6 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
                         ivCY.setImageDrawable(getResources().getDrawable(R.drawable.ic_yichayue));
                     }
                 }
-//                if(ivChay!=null){
-//                    ivChay.setImageDrawable(getDrawable(R.drawable.ic_yichayue));
-//                }
             }
 
             @Override

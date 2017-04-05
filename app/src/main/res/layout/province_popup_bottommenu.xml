@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#F6F5EE"
+              android:id="@+id/pop_layout"
+              >
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:focusableInTouchMode="true"
+        android:background="#F6F5EE"
+        android:layout_alignParentBottom="true"
+        android:keyBackground="@color/white"
+        android:keyTextColor="#5E5E5E"
+        android:keyTextSize="20sp"
+        android:labelTextSize="18sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:shadowColor="#ffffff"
+        android:shadowRadius="0.0"
+        />
+</RelativeLayout>
