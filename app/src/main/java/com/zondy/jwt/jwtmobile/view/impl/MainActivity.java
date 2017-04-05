@@ -1,10 +1,16 @@
 package com.zondy.jwt.jwtmobile.view.impl;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
@@ -13,12 +19,19 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.nativecode.ImagePipelineNativeLoader;
+import com.lzy.imagepicker.loader.ImageLoader;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -48,6 +61,8 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static android.R.attr.id;
 
 /**
  * Created by sheep on 2017/1/5.
@@ -94,7 +109,6 @@ public class MainActivity extends BaseActivity implements ISettingView {
 
 
     private void initParams() {
-
         mapManager = new MapManager(mapView, context);
         mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
             @Override
@@ -170,7 +184,8 @@ public class MainActivity extends BaseActivity implements ISettingView {
                     return;
                 }
                 if ("数据采集".equals(menuTxt)) {
-                    ToastTool.getInstance().shortLength(context, menuTxt, true);
+                    ShujcjActivity.actionStart(MainActivity.this);
+                    etSearch.clearFocus();
                     return;
                 }
                 if ("通知公告".equals(menuTxt)) {
@@ -199,6 +214,22 @@ public class MainActivity extends BaseActivity implements ISettingView {
     }
 
     private void initViews() {
+        //测试加载gif图片 start
+        SimpleDraweeView simpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv);
+        String url = "http://img.huofar.com/data/jiankangrenwu/shizi.gif";
+        Uri uri = Uri.parse("res://" +
+                context.getPackageName() +
+                "/" + R.drawable.gif1);
+        DraweeController draweeController = Fresco.newDraweeControllerBuilder()
+                .setUri(uri)
+                .setAutoPlayAnimations(true) // 设置加载图片完成后是否直接进行播放
+                .build();
+        RoundingParams roundingParams=simpleDraweeView.getHierarchy().getRoundingParams();
+        roundingParams.setRoundAsCircle(true);
+        simpleDraweeView.getHierarchy().setRoundingParams(roundingParams);
+        simpleDraweeView.setController(draweeController);
+//        simpleDraweeView.setImageURI(uri);
+        //测试end
         EntityUser user = SharedTool.getInstance().getUserInfo(MainActivity.this);
         if (user != null) {
             tvName.setText(user.getCtname());
@@ -359,4 +390,5 @@ public class MainActivity extends BaseActivity implements ISettingView {
             this.menuTitle = menuTitle;
         }
     }
+
 }

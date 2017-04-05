@@ -22,6 +22,9 @@ import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityXunlpcJDCXX;
 import com.zondy.jwt.jwtmobile.util.AutoCaseTransformationMethod;
+import com.zondy.jwt.jwtmobile.util.BottomMenu;
+import com.zondy.jwt.jwtmobile.util.KeyboardUtil;
+import com.zondy.jwt.jwtmobile.util.ProvinceBottomMenu;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 
 import java.text.ParseException;
@@ -68,9 +71,12 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
     EditText etXunlpcChelChep;
     @BindView(R.id.btn_xunlpc_cheliang_search)
     Button btnXunlpcCheliangSearch;
+    @BindView(R.id.tv_xunlpc_chep)
+    TextView tvXunlpcChep;
 
     private CommonAdapter<String> chellxAdapter;
     private CommonAdapter<String> chepdAdapter;
+
     @Override
     public int setCustomContentViewResourceId() {
         return R.layout.activity_xunlpc;
@@ -108,27 +114,35 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
         rlKaisrq.setOnClickListener(this);
         rlJiezrq.setOnClickListener(this);
         btnXunlpcCheliangSearch.setOnClickListener(this);
-        List<String> chellxDatas=new ArrayList<>();
+        List<String> chellxDatas = new ArrayList<>();
         chellxDatas.add("小型汽车");
         chellxDatas.add("大型货车");
         chellxDatas.add("中型客车");
         chellxDatas.add("牵引车");
         chellxDatas.add("大型客车");
-        spXunlpcChellx.setAdapter(chellxAdapter=new CommonAdapter<String>(this,R.layout.item_jingqhandle_sp,chellxDatas) {
+        spXunlpcChellx.setAdapter(chellxAdapter = new CommonAdapter<String>(this, R.layout.item_jingqhandle_sp, chellxDatas) {
             @Override
             protected void convert(ViewHolder viewHolder, String item, int position) {
-                viewHolder.setText(R.id.tv_value,item);
+                viewHolder.setText(R.id.tv_value, item);
             }
         });
-        List<String> chepdDatas=new ArrayList<>();
+        List<String> chepdDatas = new ArrayList<>();
         chepdDatas.add("鄂");
         chepdDatas.add("沪");
         chepdDatas.add("京");
         chepdDatas.add("粤");
-        spXunlpcChep.setAdapter(chepdAdapter=new CommonAdapter<String>(this,R.layout.item_jingqhandle_sp,chepdDatas) {
+
+        spXunlpcChep.setAdapter(chepdAdapter = new CommonAdapter<String>(this, R.layout.item_jingqhandle_sp, chepdDatas) {
             @Override
             protected void convert(ViewHolder viewHolder, String item, int position) {
-                viewHolder.setText(R.id.tv_value,item);
+                viewHolder.setText(R.id.tv_value, item);
+            }
+        });
+        tvXunlpcChep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProvinceBottomMenu bottomMenu=new ProvinceBottomMenu(XunlpcActivity.this,this,tvXunlpcChep);
+                bottomMenu.show();
             }
         });
     }
@@ -196,21 +210,21 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.btn_xunlpc_cheliang_search:
-                if(etXunlpcChelChep.getText().toString().length()==0){
-                    ToastTool.getInstance().shortLength(XunlpcActivity.this,"车牌号码不能为空!",true);
+                if (etXunlpcChelChep.getText().toString().length() == 0) {
+                    ToastTool.getInstance().shortLength(XunlpcActivity.this, "车牌号码不能为空!", true);
                     return;
                 }
-                Pattern p=Pattern.compile("[a-zA-Z]");
-                if(etXunlpcChelChep.getText().toString().length()>0){
-                    String a=String.valueOf(etXunlpcChelChep.getText().toString().charAt(0));
-                    if(etXunlpcChelChep.getText().toString().length()!=6||!p.matcher(a).matches()){
-                        ToastTool.getInstance().shortLength(XunlpcActivity.this,"车牌号码不符合规范!",true);
+                Pattern p = Pattern.compile("[a-zA-Z]");
+                if (etXunlpcChelChep.getText().toString().length() > 0) {
+                    String a = String.valueOf(etXunlpcChelChep.getText().toString().charAt(0));
+                    if (etXunlpcChelChep.getText().toString().length() != 6 || !p.matcher(a).matches()) {
+                        ToastTool.getInstance().shortLength(XunlpcActivity.this, "车牌号码不符合规范!", true);
                         return;
                     }
                 }
 
                 //车辆假数据
-                EntityXunlpcJDCXX entityXunlpcJDCXX=new EntityXunlpcJDCXX();
+                EntityXunlpcJDCXX entityXunlpcJDCXX = new EntityXunlpcJDCXX();
                 entityXunlpcJDCXX.setSuoyr("哈登");
                 entityXunlpcJDCXX.setZhengjh("420593197811237485");
                 entityXunlpcJDCXX.setPinpys("法拉利 红色");
@@ -219,7 +233,7 @@ public class XunlpcActivity extends BaseActivity implements View.OnClickListener
                 entityXunlpcJDCXX.setFadjh("482245829450");
                 entityXunlpcJDCXX.setShibm("DMWIYFS45582042");
                 entityXunlpcJDCXX.setHaop(etXunlpcChelChep.getText().toString().toUpperCase());
-                XunlpcJDCXXActivity.actionStart(XunlpcActivity.this,entityXunlpcJDCXX);
+                XunlpcJDCXXActivity.actionStart(XunlpcActivity.this, entityXunlpcJDCXX);
                 break;
         }
     }

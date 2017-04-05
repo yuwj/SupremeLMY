@@ -1,1 +1,2 @@
 include ':app', ':scrolllayout', ':indexlib', ':appupdatelib', ':mpush'
+include ':viewPagerIndicatorlibrary'
