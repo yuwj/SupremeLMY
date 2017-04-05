@@ -42,7 +42,7 @@ public class IpSetManager {
             window.setWindowAnimations(R.style.tongjfx_popupwindow_animate_style);
             window.setContentView(R.layout.dia_login_setip);
             /*
-			 * 将对话框的大小按屏幕大小的百分比设置
+             * 将对话框的大小按屏幕大小的百分比设置
 			 */
             WindowManager m = ((Activity) activity).getWindowManager();
             Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
@@ -192,6 +192,16 @@ public class IpSetManager {
 
         TextView btnConfir = (TextView) window.findViewById(R.id.btn_confirm);
         TextView btnCancel = (TextView) window.findViewById(R.id.btn_cancel);
+        if (MyApplication.IS_PRODUCT_ENVIRONMENT) {
+            btnCancel.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    etIpno.setText("61.183.129.187");
+                    etPort.setText("4040");
+                    return true;
+                }
+            });
+        }
         OnClickListener listener = new OnClickListener() {
 
             @Override

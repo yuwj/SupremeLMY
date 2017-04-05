@@ -3,19 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:navigationIcon="@drawable/ic_back_baijiantou"
-    app:navigationIcon="@drawable/ic_back_baijiantou"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    app:popupTheme="@style/OverflowMenuStyle"
-    android:layout_height="50dp">
+    android:minHeight="?attr/actionBarSize"
+    app:navigationIcon="@drawable/ic_back_baijiantou"
+    app:popupTheme="@style/OverflowMenuStyle">
+    <!--app:popupTheme 设置菜单弹出的样式 -->
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/tv_title"
         android:gravity="center"
         android:textColor="@color/white"
+        android:text="傻逼"
         android:textSize="20sp"
         android:textStyle="bold" />
 </android.support.v7.widget.Toolbar>

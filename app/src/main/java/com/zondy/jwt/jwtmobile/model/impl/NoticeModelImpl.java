@@ -13,6 +13,7 @@ import com.zondy.jwt.jwtmobile.callback.IQueryNoticeDetailCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryNoticeListCallback;
 import com.zondy.jwt.jwtmobile.entity.EntityBaseResponse;
 import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
+import com.zondy.jwt.jwtmobile.entity.EntityLocation;
 import com.zondy.jwt.jwtmobile.entity.EntityNotice;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
@@ -82,6 +83,20 @@ public class NoticeModelImpl implements INoticeModel {
 
                 @Override
                 public void onError(Call call, Exception e, int id) {
+                    boolean isTest= true;
+                    if(isTest){
+                        List<EntityNotice> ns = new ArrayList<EntityNotice>();
+                        for(int i = 0;i<20;i++){
+                            EntityNotice n= new EntityNotice();
+                            n.setContent("aaa");
+                            ns.add(n);
+                        }
+
+                        queryNoticeListCallback.queryNoticeListSuccess(ns);
+                        return;
+                    }
+
+
                     queryNoticeListCallback.queryNoticeListFail(e);
                     sb.append("\n\n responese:"+e.getMessage());
 

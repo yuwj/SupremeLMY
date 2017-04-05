@@ -12,7 +12,9 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.manager.ActivityCollector;
+import com.zondy.jwt.jwtmobile.ui.LoadingProgressDialog;
 
 import butterknife.ButterKnife;
 
@@ -24,7 +26,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
     public abstract int setCustomContentViewResourceId();
     public Context context;
-    ProgressDialog.OnCancelListener taskCancelListener;
+    DialogInterface.OnCancelListener taskCancelListener;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void initActionBar(Toolbar toolbar, TextView tvTitle, String title) {
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            toolbar.setTitle("");
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setTitle("");
@@ -63,13 +66,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    ProgressDialog loadingProgressDialog;
+//    ProgressDialog loadingProgressDialog;
+   LoadingProgressDialog loadingProgressDialog;
+    int taskCount = 0;//有时一个页面会发出多个请求
   /**
      * 显示加载时的对话框
      */
     public void showLoadingDialog(String loadInfo) {
+        taskCount++;
         if (loadingProgressDialog == null) {
-            loadingProgressDialog = new ProgressDialog(this);
+            loadingProgressDialog = new LoadingProgressDialog(this, R.style.loading_progress_dialog);
             loadingProgressDialog.setCancelable(true);// 设置是否可以通过点击Back键取消
             loadingProgressDialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
             if(taskCancelListener != null){
@@ -86,7 +92,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void dismissLoadingDialog() {
         if (loadingProgressDialog != null && loadingProgressDialog.isShowing()) {
-            loadingProgressDialog.dismiss();
+            if(--taskCount <=0){
+             loadingProgressDialog.dismiss();
+            }
         }
     }
 
@@ -95,16 +103,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return true;
+                return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public ProgressDialog.OnCancelListener getTaskCancelListener() {
+    public DialogInterface.OnCancelListener getTaskCancelListener() {
         return taskCancelListener;
     }
 
-    public void setTaskCancelListener(ProgressDialog.OnCancelListener taskCancelListener) {
+    public void setTaskCancelListener(DialogInterface.OnCancelListener taskCancelListener) {
         this.taskCancelListener = taskCancelListener;
     }
 }

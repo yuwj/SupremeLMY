@@ -110,10 +110,12 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
                 intent = BufbkListActivity.createIntent(context);
                 break;
             case R.id.rl_tongzgg:
-                intent = NoticeListActivity.createIntent(context, EntityNotice.NOTICE_TYPE_TONGZGG);
+//                intent = NoticeListActivity.createIntent(context, EntityNotice.NOTICE_TYPE_TONGZGG);
+                intent = MaterialDesignTest.createIntent(context);
                 break;
             case R.id.rl_qingqfw:
-                ToastTool.getInstance().shortLength(context, "请求服务模块未开放", true);
+//                ToastTool.getInstance().shortLength(context, "请求服务模块未开放", true);
+                intent = AskForServiceActivity.createIntent(context);
                 break;
             case R.id.rl_tongxl:
                 intent = new Intent(MainWithGridActivity.this, ContactsActivity.class);

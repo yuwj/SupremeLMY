@@ -48,8 +48,6 @@ public class NoticeListActivity extends BaseActivity implements INoticeView {
     Toolbar toolbar;
     @BindView(R.id.xrv_notice_list)
     XRecyclerView xrvNoticeList;
-    @BindView(R.id.activity_notice_list)
-    LinearLayout activityNoticeList;
     List<EntityNotice> noticeDatas;
     CommonAdapter<EntityNotice> noticeAdapter;
     INoticePresenter noticePresenter;

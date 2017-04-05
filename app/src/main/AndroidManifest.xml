@@ -282,6 +282,12 @@
         <!-- 预测方格 -->
         <activity android:name=".view.impl.PredictActivity"
             android:theme="@style/CollapsingToolbarTheme"  />
+        <!-- 请求服务 -->
+        <activity android:name=".view.impl.AskForServiceActivity"
+            android:theme="@style/TabIndicatorStyle"  />
+        <!-- 请求服务 -->
+        <activity android:name=".view.impl.MaterialDesignTest"
+            android:theme="@style/CollapsingToolbarTheme"  />
 
         <activity android:name=".view.impl.MainWithGridActivity"
             android:theme="@style/CollapsingToolbarTheme" ></activity>

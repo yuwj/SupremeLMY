@@ -88,6 +88,7 @@ public class PredictActivity extends BaseActivity implements IPredictView {
         initParam();
         initView();
         initOperator();
+
     }
 
     @Override
@@ -113,9 +114,8 @@ public class PredictActivity extends BaseActivity implements IPredictView {
         switch (item.getItemId()) {
 
             case R.id.predict_refresh:
-                showLoadingDialog("正在加载...");
-                predictPresenter.queryPredict(userInfo.getUserName(), CommonUtil.getDeviceId(context), predictId);
-                return true;
+                updatePredictData();
+                return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -156,6 +156,7 @@ public class PredictActivity extends BaseActivity implements IPredictView {
 //                    mapView.zoomToCenter(new Dot(userLocation.getLongitude(), userLocation.getLatitude()), MapManager.goodResolution, false);
                     mapView.refresh();
                 }
+                updatePredictData();
             }
 
             @Override
@@ -212,9 +213,13 @@ public class PredictActivity extends BaseActivity implements IPredictView {
 
     }
 
-    void initOperator() {
+    void initOperator() { }
+
+    void updatePredictData(){
+
         showLoadingDialog("正在加载...");
         predictPresenter.queryPredict(userInfo.getUserName(), CommonUtil.getDeviceId(context), predictId);
+
     }
 
     @Override
