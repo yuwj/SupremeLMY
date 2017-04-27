@@ -2,49 +2,49 @@ package com.zondy.jwt.jwtmobile.entity;
 
 import android.text.TextUtils;
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.Gson;
+import com.zondy.jwt.jwtmobile.util.GsonUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 通知公告实体类
  * Created by ywj on 2017/3/23 0023.
  */
 
 public class EntityNotice implements Serializable {
+    public static final int TYPE_NOTICE = 1;//通知公告实体
 
-    public static final int NOTICE_TYPE_TONGZGG = 1;//通知公告
-    public static final int NOTICE_TYPE_BUK = 2;//布控
+    public String id;// 'OID';
+    public String fbdw;// '发布单位';
+    public String qh;// '期号';
+    public String fbrq;// '发布日期';
+    public String bt;// '标题';
+    public String content;// '通知内容';
+    public String cbr;// '承办人';
+    public String qfr;// '签发人';
+    public String fbsj;// '发布日期';
+    public String dmtlj;//通知的多媒体路径,多个文件用逗号分隔.
+    List<EntityNoticeFank> fankList;//反馈信息集合.
+    List<String> dmtljList;//通知的多媒体路径,通过dmtlj属性用逗号分隔得来.
 
-
-    String id;
-    String title;
-    @SerializedName("messageType")
-    int type;
-    @SerializedName("message")
-    String content;
-    @SerializedName("tssj")
-    String time;
-    @SerializedName("dmtlj")
-    String mediaPaths;
-    List<String> filePaths;//通知的多媒体信息
-    List<EntityFeedback> feedbacks;//反馈信息集合.
-
-    public String getId() {
-        return id;
+    public String getBt() {
+        return bt;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setBt(String bt) {
+        this.bt = bt;
     }
 
-    public int getType() {
-        return type;
+    public String getCbr() {
+        return cbr;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setCbr(String cbr) {
+        this.cbr = cbr;
     }
 
     public String getContent() {
@@ -55,45 +55,86 @@ public class EntityNotice implements Serializable {
         this.content = content;
     }
 
-    public List<EntityFeedback> getFeedbacks() {
-        return feedbacks;
+    public String getDmtlj() {
+        return dmtlj;
     }
 
-    public void setFeedbacks(List<EntityFeedback> feedbacks) {
-        this.feedbacks = feedbacks;
+    public void setDmtlj(String dmtlj) {
+        this.dmtlj = dmtlj;
     }
 
-    public List<String> getFilePaths() {
-        List<String> datas = new ArrayList<>();
-        if (!TextUtils.isEmpty(mediaPaths)) {
-            String[] d = mediaPaths.split(",");
-            if (d != null && d.length > 0) {
-                for (String s : d) {
-                    datas.add(s);
-                }
-            }
+
+    public String getFbdw() {
+        return fbdw;
+    }
+
+    public void setFbdw(String fbdw) {
+        this.fbdw = fbdw;
+    }
+
+    public String getFbrq() {
+        return fbrq;
+    }
+
+    public void setFbrq(String fbrq) {
+        this.fbrq = fbrq;
+    }
+
+    public String getFbsj() {
+        return fbsj;
+    }
+
+    public void setFbsj(String fbsj) {
+        this.fbsj = fbsj;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getQfr() {
+        return qfr;
+    }
+
+    public void setQfr(String qfr) {
+        this.qfr = qfr;
+    }
+
+    public String getQh() {
+        return qh;
+    }
+
+    public void setQh(String qh) {
+        this.qh = qh;
+    }
+
+    public List<EntityNoticeFank> getFankList() {
+        return fankList;
+    }
+
+    public void setFankList(List<EntityNoticeFank> fankList) {
+        this.fankList = fankList;
+    }
+
+    public List<String> getDmtljList() {
+        if(dmtljList == null){
+            dmtljList = new ArrayList<>();
         }
-        return datas;
+        String[] dmtljs = dmtlj.split(",");
+        dmtljList.addAll(Arrays.asList(dmtljs));
+        return dmtljList;
     }
 
-    public void setFilePaths(List<String> filePaths) {
-        this.filePaths = filePaths;
+    public void setDmtljList(List<String> dmtljList) {
+        this.dmtljList = dmtljList;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public String toJsonStr(){
+        return GsonUtil.bean2Json(this);
     }
 }
 

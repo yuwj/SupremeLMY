@@ -1,8 +1,6 @@
 package com.zondy.jwt.jwtmobile.view;
 
-import android.content.Entity;
-
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
+import com.zondy.jwt.jwtmobile.entity.EntityNoticeFank;
 import com.zondy.jwt.jwtmobile.entity.EntityNotice;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 public interface INoticeView {
     void queryNoticeListSuccess(List<EntityNotice> entityNoticeList);
     void queryNoticeListFail(Exception e);
-    void queryNoticeDetailSuccess(List<EntityFeedback> entityNotice);
+    void queryNoticeDetailSuccess(List<EntityNoticeFank> entityNotice);
     void queryNoticeDetailFail(Exception se);
 
 }

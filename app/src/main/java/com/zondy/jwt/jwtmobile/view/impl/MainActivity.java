@@ -43,6 +43,7 @@ import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.manager.JWTLocationManager;
 import com.zondy.jwt.jwtmobile.presenter.ISettingPresenter;
+import com.zondy.jwt.jwtmobile.presenter.impl.BufbkPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.SettingPresenterImpl;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
 import com.zondy.jwt.jwtmobile.util.MapManager;
@@ -189,11 +190,11 @@ public class MainActivity extends BaseActivity implements ISettingView {
                     return;
                 }
                 if ("通知公告".equals(menuTxt)) {
-                    startActivity(NoticeListActivity.createIntent(context, EntityNotice.NOTICE_TYPE_TONGZGG));
+                    startActivity(NoticeListActivity.createIntent(context, EntityNotice.TYPE_NOTICE));
                     return;
                 }
                 if ("布控布防".equals(menuTxt)) {
-                    startActivity(NoticeListActivity.createIntent(context, EntityNotice.NOTICE_TYPE_BUK));
+                    startActivity(BufbkListActivity.createIntent(context));
                     return;
                 }
                 if ("请求服务".equals(menuTxt)) {

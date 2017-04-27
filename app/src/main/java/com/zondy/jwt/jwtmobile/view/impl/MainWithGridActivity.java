@@ -24,6 +24,9 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 淮安,win8风格的主界面
+ */
 public class MainWithGridActivity extends BaseActivity implements IHomeView {
 
 
@@ -105,20 +108,21 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
                 break;
             case R.id.rl_yucfg:
                 ToastTool.getInstance().shortLength(context, "预测方格模块未开放", true);
+                startActivity(PredictActivity.createIntent(context));
                 break;
             case R.id.rl_bufbk:
                 intent = BufbkListActivity.createIntent(context);
                 break;
             case R.id.rl_tongzgg:
-//                intent = NoticeListActivity.createIntent(context, EntityNotice.NOTICE_TYPE_TONGZGG);
-                intent = MaterialDesignTest.createIntent(context);
+                intent = NoticeListActivity.createIntent(context, EntityNotice.TYPE_NOTICE);
+//                intent = MaterialDesignTest.createIntent(context);
                 break;
             case R.id.rl_qingqfw:
 //                ToastTool.getInstance().shortLength(context, "请求服务模块未开放", true);
-                intent = AskForServiceActivity.createIntent(context);
+                intent = AskServiceMainActivity.createIntent(context,"");
                 break;
             case R.id.rl_tongxl:
-                intent = new Intent(MainWithGridActivity.this, ContactsActivity.class);
+                intent = ContactsActivity2.createIntent(context,null);
                 break;
             case R.id.tv_home:
                 ToastTool.getInstance().shortLength(context, "首页", true);
@@ -154,6 +158,7 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
                 String jh = user.getUserName();
                 String simid = CommonUtil.getDeviceId(context);
                 homePresenter.logout(jh, simid);
+
             } else {
                 ToastTool.getInstance().shortLength(context, "账号有误,退出失败", true);
             }

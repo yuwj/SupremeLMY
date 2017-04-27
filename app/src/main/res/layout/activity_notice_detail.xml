@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/sv_notice_container"
+    android:id="@+id/ll_notice_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,23 +9,104 @@
 
     <include layout="@layout/content_toolbar" />
 
-    <TextView
-        android:id="@+id/tv_title"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_height="match_parent">
+            <!--标题-->
+            <TextView
+                android:id="@+id/tv_fabdw_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="淮安市公安局通知公告文件"
+                android:textColor="@color/actionbar_color_red"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+            <!--期号-->
+            <TextView
+                android:id="@+id/tv_qih"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="第1号" />
 
-    <TextView
-        android:id="@+id/tv_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:layout_margin="10dp"
+                android:background="#D50100"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_feedback_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textStyle="bold"
+                android:text="关于五一放假的通知"
+                android:textSize="16dp" />
+
+
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="    根据区委统一安排，区委巡察组于2017年3月30日至6月30日对37个单位开展第一轮巡察。
+　　巡察的主要任务和内容是：对2015-201" />
+            <TextView
+                android:id="@+id/tv_fabdw"
+                android:layout_width="match_parent"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:text="淮安市公安局"
+                android:gravity="right|center_vertical"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_time"
+                android:text="2017年4月24日11:51:25"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:layout_width="match_parent"
+                android:gravity="right|center_vertical"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_fuj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="附件:" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_fuj_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:id="@+id/tv_fank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/common_bg_color"
+                android:padding="5dp"
+                android:text="已反馈信息:" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_fank_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

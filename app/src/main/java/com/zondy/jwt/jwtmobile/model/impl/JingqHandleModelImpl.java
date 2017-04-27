@@ -63,6 +63,9 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         final StringBuffer sb = new StringBuffer();
 
 
+        if(MyApplication.IS_Test_json){
+            UrlManager.queryJingqList = UrlManager.queryJingqList.replace("/","");
+        }
         msg = "";
         final String url = UrlManager.getSERVER() + UrlManager.queryJingqList;
         sb.append("\n\nurl:" + url);
@@ -87,7 +90,11 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
                 @Override
                 public List<EntityJingq> parseNetworkResponse(Response response, int id) throws Exception {
                     String string = response.body().string();
-                    sb.append("\n\n resp:"+string);
+                    if(MyApplication.IS_Test_json){
+                        string = string.substring(1,string.length()-1);
+                        string = string.replace("\\","");
+                    }
+                    sb.append("\n\n resp:" + string);
                     JSONObject object = new JSONObject(string);
                     int resultCode = object.optInt("result");
                     msg = object.optString("message");
@@ -136,13 +143,11 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
 
         final StringBuffer sb = new StringBuffer();
 
-
-
-
-
-
-
-        final String url = UrlManager.getSERVER() + UrlManager.queryJingqByJingqid;sb.append("\n\nurl:"+url);
+        if(MyApplication.IS_Test_json){
+            UrlManager.queryJingqByJingqid = UrlManager.queryJingqByJingqid.replace("/","");
+        }
+        final String url = UrlManager.getSERVER() + UrlManager.queryJingqByJingqid;
+        sb.append("\n\nurl:" + url);
         msg = "";
         JSONObject param = new JSONObject();
         try {
@@ -152,12 +157,17 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sb.append("\n\n"+param.toString());
+        sb.append("\n\n" + param.toString());
         OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build().execute(new Callback<EntityJingq>() {
             @Override
             public EntityJingq parseNetworkResponse(Response response, int id) throws Exception {
                 String string = response.body().string();
+                if(MyApplication.IS_Test_json){
+                    string = string.substring(1,string.length()-1);
+                    string = string.replace("\\","");
+                }
+                sb.append("\n\nresp:"+string);
                 JSONObject object = new JSONObject(string);
                 int resultCode = object.optInt("result");
                 msg = object.optString("message");
@@ -175,14 +185,14 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
 
             @Override
             public void onError(Call call, Exception e, int id) {
-                sb.append("\n\n"+e.getMessage());
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                sb.append("\n\n" + e.getMessage());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 reloadJingqCallback.loadJingqFailed(e);
             }
 
             @Override
             public void onResponse(EntityJingq response, int id) {
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 if (response != null) {
                     reloadJingqCallback.loadJingqSuccess(response);
                 } else {
@@ -199,10 +209,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         final StringBuffer sb = new StringBuffer();
 
 
-
-
-
-        final String url = UrlManager.getSERVER() + UrlManager.receiveJingqingConfirm;sb.append("\n\nurl:"+url);
+        final String url = UrlManager.getSERVER() + UrlManager.receiveJingqingConfirm;
+        sb.append("\n\nurl:" + url);
         JSONObject param = new JSONObject();
         msg = "";
         try {
@@ -213,7 +221,7 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sb.append("\n\n"+param.toString());
+        sb.append("\n\n" + param.toString());
         OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build().execute(new Callback<Boolean>() {
             @Override
@@ -233,14 +241,14 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
             @Override
             public void onError(Call call, Exception e, int id) {
 
-                sb.append("\n\n"+e.getMessage());
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                sb.append("\n\n" + e.getMessage());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 acceptJingqCallback.acceptJingqFailed(e);
             }
 
             @Override
             public void onResponse(Boolean response, int id) {
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 if (response) {
                     acceptJingqCallback.acceptJingqSuccess();
                 } else {
@@ -259,10 +267,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         final StringBuffer sb = new StringBuffer();
 
 
-
-
         final String url = UrlManager.getSERVER() + UrlManager.receiveJingqingReBack;
-        sb.append("\n\nurl:"+url);
+        sb.append("\n\nurl:" + url);
         JSONObject param = new JSONObject();
         msg = "";
         try {
@@ -272,7 +278,7 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sb.append("\n\n"+param.toString());
+        sb.append("\n\n" + param.toString());
         OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build().execute(new Callback<Boolean>() {
             @Override
@@ -292,14 +298,14 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
             @Override
             public void onError(Call call, Exception e, int id) {
 
-                sb.append("\n\n"+e.getMessage());
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                sb.append("\n\n" + e.getMessage());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 rollbackJingqCallback.rollbackJingqFailed(e);
             }
 
             @Override
             public void onResponse(Boolean response, int id) {
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 if (response) {
                     rollbackJingqCallback.rollbackJingqSuccess();
                 } else {
@@ -317,10 +323,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         final StringBuffer sb = new StringBuffer();
 
 
-
-
         final String url = UrlManager.getSERVER() + UrlManager.reachConfirm;
-        sb.append("\n\nurl:"+url);
+        sb.append("\n\nurl:" + url);
         JSONObject param = new JSONObject();
         msg = "";
         try {
@@ -333,7 +337,7 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sb.append("\n\n"+param.toString());
+        sb.append("\n\n" + param.toString());
         OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build().execute(new Callback<Boolean>() {
             @Override
@@ -354,14 +358,14 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
             @Override
             public void onError(Call call, Exception e, int id) {
 
-                sb.append("\n\n"+e.getMessage());
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                sb.append("\n\n" + e.getMessage());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 arriveConfirmCallback.arriveFailed(e);
             }
 
             @Override
             public void onResponse(Boolean response, int id) {
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 if (response) {
                     arriveConfirmCallback.arriveSuccess();
                 } else {
@@ -381,10 +385,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         final StringBuffer sb = new StringBuffer();
 
 
-
-
         final String url = UrlManager.getSERVER() + UrlManager.handleJingqing;
-        sb.append("\n\nurl:"+url);
+        sb.append("\n\nurl:" + url);
         List<File> files = new ArrayList<>();
         if (!TextUtils.isEmpty(filesPath)) {
             String[] ss = filesPath.split(",");
@@ -410,9 +412,9 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (Exception e) {
             Log.e(TAG, "submitJingq: ");
         }
-        sb.append("\n\n"+jsonParam.toString());
+        sb.append("\n\n" + jsonParam.toString());
         Map<String, String> param = new HashMap<>();
-        param.put("strBody", jsonParam.toString()+" \n"+filesPath);
+        param.put("strBody", jsonParam.toString() + " \n" + filesPath);
 
 
         OkGo.post(url).tag(this)//
@@ -424,8 +426,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        sb.append("\n\nresponse:"+s);
-                        SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                        sb.append("\n\nresponse:" + s);
+                        SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                         //上传成功
                         Log.d("submitJingq", response.body().toString());
                         jingqHandleCallback.jingqHandleSuccess();
@@ -440,8 +442,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
 
                     @Override
                     public void onError(Call call, Response response, Exception e) {
-                        sb.append("\n\n"+e.getMessage());
-                        SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                        sb.append("\n\n" + e.getMessage());
+                        SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                         super.onError(call, response, e);
                         jingqHandleCallback.jingqHandleFailed(e);
                         Log.d("submitJingq", e.getMessage());
@@ -594,10 +596,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         final StringBuffer sb = new StringBuffer();
 
 
-
-
         final String url = UrlManager.getSERVER() + UrlManager.queryJingqTypeZD;
-        sb.append("\n\nurl:"+url);
+        sb.append("\n\nurl:" + url);
         JSONObject param = new JSONObject();
         msg = "";
         try {
@@ -606,13 +606,13 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sb.append("\n\n"+param.toString());
+        sb.append("\n\n" + param.toString());
         OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build().execute(new Callback<List<EntityZD>>() {
             @Override
             public List<EntityZD> parseNetworkResponse(Response response, int id) throws Exception {
                 String string = response.body().string();
-                sb.append("\n\n"+string);
+                sb.append("\n\n" + string);
                 JSONObject object = new JSONObject(string);
                 int resultCode = object.optInt("result");
                 msg = object.optString("message");
@@ -631,15 +631,15 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
             @Override
             public void onError(Call call, Exception e, int id) {
 
-                sb.append("\n\n"+e.getMessage());
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                sb.append("\n\n" + e.getMessage());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 queryAllJingqTypesCallback.jingqHandleFailed(e);
             }
 
             @Override
             public void onResponse(List<EntityZD> response, int id) {
 
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 if (response != null) {
                     queryAllJingqTypesCallback.jingqHandleSuccess(response);
                 } else {
@@ -656,10 +656,8 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         final StringBuffer sb = new StringBuffer();
 
 
-
-
         final String url = UrlManager.getSERVER() + UrlManager.jingqingksxz;
-        sb.append("\n\nurl:"+url);
+        sb.append("\n\nurl:" + url);
         JSONObject param = new JSONObject();
         msg = "";
         try {
@@ -668,13 +666,13 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sb.append("\n\n"+param.toString());
+        sb.append("\n\n" + param.toString());
         OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build().execute(new Callback<List<EntityZD>>() {
             @Override
             public List<EntityZD> parseNetworkResponse(Response response, int id) throws Exception {
                 String string = response.body().string();
-                sb.append("\n\n"+string);
+                sb.append("\n\n" + string);
                 JSONObject object = new JSONObject(string);
                 int resultCode = object.optInt("result");
                 msg = object.optString("message");
@@ -693,15 +691,15 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
             @Override
             public void onError(Call call, Exception e, int id) {
 
-                sb.append("\n\n"+e.getMessage());
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                sb.append("\n\n" + e.getMessage());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 queryAllJingqKuaisclTypesCallback.queryJingqKuaisclFailed(e);
             }
 
             @Override
             public void onResponse(List<EntityZD> response, int id) {
 
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 if (response != null) {
                     queryAllJingqKuaisclTypesCallback.queryJingqKuaisclSuccess(response);
                 } else {
@@ -713,11 +711,11 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
     }
 
     @Override
-    public void queryUnacceptJingqCount(String jh, String simid,String zzjgdm, final IQueryUnacceptJingqCountCallback queryUnacceptJingqCountCallback) {
+    public void queryUnacceptJingqCount(String jh, String simid, String zzjgdm, final IQueryUnacceptJingqCountCallback queryUnacceptJingqCountCallback) {
 
         final StringBuffer sb = new StringBuffer();
         final String url = UrlManager.getSERVER() + UrlManager.queryUnacceptJingqCount;
-        sb.append("\n\nurl:"+url);
+        sb.append("\n\nurl:" + url);
         JSONObject param = new JSONObject();
         msg = "";
         try {
@@ -727,20 +725,20 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sb.append("\n\n"+param.toString());
+        sb.append("\n\n" + param.toString());
         OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
                 .build().execute(new Callback<Integer>() {
             @Override
             public Integer parseNetworkResponse(Response response, int id) throws Exception {
                 String string = response.body().string();
-                sb.append("\n\n"+string);
+                sb.append("\n\n" + string);
                 JSONObject object = new JSONObject(string);
                 int resultCode = object.optInt("result");
                 int count = 0;
                 msg = object.optString("message");
                 switch (resultCode) {
                     case 1:
-                        count = object.optInt("unacceptJingqCount",0);
+                        count = object.optInt("unacceptJingqCount", 0);
                         break;
                     default:
                         throw new Exception(msg);
@@ -752,15 +750,15 @@ public class JingqHandleModelImpl implements IJingqHandleModel {
             @Override
             public void onError(Call call, Exception e, int id) {
 
-                sb.append("\n\n"+e.getMessage());
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                sb.append("\n\n" + e.getMessage());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
                 queryUnacceptJingqCountCallback.queryUnacceptJingqCountFail(e);
             }
 
             @Override
             public void onResponse(Integer response, int id) {
 
-                SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
+                SDCardUtil.saveHttpRequestInfo2File(url, sb.toString());
 
                 queryUnacceptJingqCountCallback.queryUnacceptJingqCountSuccess(response);
             }

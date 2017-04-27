@@ -77,54 +77,6 @@ public class IpSetManager {
             UrlManager.HOST_PORT = ips[1];
             UrlManager.PUSH_HOST_IP = ips[2];
             UrlManager.PUSH_HOST_PORT = ips[3];
-        } else {// sharedpreference保存的文件不正确,则使用默认配置
-            String[] defaultIps = new String[4];
-            if (Constant.JWT_AREA_SELECTED.equals(Constant.JWT_AREA_FN)) {
-                defaultIps[0] = "127.0.0.1";
-                defaultIps[1] = "9096/fl1";
-                defaultIps[2] = "127.0.0.1";
-                defaultIps[3] = "9092";
-            } else if (Constant.JWT_AREA_SELECTED.equals(Constant.JWT_AREA_LYG)) {
-                defaultIps[0] = "10.142.137.173";
-                defaultIps[1] = "9087";
-                defaultIps[2] = "10.142.137.173";
-                defaultIps[3] = "5222";
-            } else if (Constant.JWT_AREA_SELECTED.equals(Constant.JWT_AREA_ZJG)) {
-                defaultIps[0] = "192.168.9.188";
-                defaultIps[1] = "8080";
-                defaultIps[2] = "192.168.9.188";
-                defaultIps[3] = "5222";
-            } else if (Constant.JWT_AREA_SELECTED.equals(Constant.JWT_AREA_WH)) {
-                defaultIps[0] = "61.183.129.187";
-                defaultIps[1] = "4040";
-                defaultIps[2] = "61.183.129.187";
-                defaultIps[3] = "4041";
-            } else if (Constant.JWT_AREA_SELECTED
-                    .equals(Constant.JWT_AREA_TEST)) {
-                defaultIps[0] = "192.168.10.217";
-                defaultIps[1] = "8080";
-                defaultIps[2] = "192.168.10.217";
-                defaultIps[3] = "5222";
-            } else {
-                // 默认使用武汉测试地址
-                defaultIps[0] = "192.168.10.217";
-                defaultIps[1] = "8080";
-                defaultIps[2] = "192.168.10.217";
-                defaultIps[3] = "5222";
-            }
-            etIpno.setText(defaultIps[0]);
-            etIpno.setSelection(etIpno.getText().length());
-            etPort.setText(defaultIps[1]);
-            etPort.setSelection(etPort.getText().length());
-            etPushIpno.setText(defaultIps[2]);
-            etPushIpno.setSelection(etPushIpno.getText().length());
-            etPushPort.setText(defaultIps[3]);
-            etPushPort.setSelection(etPushPort.getText().length());
-
-            UrlManager.HOST_IP = defaultIps[0];
-            UrlManager.HOST_PORT = defaultIps[1];
-            UrlManager.PUSH_HOST_IP = defaultIps[2];
-            UrlManager.PUSH_HOST_PORT = defaultIps[3];
         }
 
         Button btn_setip = (Button) window.findViewById(R.id.btn_setip);

@@ -21,6 +21,7 @@ public class Constant {
     public static final String JWT_AREA_WH = "武汉";
     public static final String JWT_AREA_TEST = "测试";
     public static final String JWT_AREA_HA = "淮安";
+    public static final String JWT_AREA_YZ = "永州";
     public static final String JWT_AREA_DZ = "邓州";
     public static final String JWT_AREA_SELECTED = JWT_AREA_HA;
 

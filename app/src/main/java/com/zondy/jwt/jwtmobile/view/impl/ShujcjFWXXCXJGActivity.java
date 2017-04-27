@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.tuesda.walker.circlerefresh.CircleRefreshLayout;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityLocation;
@@ -172,7 +171,7 @@ public class ShujcjFWXXCXJGActivity extends BaseActivity implements View.OnClick
 
     private void initParams() {
         mapManager = new MapManager(mapView, context);
-        mapManager.initMap(Constant.mapPath, new MapManager.MapLoadListner() {
+        mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
             @Override
             public void onMapLoadSuccess() {
                 EntityLocation entityLocation = SharedTool.getInstance().getLocationInfo(context);

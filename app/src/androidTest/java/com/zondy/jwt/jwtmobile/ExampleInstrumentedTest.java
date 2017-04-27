@@ -3,6 +3,7 @@ package com.zondy.jwt.jwtmobile;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +23,12 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.zondy.jwt.jwtmobile", appContext.getPackageName());
+    }
+
+    @Test
+    public void testt(){
+        for(int i = 0;i< 120;i++){
+            Log.i("xxx", "<item>"+i+"</item>");
+        }
     }
 }

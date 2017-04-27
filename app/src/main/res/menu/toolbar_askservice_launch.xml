@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_launch_buk"
+        android:title="发起布控"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_launch_zengy"
+        android:title="发起增援"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_launch_chax"
+        android:title="发起查询"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_launch_zous"
+        android:title="发起走失"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_launch_qit"
+        android:title="发起其他"
+        android:visible="true"
+        app:showAsAction="always" />
+
+</menu>

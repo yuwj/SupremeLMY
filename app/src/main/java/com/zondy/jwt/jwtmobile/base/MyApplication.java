@@ -28,8 +28,11 @@ import okhttp3.OkHttpClient;
  */
 
 public class MyApplication extends Application {
-    public final static boolean IS_PRODUCT_ENVIRONMENT = true;
+    public final static boolean IS_PRODUCT_ENVIRONMENT = false;
     public final static boolean IS_TEST_JINGQLIST = false;
+    public final static boolean IS_TEST_QINGQFW = true;//是否是测试请求服务
+    public final static boolean IS_Test_json = true;//是否是自己部署的一个返回json的服务端
+
 
     @Override
     public void onCreate() {
@@ -119,8 +122,8 @@ public class MyApplication extends Application {
                 defaultIps[3] = "5222";
             }  else if (Constant.JWT_AREA_SELECTED
                     .equals(Constant.JWT_AREA_HA)) {
-                defaultIps[0] = "127.0.0.1";
-                defaultIps[1] = "7000/whzd";
+                defaultIps[0] = "192.168.1.178";
+                defaultIps[1] = "8080";
                 defaultIps[2] = "192.168.10.217";
                 defaultIps[3] = "5222";
             } else {
@@ -135,7 +138,7 @@ public class MyApplication extends Application {
             UrlManager.HOST_PORT = defaultIps[1];
             UrlManager.PUSH_HOST_IP = defaultIps[2];
             UrlManager.PUSH_HOST_PORT = defaultIps[3];
-
+            SharedTool.getInstance().saveIp(this,UrlManager.HOST_IP,UrlManager.HOST_PORT,UrlManager.PUSH_HOST_IP,UrlManager.PUSH_HOST_PORT);
         }
 
     }

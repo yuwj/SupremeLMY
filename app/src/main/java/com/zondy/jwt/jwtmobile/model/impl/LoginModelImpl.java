@@ -1,9 +1,12 @@
 package com.zondy.jwt.jwtmobile.model.impl;
 
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
+import com.zondy.jwt.jwtmobile.base.MyApplication;
 import com.zondy.jwt.jwtmobile.callback.IGPSUploadCallback;
 import com.zondy.jwt.jwtmobile.callback.ILoginCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryUnacceptBufbkIdsCallback;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.Call;
 import okhttp3.MediaType;
@@ -34,6 +38,10 @@ public class LoginModelImpl implements ILoginModel {
 
     @Override
     public void login(String username, final String password, final String simid, final ILoginCallback loginCallback) {
+
+        if(MyApplication.IS_Test_json){
+            UrlManager.LOGIN = UrlManager.LOGIN.replace("/","");
+        }
         String url = UrlManager.getSERVER() + UrlManager.LOGIN;
         JSONObject param=new JSONObject();
         try {
@@ -48,8 +56,17 @@ public class LoginModelImpl implements ILoginModel {
                     .build().execute(new Callback() {
                 @Override
                 public Object parseNetworkResponse(Response response, int id) throws Exception {
+
+
+
                     String string=response.body().string();
+                    if(MyApplication.IS_Test_json){
+                        string = string.substring(1,string.length()-1);
+                        string = string.replace("\\","");
+                    }
+
                     JSONObject object=new JSONObject(string);
+
                     int resultCode=object.optInt("result");
                     String msg=object.optString("message");
                     switch (resultCode){

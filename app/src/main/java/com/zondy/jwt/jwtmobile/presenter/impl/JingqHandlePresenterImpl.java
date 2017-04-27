@@ -13,6 +13,8 @@ import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.model.IJingqHandleModel;
 import com.zondy.jwt.jwtmobile.model.impl.JingqHandleModelImpl;
 import com.zondy.jwt.jwtmobile.presenter.IJingqHandlePresenter;
+import com.zondy.jwt.jwtmobile.view.IAskBukDetailView;
+import com.zondy.jwt.jwtmobile.view.IAskServiceMainView;
 import com.zondy.jwt.jwtmobile.view.IJingqDetailWithHandledView;
 import com.zondy.jwt.jwtmobile.view.IJingqDetailWithUnhandleView;
 import com.zondy.jwt.jwtmobile.view.IJingqImageEditView;
@@ -32,6 +34,8 @@ public class JingqHandlePresenterImpl implements IJingqHandlePresenter {
     IJingqhandleView jingqHandleView;
     IJingqDetailWithHandledView jingqDetailWithHandledView;
     IJingqImageEditView jingqImageEditView;
+    IAskBukDetailView askBukDetailView;
+    IAskServiceMainView askServiceMainView;
     IJingqHandleModel jingqHandleModel;
 
     public JingqHandlePresenterImpl(IJingqListView jingqclView) {
@@ -56,6 +60,16 @@ public class JingqHandlePresenterImpl implements IJingqHandlePresenter {
 
     public JingqHandlePresenterImpl(IJingqImageEditView jingqImageEditView) {
         this.jingqImageEditView = jingqImageEditView;
+        jingqHandleModel = new JingqHandleModelImpl();
+    }
+
+    public JingqHandlePresenterImpl(IAskBukDetailView askBukDetailView) {
+        this.askBukDetailView = askBukDetailView;
+        jingqHandleModel = new JingqHandleModelImpl();
+    }
+
+    public JingqHandlePresenterImpl(IAskServiceMainView askServiceMainView) {
+        this.askServiceMainView = askServiceMainView;
         jingqHandleModel = new JingqHandleModelImpl();
     }
 
@@ -173,16 +187,16 @@ public class JingqHandlePresenterImpl implements IJingqHandlePresenter {
             @Override
             public void jingqHandleSuccess() {
                 jingqHandleModel.reloadJingq(jingqid, jh, simid, new IReloadJingqCallback() {
-                            @Override
-                            public void loadJingqSuccess(EntityJingq jingq) {
-                                jingqHandleView.handleJingqSuccess(jingq);
-                            }
+                    @Override
+                    public void loadJingqSuccess(EntityJingq jingq) {
+                        jingqHandleView.handleJingqSuccess(jingq);
+                    }
 
-                            @Override
-                            public void loadJingqFailed(Exception exception) {
+                    @Override
+                    public void loadJingqFailed(Exception exception) {
 
-                            }
-                        });
+                    }
+                });
             }
 
             @Override
@@ -222,5 +236,37 @@ public class JingqHandlePresenterImpl implements IJingqHandlePresenter {
         });
     }
 
+
+    @Override
+    public void queryJingqWithAskBukDetail(String jingqid, String jh, String simid) {
+        jingqHandleModel.reloadJingq(jingqid, jh, simid, new IReloadJingqCallback() {
+            @Override
+            public void loadJingqSuccess(EntityJingq jingq) {
+                askBukDetailView.onQueryJingqSuccess(jingq);
+            }
+
+            @Override
+            public void loadJingqFailed(Exception exception) {
+
+                askBukDetailView.onQueryJingqFail(exception);
+            }
+        });
+    }
+
+    @Override
+    public void queryJingqWithAskServiceMainView(String jingqid, String jh, String simid) {
+        jingqHandleModel.reloadJingq(jingqid, jh, simid, new IReloadJingqCallback() {
+            @Override
+            public void loadJingqSuccess(EntityJingq jingq) {
+                askServiceMainView.onQueryJingqSuccess(jingq);
+            }
+
+            @Override
+            public void loadJingqFailed(Exception exception) {
+
+                askServiceMainView.onQueryJingqFail(exception);
+            }
+        });
+    }
 
 }

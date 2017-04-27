@@ -14,8 +14,10 @@ import com.bumptech.glide.Glide;
 import com.yuwj.appupdate.UpdateChecker;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
+import com.zondy.jwt.jwtmobile.base.MyApplication;
 import com.zondy.jwt.jwtmobile.callback.IipSetListener;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
+import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.manager.IpSetManager;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.presenter.ILoginPresenter;
@@ -31,6 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.zondy.jwt.jwtmobile.R.id.btn_login;
 import static com.zondy.jwt.jwtmobile.R.id.btn_login_recorded;
+import static com.zondy.jwt.jwtmobile.R.id.default_activity_button;
 import static com.zondy.jwt.jwtmobile.R.id.tv_ip;
 import static com.zondy.jwt.jwtmobile.R.id.tv_more;
 
@@ -101,7 +104,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
             Glide.with(context).load(entityUser.getUserPhotoUrl())
                     .placeholder(R.drawable.ic_default_photo)//
                     .error(R.drawable.ic_default_photo)//
-                    .animate( android.R.anim.fade_in)
+                    .animate(android.R.anim.fade_in)
                     .into(iconImage);
         }
         btnLoginRecorded.setOnClickListener(this);
@@ -112,7 +115,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
 
     private void initOperator() {
         String updateInfoUrl = UrlManager.getSERVER() + UrlManager.UPDATE;
-        UpdateChecker.checkForDialog(context,false,updateInfoUrl);
+        UpdateChecker.checkForDialog(context, false, updateInfoUrl);
     }
 
     @Override
@@ -126,10 +129,10 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                 rlBg.setBackgroundResource(R.drawable.bg_login);
                 break;
             case R.id.btn2:
-                ipSetManager.showSetIpDialog(LoginActivity.this,ipSetListener);
+                ipSetManager.showSetIpDialog(LoginActivity.this, ipSetListener);
                 break;
             case tv_more:
-                BottomMenu bottomMenu=new BottomMenu(LoginActivity.this,this);
+                BottomMenu bottomMenu = new BottomMenu(LoginActivity.this, this);
                 bottomMenu.show();
                 break;
             case btn_login:
@@ -146,7 +149,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                     return;
                 }
                 String deviceId = CommonUtil.getDeviceId(context);
-                loginPresenter.login(context,userName, password, deviceId);
+                loginPresenter.login(context, userName, password, deviceId);
                 showLoadingDialog("正在登录...");
                 break;
             case btn_login_recorded:
@@ -163,7 +166,7 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
                     return;
                 }
                 String deviceIdRecorded = CommonUtil.getDeviceId(context);
-                loginPresenter.login(context,userNameRecorded, passwordRecorded, deviceIdRecorded);
+                loginPresenter.login(context, userNameRecorded, passwordRecorded, deviceIdRecorded);
                 showLoadingDialog("正在登录...");
                 break;
             case tv_ip:
@@ -205,10 +208,18 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
         dismissLoadingDialog();
         //保存用户信息
         SharedTool.getInstance().saveUserInfo(LoginActivity.this, entityUser);
-
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent = MainWithGridActivity.createIntent(context);
-        startActivity(intent);
+        Intent intent = null;
+        switch (Constant.JWT_AREA_SELECTED) {
+            case Constant.JWT_AREA_HA:
+                intent = MainWithGridActivity.createIntent(context);
+                break;
+            default:
+                intent = new Intent(LoginActivity.this, MainActivity.class);
+                break;
+        }
+        if (intent != null) {
+            startActivity(intent);
+        }
         this.finish();
     }
 
@@ -216,8 +227,10 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     public void loginFailed() {
         dismissLoadingDialog();
         ToastTool.getInstance().shortLength(this, "网络请求失败！", true);
+        if (MyApplication.IS_PRODUCT_ENVIRONMENT) {
 //        startActivity(CompositeSearchMainActivity.createIntent(context));
-        startActivity(PredictActivity.createIntent(context));
+//        startActivity(PredictActivity.createIntent(context));
+        }
     }
 
     @Override

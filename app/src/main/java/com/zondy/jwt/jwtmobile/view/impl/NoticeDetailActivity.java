@@ -2,15 +2,16 @@ package com.zondy.jwt.jwtmobile.view.impl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -19,10 +20,11 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
+import com.zondy.jwt.jwtmobile.entity.EntityNoticeFank;
 import com.zondy.jwt.jwtmobile.entity.EntityNotice;
 import com.zondy.jwt.jwtmobile.ui.DividerItemDecoration;
 import com.zondy.jwt.jwtmobile.ui.FullyGridLayoutManager;
+import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.INoticeDetailView;
 
 import java.util.ArrayList;
@@ -32,7 +34,7 @@ import butterknife.BindView;
 
 public class NoticeDetailActivity extends BaseActivity implements INoticeDetailView {
 
-    public static final int REQ_CODE_FEEDBACK = 1;
+    public static final int REQ_CODE_FANK = 1;
     EntityNotice entityNotice;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -42,12 +44,18 @@ public class NoticeDetailActivity extends BaseActivity implements INoticeDetailV
     TextView tvTime;
     @BindView(R.id.tv_content)
     TextView tvContent;
-    @BindView(R.id.sv_notice_container)
-    ScrollView svNoticeContainer;
-    @BindView(R.id.rv_feedback_info)
-    RecyclerView rvFeedbackInfo;
-    List<EntityFeedback> feedbackDatas;
-    CommonAdapter<EntityFeedback> feedbackAdapter;
+    @BindView(R.id.ll_notice_container)
+    LinearLayout llNoticeContainer;
+    @BindView(R.id.rv_fank_info)
+    RecyclerView rvFankInfo;
+    @BindView(R.id.rv_fuj_info)
+    RecyclerView rvFujInfo;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
+    List<EntityNoticeFank> fankDatas;
+    CommonAdapter<EntityNoticeFank> feedbackAdapter;
+    List<String> fujDatas;
+    CommonAdapter<String> fujAdapter;
 
     public static Intent createIntent(Context context, EntityNotice entityNotice) {
         Intent intent = new Intent(context, NoticeDetailActivity.class);
@@ -70,7 +78,7 @@ public class NoticeDetailActivity extends BaseActivity implements INoticeDetailV
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        new MenuInflater(context).inflate(R.menu.toolbar_tuisxx_feedback,menu);
+        getMenuInflater().inflate(R.menu.toolbar_notice_fank,menu);
         return true;
     }
 
@@ -78,8 +86,8 @@ public class NoticeDetailActivity extends BaseActivity implements INoticeDetailV
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
-            case R.id.feedback:
-                startActivityForResult(NoticeFeedbackActivity.createIntent(context,entityNotice.getId()),REQ_CODE_FEEDBACK);
+            case R.id.fank:
+                startActivityForResult(NoticeFankActivity.createIntent(context,entityNotice.getId()), REQ_CODE_FANK);
                 break;
         }
         return true;
@@ -88,22 +96,23 @@ public class NoticeDetailActivity extends BaseActivity implements INoticeDetailV
     public void initParam() {
         Intent intent = getIntent();
         entityNotice = (EntityNotice) intent.getSerializableExtra("entityNotice");
-        feedbackDatas = new ArrayList<>();
-        feedbackDatas.addAll(entityNotice.getFeedbacks());
-        feedbackAdapter = new CommonAdapter<EntityFeedback>(context,R.layout.item_tuisxx_feedback,feedbackDatas) {
+        fankDatas = new ArrayList<>();
+        fankDatas.addAll(entityNotice.getFankList());
+        feedbackAdapter = new CommonAdapter<EntityNoticeFank>(context,R.layout.item_notice_fank, fankDatas) {
             @Override
-            protected void convert(ViewHolder holder, EntityFeedback entityFeedback, int position) {
+            protected void convert(ViewHolder holder, EntityNoticeFank entityNoticeFank, int position) {
 
-                holder.setText(R.id.tv_feedback_str_info,entityFeedback.getFbcStringInfo());
-                holder.setText(R.id.tv_feedback_user_and_time,"由 "+entityFeedback.getFbcUser()+" 于 "+entityFeedback.getFbcTime()+" 反馈");
-                final List<String> mediaPaths = entityFeedback.getFbcMediaPaths();
+                holder.setText(R.id.tv_fankxx, entityNoticeFank.getFkxx());
+                holder.setText(R.id.tv_fankr,entityNoticeFank.getFkrjh());
+                holder.setText(R.id.tv_fank_time,entityNoticeFank.getFksj());
+                final List<String> mediaPaths = entityNoticeFank.getDmtljList();
 
                 if(mediaPaths != null && mediaPaths.size()>0){
-                    RecyclerView recyclerView = holder.getView(R.id.rv_feedback_medias);
-                    CommonAdapter<String> mediaAdapter = new CommonAdapter<String>(context,R.layout.item_tuisxx_media,mediaPaths) {
+                    RecyclerView recyclerView = holder.getView(R.id.rv_fank_medias);
+                    CommonAdapter<String> mediaAdapter = new CommonAdapter<String>(context,R.layout.item_notice_media,mediaPaths) {
                         @Override
                         protected void convert(ViewHolder holder, String s, int position) {
-                            ImageView ivTuisxx = holder.getView(R.id.iv_tuisxx_image);
+                            ImageView ivTuisxx = holder.getView(R.id.iv_notice_image);
                             Glide.with(mContext)
                                     .load(s)
                                     .placeholder(R.drawable.ic_handlejingq_wait_img)
@@ -130,15 +139,42 @@ public class NoticeDetailActivity extends BaseActivity implements INoticeDetailV
 
             }
         };
+        fujDatas = new ArrayList<>();
+        fujDatas.addAll(entityNotice.getDmtljList());
+        fujAdapter = new CommonAdapter<String>(context,R.layout.item_notice_fuj,fujDatas) {
+            @Override
+            protected void convert(ViewHolder holder, String s, int position) {
+                ImageView ivFujType = holder.getView(R.id.iv_fuj_type);
+                TextView tvFujName = holder.getView(R.id.tv_fuj_name);
+                ImageView ivFujDownload = holder.getView(R.id.iv_fuj_download);
+                tvFujName.setText(s);
+                if(s.endsWith("jpg")){
+                    ivFujType.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.ic_caidan));
+                }else{
+                    ivFujType.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.ic_caidan));
+                }
+                ivFujDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ToastTool.getInstance().shortLength(context,"下载",true);
+                    }
+                });
+            }
+        };
     }
 
     public void initView() {
-        initActionBar(toolbar,tvTitle,entityNotice.getTitle());
-        tvTime.setText(entityNotice.getTime());
+        initActionBar(toolbar,tvTitle,entityNotice.getBt());
+        tvTime.setText(entityNotice.getFbrq());
         tvContent.setText(entityNotice.getContent());
-        rvFeedbackInfo.setLayoutManager(new LinearLayoutManager(context));
-        rvFeedbackInfo.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
-        rvFeedbackInfo.setAdapter(feedbackAdapter);
+        rvFankInfo.setLayoutManager(new LinearLayoutManager(context));
+        rvFankInfo.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
+        rvFankInfo.setAdapter(feedbackAdapter);
+
+        rvFujInfo.setLayoutManager(new LinearLayoutManager(context));
+        rvFujInfo.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
+        rvFujInfo.setAdapter(fujAdapter);
+        scrollView.smoothScrollTo(0,0);
     }
 
     public void initOperator() {
@@ -160,10 +196,10 @@ public class NoticeDetailActivity extends BaseActivity implements INoticeDetailV
         if(resultCode == RESULT_OK){
 
         switch (requestCode){
-            case REQ_CODE_FEEDBACK:
-                EntityFeedback feedback = (EntityFeedback) data.getSerializableExtra("entityFeedback");
+            case REQ_CODE_FANK:
+                EntityNoticeFank feedback = (EntityNoticeFank) data.getSerializableExtra("entityFeedback");
                 if(feedback != null){
-                    feedbackDatas.add(feedback);
+                    fankDatas.add(feedback);
                     feedbackAdapter.notifyDataSetChanged();
                 }
                 break;

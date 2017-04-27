@@ -1,6 +1,7 @@
 package com.zondy.jwt.jwtmobile.view;
 
 import com.zondy.jwt.jwtmobile.entity.EntityContact;
+import com.zondy.jwt.jwtmobile.entity.EntityContactsAndZZJGS;
 import com.zondy.jwt.jwtmobile.entity.EntityZD;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface IContactView {
     void queryZZJGUnSuccessed(String msg);
     void queryContactsByZZJGSuccessed(List<EntityContact> contacts);
     void queryContactsByZZJGUnSuccessed(String msg);
+    void queryContactsAndZZJGsByKeywordSuccessed(EntityContactsAndZZJGS contactsAndZZJGSes);
+    void queryContactsAndZZJGsByKeywordFail(Exception e);
 }

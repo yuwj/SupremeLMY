@@ -1,7 +1,6 @@
 package com.zondy.jwt.jwtmobile.callback;
 
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
-import com.zondy.jwt.jwtmobile.entity.EntityNotice;
+import com.zondy.jwt.jwtmobile.entity.EntityNoticeFank;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
  */
 
 public interface IQueryNoticeDetailCallback {
-    void onQueryNoticeDetailSuccess(List<EntityFeedback> feedbackList);
+    void onQueryNoticeDetailSuccess(List<EntityNoticeFank> feedbackList);
     void onQueryNoticeDetailFail(Exception e);
 
 }

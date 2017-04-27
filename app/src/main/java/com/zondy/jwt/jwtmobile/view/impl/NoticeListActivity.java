@@ -8,19 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.jcodecraeer.xrecyclerview.ArrowRefreshHeader;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
+import com.zondy.jwt.jwtmobile.entity.EntityNoticeFank;
 import com.zondy.jwt.jwtmobile.entity.EntityNotice;
 import com.zondy.jwt.jwtmobile.entity.EntityPage;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
@@ -37,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class NoticeListActivity extends BaseActivity implements INoticeView {
 
@@ -52,7 +48,6 @@ public class NoticeListActivity extends BaseActivity implements INoticeView {
     CommonAdapter<EntityNotice> noticeAdapter;
     INoticePresenter noticePresenter;
     EntityUser userInfo;
-    int noticeType;
     EntityPage entityPage;
     EntityNotice selectedEntityNotice;
 
@@ -76,8 +71,6 @@ public class NoticeListActivity extends BaseActivity implements INoticeView {
     }
 
     public void initParam() {
-        Intent intent = getIntent();
-        noticeType = intent.getIntExtra("noticeType",EntityNotice.NOTICE_TYPE_TONGZGG);
         entityPage = new EntityPage();
         userInfo = SharedTool.getInstance().getUserInfo(context);
         noticePresenter = new NoticePresenter(this);
@@ -85,24 +78,24 @@ public class NoticeListActivity extends BaseActivity implements INoticeView {
         noticeAdapter = new CommonAdapter<EntityNotice>(context, R.layout.item_notice_list, noticeDatas) {
             @Override
             protected void convert(ViewHolder holder, EntityNotice entityNotice, int position) {
-                holder.setText(R.id.tv_title,"标题: "+entityNotice.getTitle());
-                holder.setText(R.id.tv_content,"内容: "+entityNotice.getContent());
-                holder.setText(R.id.tv_time,"时间: "+entityNotice.getTime());
+                holder.setText(R.id.tv_fabdw,""+entityNotice.getFbdw());
+                holder.setText(R.id.tv_content,""+entityNotice.getBt());
+                holder.setText(R.id.tv_time,""+entityNotice.getFbrq()+entityNotice.getFbsj());
 
-                final List<String> mediaPaths = entityNotice.getFilePaths();
+                final List<String> mediaPaths = entityNotice.getDmtljList();
 
                 if(mediaPaths != null && mediaPaths.size()>0){
-                    RecyclerView recyclerView = holder.getView(R.id.rv_feedback_medias);
-                    CommonAdapter<String> mediaAdapter = new CommonAdapter<String>(context,R.layout.item_tuisxx_media,mediaPaths) {
+                    RecyclerView recyclerView = holder.getView(R.id.rv_notice_medias);
+                    CommonAdapter<String> mediaAdapter = new CommonAdapter<String>(context,R.layout.item_notice_media,mediaPaths) {
                         @Override
                         protected void convert(ViewHolder holder, String s, int position) {
-                            ImageView ivTuisxx = holder.getView(R.id.iv_tuisxx_image);
+                            ImageView ivNoticeImage = holder.getView(R.id.iv_notice_image);
                             Glide.with(mContext)
                                     .load(s)
                                     .placeholder(R.drawable.ic_handlejingq_wait_img)
                                     .error(R.drawable.ic_img_load_fail)
                                     .crossFade()
-                                    .into(ivTuisxx);
+                                    .into(ivNoticeImage);
                         }
                     };
                     recyclerView.setLayoutManager(new FullyGridLayoutManager(context,4));
@@ -140,16 +133,7 @@ public class NoticeListActivity extends BaseActivity implements INoticeView {
     }
 
     public void initView() {
-        String title = "通知";
-        switch (noticeType){
-            case EntityNotice.NOTICE_TYPE_BUK:
-                title = "布控布防";
-                break;
-            case EntityNotice.NOTICE_TYPE_TONGZGG:
-                title = "通知公告";
-                break;
-
-        }
+        String title = "通知公告";
         initActionBar(toolbar,tvTitle,title);
         xrvNoticeList.setLayoutManager(new LinearLayoutManager(context));
         xrvNoticeList.addItemDecoration(new DividerItemDecoration(context,DividerItemDecoration.VERTICAL_LIST));
@@ -174,7 +158,7 @@ public class NoticeListActivity extends BaseActivity implements INoticeView {
     }
 
     public void refresh() {
-        noticePresenter.queryNoticeList(noticeType, userInfo.getUserName(), CommonUtil.getDeviceId(context),userInfo.getZzjgdm(),entityPage.getPageSize(),entityPage.getPageNo());
+        noticePresenter.queryNoticeList(EntityNotice.TYPE_NOTICE, userInfo.getUserName(), CommonUtil.getDeviceId(context),userInfo.getZzjgdm(),entityPage.getPageSize(),entityPage.getPageNo());
         showLoadingDialog("正在加载...");
     }
 
@@ -200,9 +184,9 @@ public class NoticeListActivity extends BaseActivity implements INoticeView {
     }
 
     @Override
-    public void queryNoticeDetailSuccess(List<EntityFeedback> entityFeedbacks) {
+    public void queryNoticeDetailSuccess(List<EntityNoticeFank> entityNoticeFanks) {
         dismissLoadingDialog();
-        selectedEntityNotice.setFeedbacks(entityFeedbacks);
+        selectedEntityNotice.setFankList(entityNoticeFanks);
 
         ToastTool.getInstance().shortLength(context, "查询通知详情成功", true);
         startActivity(NoticeDetailActivity.createIntent(context,selectedEntityNotice));

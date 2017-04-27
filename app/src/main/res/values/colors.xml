@@ -10,6 +10,10 @@
     <color name="gray_color_2_with_translucence">#55000000</color><!-- 灰度值：2;灰度值越大，颜色越深-->
     <color name="gray_color_3">#333333</color><!-- 灰度值：3;灰度值越大，颜色越深 -->
 
+    <!-- 常用的页面背景 -->
+    <color name="common_bg_color">#FAF7F2</color>
+    <color name="common_text_gray_color">#868686</color>
+    <color name="common_text_black_color">#1F1F1F</color>
 
     <!-- 首页各菜单的颜色-->
     <color name="main_menu_jiecj">#F5B031</color>

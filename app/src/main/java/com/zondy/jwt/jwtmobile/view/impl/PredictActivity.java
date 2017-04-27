@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -43,6 +44,7 @@ import com.zondy.mapgis.android.mapview.MapView;
 import com.zondy.mapgis.core.geometry.Dot;
 import com.zondy.mapgis.core.map.Map;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -147,7 +149,8 @@ public class PredictActivity extends BaseActivity implements IPredictView {
         predictPresenter = new PredictPresenterImpl(this);
 
         mapManager = new MapManager(mapView, context);
-        mapManager.initMap(Constant.getMapPath(), new MapManager.MapLoadListner() {
+        String mapPath = Constant.getMapPath();
+        mapManager.initMap(mapPath, new MapManager.MapLoadListner() {
             @Override
             public void onMapLoadSuccess() {
                 EntityLocation userLocation = SharedTool.getInstance().getLocationInfo(context);
@@ -247,6 +250,7 @@ public class PredictActivity extends BaseActivity implements IPredictView {
                     mapView.getGraphicsOverlay().addGraphic(graphicPolygon);
                     Bitmap bitmap = mapManager.createIndexAnnotationView(i, 1, false);
                     Annotation annotation = new Annotation(gridInfo.getGridNum() + "", "title", entityPred.getJsonStr(), dot5, bitmap);
+
                     mapView.getAnnotationsOverlay().addAnnotation(annotation);
                     if (i == 0) {
                         mapView.zoomToCenter(dot5, MapManager.goodResolution, false);

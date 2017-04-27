@@ -7,6 +7,7 @@
     android:background="@color/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     app:navigationIcon="@drawable/ic_back_baijiantou"
+    android:theme="@style/AppTheme.ActionBar"
     app:popupTheme="@style/OverflowMenuStyle">
     <!--app:popupTheme 设置菜单弹出的样式 -->
 
@@ -17,7 +18,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:textColor="@color/white"
-        android:text="傻逼"
+        android:text="标题"
         android:textSize="20sp"
         android:textStyle="bold" />
 </android.support.v7.widget.Toolbar>

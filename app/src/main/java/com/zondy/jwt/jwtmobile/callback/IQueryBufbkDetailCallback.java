@@ -1,7 +1,6 @@
 package com.zondy.jwt.jwtmobile.callback;
 
 import com.zondy.jwt.jwtmobile.entity.EntityBufbkFeedback;
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
 
 import java.util.List;
 

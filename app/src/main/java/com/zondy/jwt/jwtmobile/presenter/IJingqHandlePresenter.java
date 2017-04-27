@@ -88,5 +88,19 @@ public interface IJingqHandlePresenter {
      */
     public void queryAllJingqKuaisclTypes(String jh, String simid);
 
+    /**
+     * 请求布控界面,查询警情详情
+     * @param jingqid
+     * @param jh
+     * @param simid
+     */
+    public void queryJingqWithAskBukDetail(String jingqid, String jh, String simid) ;
 
+    /**
+     * 请求服务主界面,查询警情详情
+     * @param jingqid
+     * @param jh
+     * @param simid
+     */
+    public void queryJingqWithAskServiceMainView(String jingqid, String jh, String simid) ;
 }

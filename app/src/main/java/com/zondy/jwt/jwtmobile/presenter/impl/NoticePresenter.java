@@ -1,15 +1,15 @@
 package com.zondy.jwt.jwtmobile.presenter.impl;
 
-import com.zondy.jwt.jwtmobile.callback.INoticeFeedbackCallback;
+import com.zondy.jwt.jwtmobile.callback.INoticeFankCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryNoticeDetailCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryNoticeListCallback;
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
+import com.zondy.jwt.jwtmobile.entity.EntityNoticeFank;
 import com.zondy.jwt.jwtmobile.entity.EntityNotice;
 import com.zondy.jwt.jwtmobile.model.INoticeModel;
 import com.zondy.jwt.jwtmobile.model.impl.NoticeModelImpl;
 import com.zondy.jwt.jwtmobile.presenter.INoticePresenter;
 import com.zondy.jwt.jwtmobile.view.INoticeView;
-import com.zondy.jwt.jwtmobile.view.INoticeFeedbackView;
+import com.zondy.jwt.jwtmobile.view.INoticeFankView;
 
 import java.util.List;
 
@@ -18,19 +18,19 @@ import java.util.List;
  */
 
 public class NoticePresenter implements INoticePresenter {
-    private INoticeView voticeView;
+    private INoticeView noticeView;
     private INoticeModel noticeModel;
-    private INoticeFeedbackView tuisxxFeedbackView;
+    private INoticeFankView noticeFankView;
 
     public NoticePresenter(INoticeView voticeView) {
         super();
-        this.voticeView = voticeView;
+        this.noticeView = voticeView;
         noticeModel = new NoticeModelImpl();
     }
 
-    public NoticePresenter(INoticeFeedbackView tuisxxFeedbackView) {
+    public NoticePresenter(INoticeFankView tuisxxFeedbackView) {
         super();
-        this.tuisxxFeedbackView = tuisxxFeedbackView;
+        this.noticeFankView = tuisxxFeedbackView;
         noticeModel = new NoticeModelImpl();
     }
 
@@ -40,12 +40,12 @@ public class NoticePresenter implements INoticePresenter {
         noticeModel.queryNoticeList(noticeType, jh, simid,zzjgdm,pageSize,pageNo, new IQueryNoticeListCallback() {
             @Override
             public void queryNoticeListSuccess(List<EntityNotice> notices) {
-                voticeView.queryNoticeListSuccess(notices);
+                noticeView.queryNoticeListSuccess(notices);
             }
 
             @Override
             public void queryNoticeListFail(Exception e) {
-                voticeView.queryNoticeListFail(e);
+                noticeView.queryNoticeListFail(e);
             }
         });
     }
@@ -54,29 +54,29 @@ public class NoticePresenter implements INoticePresenter {
     public void queryNoticeDetail(String jh, String simid, String noticeId) {
         noticeModel.queryNoticeDetail(jh, simid, noticeId, new IQueryNoticeDetailCallback() {
             @Override
-            public void onQueryNoticeDetailSuccess(List<EntityFeedback> entityNotice) {
-                voticeView.queryNoticeDetailSuccess(entityNotice);
+            public void onQueryNoticeDetailSuccess(List<EntityNoticeFank> entityNotice) {
+                noticeView.queryNoticeDetailSuccess(entityNotice);
             }
 
             @Override
             public void onQueryNoticeDetailFail(Exception e) {
-                voticeView.queryNoticeDetailFail(e);
+                noticeView.queryNoticeDetailFail(e);
             }
         });
     }
 
     @Override
-    public void feedback(String tuisxxId, String jh, String simid, String mediaPaths, String feedbackStrInfo) {
-        noticeModel.feedbackNotice(tuisxxId, jh, simid, feedbackStrInfo, mediaPaths, new INoticeFeedbackCallback() {
+    public void fank(String tuisxxId, String jh, String simid, String mediaPaths, String feedbackStrInfo) {
+        noticeModel.noticeFank(tuisxxId, jh, simid, feedbackStrInfo, mediaPaths, new INoticeFankCallback() {
             @Override
-            public void noticeFeedbackSuccess(EntityFeedback entityFeedback) {
-                tuisxxFeedbackView.feedbackSuccess(entityFeedback);
+            public void noticeFankSuccess(EntityNoticeFank entityNoticeFank) {
+                noticeFankView.noticeFankSuccess(entityNoticeFank);
             }
 
             @Override
-            public void noticeFeedbackFail(Exception e) {
+            public void noticeFankFail(Exception e) {
 
-                tuisxxFeedbackView.feedbackFalied(e);
+                noticeFankView.noticeFankFail(e);
             }
         });
     }

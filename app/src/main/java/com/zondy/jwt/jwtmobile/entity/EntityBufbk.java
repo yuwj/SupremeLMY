@@ -298,6 +298,9 @@ public class EntityBufbk implements Serializable {
     }
 
     public List<EntityBufbkFeedback> getFeedbacks() {
+        if(entityBufbkFeedbacks == null){
+            entityBufbkFeedbacks = new ArrayList<>();
+        }
         return entityBufbkFeedbacks;
     }
 

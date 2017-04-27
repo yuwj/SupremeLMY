@@ -78,9 +78,9 @@ public class BufbkListActivity extends BaseActivity implements IBufbkView {
         bufbkAdapter = new CommonAdapter<EntityBufbk>(context, R.layout.item_bufbk_list, bufbkDatas) {
             @Override
             protected void convert(ViewHolder holder, EntityBufbk entityBufbk, int position) {
-                holder.setText(R.id.tv_title,"标题: "+entityBufbk.getMc());
-                holder.setText(R.id.tv_content,"内容: "+entityBufbk.getBksy());
-                holder.setText(R.id.tv_time,"时间: "+entityBufbk.getBksj());
+                holder.setText(R.id.tv_title,""+entityBufbk.getMc());
+                holder.setText(R.id.tv_content,""+entityBufbk.getBksy());
+                holder.setText(R.id.tv_time,""+entityBufbk.getBksj());
 
                 final List<String> mediaPaths = entityBufbk.getFilePaths();
 
@@ -89,13 +89,13 @@ public class BufbkListActivity extends BaseActivity implements IBufbkView {
                     CommonAdapter<String> mediaAdapter = new CommonAdapter<String>(context,R.layout.item_bufbk_media,mediaPaths) {
                         @Override
                         protected void convert(ViewHolder holder, String s, int position) {
-                            ImageView ivTuisxx = holder.getView(R.id.iv_bufbk_image);
+                            ImageView ivBufbk = holder.getView(R.id.iv_bufbk_image);
                             Glide.with(mContext)
                                     .load(s)
                                     .placeholder(R.drawable.ic_handlejingq_wait_img)
                                     .error(R.drawable.ic_img_load_fail)
                                     .crossFade()
-                                    .into(ivTuisxx);
+                                    .into(ivBufbk);
                         }
                     };
                     recyclerView.setLayoutManager(new FullyGridLayoutManager(context,4));

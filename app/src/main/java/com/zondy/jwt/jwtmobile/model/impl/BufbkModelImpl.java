@@ -7,6 +7,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
+import com.zondy.jwt.jwtmobile.base.MyApplication;
 import com.zondy.jwt.jwtmobile.callback.IAcceptBufbkCallback;
 import com.zondy.jwt.jwtmobile.callback.IBufbkFeedbackCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryBufbkDetailCallback;
@@ -97,6 +98,9 @@ public class BufbkModelImpl implements IBufbkModel {
 
     @Override
     public void queryBufbkList(String jh, String simid,String xingm,int pageSize,int pageNo, final IQueryBufbkListCallback queryBufbkListCallback) {
+        if(MyApplication.IS_Test_json){
+            UrlManager.queryBufbkDatas = UrlManager.queryBufbkDatas.replace("/","");
+        }
         final String url = UrlManager.getSERVER() + UrlManager.queryBufbkDatas;
         final StringBuffer sb = new StringBuffer();
         sb.append("\n\nurl:"+url);
@@ -117,6 +121,10 @@ public class BufbkModelImpl implements IBufbkModel {
                 @Override
                 public List<EntityBufbk> parseNetworkResponse(Response response, int id) throws Exception {
                     String string=response.body().string();
+                    if(MyApplication.IS_Test_json){
+                        string = string.substring(1,string.length()-1);
+                        string = string.replace("\\","");
+                    }
                     sb.append("\n\n response:"+string);
                     SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                     JSONObject object=new JSONObject(string);
@@ -155,6 +163,10 @@ public class BufbkModelImpl implements IBufbkModel {
 
     @Override
     public void queryBufbkFeedbacks(String jh, String simid, String bufbkId, final IQueryBufbkDetailCallback queryBufbkDetailCallback) {
+
+        if(MyApplication.IS_Test_json){
+            UrlManager.queryBufbkFeedbackDatas = UrlManager.queryBufbkFeedbackDatas.replace("/","");
+        }
         final String url = UrlManager.getSERVER() + UrlManager.queryBufbkFeedbackDatas;
         final StringBuffer sb = new StringBuffer();
         sb.append("\n\nurl:"+url);
@@ -173,6 +185,11 @@ public class BufbkModelImpl implements IBufbkModel {
                 @Override
                 public List<EntityBufbkFeedback> parseNetworkResponse(Response response, int id) throws Exception {
                     String string=response.body().string();
+
+                    if(MyApplication.IS_Test_json){
+                        string = string.substring(1,string.length()-1);
+                        string = string.replace("\\","");
+                    }
                     sb.append("\n\n response:"+string);
                     JSONObject object=new JSONObject(string);
                     int resultCode=object.optInt("result");
@@ -209,6 +226,10 @@ public class BufbkModelImpl implements IBufbkModel {
 
     @Override
     public void feedbackBufbk(String bufbkId, String jh, String simid,String xingm, String feedbackStrInfo, String filesPath, final IBufbkFeedbackCallback bufbkFeedback) {
+
+        if(MyApplication.IS_Test_json){
+            UrlManager.addBufbkFankxx = UrlManager.addBufbkFankxx.replace("/","");
+        }
         final String url = UrlManager.getSERVER() + UrlManager.addBufbkFankxx;
         final StringBuffer sb = new StringBuffer();
         sb.append("\n\nurl:"+url);
@@ -246,6 +267,10 @@ public class BufbkModelImpl implements IBufbkModel {
                     public void onSuccess(String s, Call call, Response response) {
                         //上传成功
                         sb.append("\n\n response:"+s);
+                        if(MyApplication.IS_Test_json){
+                            s = s.substring(1,s.length()-1);
+                            s = s.replace("\\","");
+                        }
                         JSONObject object= null;
                         try {
                             object = new JSONObject(s);

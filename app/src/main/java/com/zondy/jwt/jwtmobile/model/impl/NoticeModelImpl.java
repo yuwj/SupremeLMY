@@ -3,19 +3,16 @@ package com.zondy.jwt.jwtmobile.model.impl;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
-import com.zondy.jwt.jwtmobile.callback.INoticeFeedbackCallback;
+import com.zondy.jwt.jwtmobile.base.MyApplication;
+import com.zondy.jwt.jwtmobile.callback.INoticeFankCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryNoticeDetailCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryNoticeListCallback;
-import com.zondy.jwt.jwtmobile.entity.EntityBaseResponse;
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
-import com.zondy.jwt.jwtmobile.entity.EntityLocation;
+import com.zondy.jwt.jwtmobile.entity.EntityNoticeFank;
 import com.zondy.jwt.jwtmobile.entity.EntityNotice;
-import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.INoticeModel;
 import com.zondy.jwt.jwtmobile.util.GsonUtil;
@@ -25,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +40,11 @@ public class NoticeModelImpl implements INoticeModel {
 
     @Override
     public void queryNoticeList(int noticeType, String jh, String simid,String zzjgdm,int pageSize,int pageNo, final IQueryNoticeListCallback queryNoticeListCallback) {
+        if(MyApplication.IS_Test_json){
+            UrlManager.queryNoticeDatas = UrlManager.queryNoticeDatas.replace("/","");
+        }
         final String url = UrlManager.getSERVER() + UrlManager.queryNoticeDatas;
+
         final StringBuffer sb = new StringBuffer();
         sb.append("\n\nurl:"+url);
         JSONObject param=new JSONObject();
@@ -65,12 +65,17 @@ public class NoticeModelImpl implements INoticeModel {
                 @Override
                 public List<EntityNotice> parseNetworkResponse(Response response, int id) throws Exception {
                     String string=response.body().string();
+
+                    if(MyApplication.IS_Test_json){
+                        string = string.substring(1,string.length()-1);
+                        string = string.replace("\\","");
+                    }
                     sb.append("\n\n response:"+string);
                     SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                     JSONObject object=new JSONObject(string);
                     int resultCode=object.optInt("result");
                     String msg=object.optString("message");
-                    String noticeListStr = object.optString("tuisxxList");
+                    String noticeListStr = object.optString("noticeList");
                     switch (resultCode){
                         case 1:
                             List<EntityNotice> datas = GsonUtil.json2BeanList(noticeListStr, EntityNotice.class);
@@ -83,20 +88,6 @@ public class NoticeModelImpl implements INoticeModel {
 
                 @Override
                 public void onError(Call call, Exception e, int id) {
-                    boolean isTest= true;
-                    if(isTest){
-                        List<EntityNotice> ns = new ArrayList<EntityNotice>();
-                        for(int i = 0;i<20;i++){
-                            EntityNotice n= new EntityNotice();
-                            n.setContent("aaa");
-                            ns.add(n);
-                        }
-
-                        queryNoticeListCallback.queryNoticeListSuccess(ns);
-                        return;
-                    }
-
-
                     queryNoticeListCallback.queryNoticeListFail(e);
                     sb.append("\n\n responese:"+e.getMessage());
 
@@ -117,6 +108,10 @@ public class NoticeModelImpl implements INoticeModel {
 
     @Override
     public void queryNoticeDetail(String jh, String simid, String noticeId, final IQueryNoticeDetailCallback queryNoticeDetailCallback) {
+
+        if(MyApplication.IS_Test_json){
+            UrlManager.queryNoticeFeedbackDatas = UrlManager.queryNoticeFeedbackDatas.replace("/","");
+        }
         final String url = UrlManager.getSERVER() + UrlManager.queryNoticeFeedbackDatas;
         final StringBuffer sb = new StringBuffer();
         sb.append("\n\nurl:"+url);
@@ -131,10 +126,14 @@ public class NoticeModelImpl implements INoticeModel {
         sb.append("\n\n param:"+sb.toString());
         try {
             OkHttpUtils.postString().url(url).content(param.toString()).mediaType(MediaType.parse("application/json; charset=utf-8"))
-                    .build().execute(new Callback<List<EntityFeedback>>() {
+                    .build().execute(new Callback<List<EntityNoticeFank>>() {
                 @Override
-                public List<EntityFeedback> parseNetworkResponse(Response response, int id) throws Exception {
+                public List<EntityNoticeFank> parseNetworkResponse(Response response, int id) throws Exception {
                     String string=response.body().string();
+                    if(MyApplication.IS_Test_json){
+                        string = string.substring(1,string.length()-1);
+                        string = string.replace("\\","");
+                    }
                     sb.append("\n\n response:"+string);
                     JSONObject object=new JSONObject(string);
                     int resultCode=object.optInt("result");
@@ -142,7 +141,7 @@ public class NoticeModelImpl implements INoticeModel {
                     String noticeDetailStr = object.optString("noticeDetailStr");
                     switch (resultCode){
                         case 1:
-                            List<EntityFeedback> data = GsonUtil.json2BeanList(noticeDetailStr, EntityFeedback.class);
+                            List<EntityNoticeFank> data = GsonUtil.json2BeanList(noticeDetailStr, EntityNoticeFank.class);
                             return  data;
                         default:
                             throw new Exception(msg);
@@ -159,7 +158,7 @@ public class NoticeModelImpl implements INoticeModel {
                 }
 
                 @Override
-                public void onResponse(List<EntityFeedback> response, int id) {
+                public void onResponse(List<EntityNoticeFank> response, int id) {
                     SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
                     queryNoticeDetailCallback.onQueryNoticeDetailSuccess(response);
                 }
@@ -170,7 +169,10 @@ public class NoticeModelImpl implements INoticeModel {
     }
 
     @Override
-    public void feedbackNotice(String noticeId, String jh, String simid, String feedbackStrInfo, String filesPath, final INoticeFeedbackCallback noticeFeedback) {
+    public void noticeFank(String noticeId, String jh, String simid, String feedbackStrInfo, String filesPath, final INoticeFankCallback noticeFeedback) {
+        if(MyApplication.IS_Test_json){
+            UrlManager.NoticeFeedback = UrlManager.NoticeFeedback.replace("/","");
+        }
         final String url = UrlManager.getSERVER() + UrlManager.NoticeFeedback;
         final StringBuffer sb = new StringBuffer();
         sb.append("\n\nurl:"+url);
@@ -207,23 +209,29 @@ public class NoticeModelImpl implements INoticeModel {
                     public void onSuccess(String s, Call call, Response response) {
                         //上传成功
                         sb.append("\n\n response:"+s);
+
                         JSONObject object= null;
                         try {
+
+                            if(MyApplication.IS_Test_json){
+                                s = s.substring(1,s.length()-1);
+                                s = s.replace("\\","");
+                            }
                             object = new JSONObject(s);
                             int resultCode=object.optInt("result");
                             String msg=object.optString("message");
                             String noticeDetailStr = object.optString("tuisxxFKBean");
                             switch (resultCode){
                                 case 1:
-                                    EntityFeedback data = GsonUtil.json2Bean(noticeDetailStr, EntityFeedback.class);
-                                    noticeFeedback.noticeFeedbackSuccess(data);
+                                    EntityNoticeFank data = GsonUtil.json2Bean(noticeDetailStr, EntityNoticeFank.class);
+                                    noticeFeedback.noticeFankSuccess(data);
                                 default:
-                                    noticeFeedback.noticeFeedbackFail(new Exception(msg));
+                                    noticeFeedback.noticeFankFail(new Exception(msg));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             sb.append("\n\n response:"+e.getMessage());
-                            noticeFeedback.noticeFeedbackFail(e);
+                            noticeFeedback.noticeFankFail(e);
                         }
 
                         SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());
@@ -240,7 +248,7 @@ public class NoticeModelImpl implements INoticeModel {
                     @Override
                     public void onError(Call call, Response response, Exception e) {
                         super.onError(call, response, e);
-                        noticeFeedback.noticeFeedbackFail(e);
+                        noticeFeedback.noticeFankFail(e);
                         Log.d(tag,e.getMessage());
                         sb.append("\n\n response:"+e.getMessage());
                         SDCardUtil.saveHttpRequestInfo2File(url,sb.toString());

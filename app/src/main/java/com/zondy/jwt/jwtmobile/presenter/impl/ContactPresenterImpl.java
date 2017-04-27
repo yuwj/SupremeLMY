@@ -3,9 +3,11 @@ package com.zondy.jwt.jwtmobile.presenter.impl;
 import android.content.Context;
 
 import com.zondy.jwt.jwtmobile.callback.ILoginCallback;
+import com.zondy.jwt.jwtmobile.callback.IQueryContactsAndZZJGSByKeywordCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryContactsByZZJGCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryZZJGCallback;
 import com.zondy.jwt.jwtmobile.entity.EntityContact;
+import com.zondy.jwt.jwtmobile.entity.EntityContactsAndZZJGS;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.model.IContactModel;
@@ -35,10 +37,7 @@ public class ContactPresenterImpl implements IContactPresenter{
         contactModel=new ContactModelImpl();
     }
 
-    /**
-     * 查询联系人所有组织机构
-     * @param zdlx
-     */
+
     @Override
     public void queryZDDatasByZZJG(String zdlx) {
         contactModel.queryZZJG(context,zdlx, new IQueryZZJGCallback() {
@@ -65,6 +64,37 @@ public class ContactPresenterImpl implements IContactPresenter{
             @Override
             public void queryUnSuccessed(String msg) {
                 contactView.queryContactsByZZJGUnSuccessed(msg);
+            }
+        });
+    }
+
+    @Override
+    public void queryZZJGByParentZZJG(String parentZZJG) {
+        contactModel.queryZZJGByParentZZJG(context,parentZZJG,new IQueryZZJGCallback(){
+            @Override
+            public void querySuccessed(List<EntityZD> allEntitys) {
+                contactView.queryZZJGSuccessed(allEntitys);
+            }
+
+            @Override
+            public void queryUnSuccessed(String msg) {
+                contactView.queryZZJGUnSuccessed(msg);
+
+            }
+        });
+    }
+
+    @Override
+    public void queryContactsAndZZJGSByKeyword(String keyword) {
+        contactModel.queryContactsAndZZJGSByKeyword(context, keyword, new IQueryContactsAndZZJGSByKeywordCallback() {
+            @Override
+            public void onQueryContactsAndZZJGsSuccess(EntityContactsAndZZJGS result) {
+                contactView.queryContactsAndZZJGsByKeywordSuccessed(result);
+            }
+
+            @Override
+            public void onQueryContactsAndZZJGsFail(Exception e) {
+                contactView.queryContactsAndZZJGsByKeywordFail(e);
             }
         });
     }

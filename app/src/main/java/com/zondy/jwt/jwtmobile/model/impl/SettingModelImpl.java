@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
+import com.zondy.jwt.jwtmobile.base.MyApplication;
 import com.zondy.jwt.jwtmobile.callback.ILoginCallback;
 import com.zondy.jwt.jwtmobile.callback.ILogoutCallback;
 import com.zondy.jwt.jwtmobile.callback.IUpdatePasswordCallback;
@@ -35,6 +36,10 @@ public class SettingModelImpl implements ISettingModel {
 
     @Override
     public void logout(String jh, String simid, final ILogoutCallback logoutCallback) {
+
+        if(MyApplication.IS_Test_json){
+            UrlManager.LOGOUT = UrlManager.LOGOUT.replace("/","");
+        }
         String url = UrlManager.getSERVER() + UrlManager.LOGOUT;
         JSONObject param = new JSONObject();
         try {
@@ -49,6 +54,10 @@ public class SettingModelImpl implements ISettingModel {
                 @Override
                 public Object parseNetworkResponse(Response response, int id) throws Exception {
                     String string = response.body().string();
+                    if(MyApplication.IS_Test_json){
+                        string = string.substring(1,string.length()-1);
+                        string = string.replace("\\","");
+                    }
                     Log.i("sheep", "parseNetworkResponse: "+string);
                     JSONObject object = new JSONObject(string);
                     int resultCode = object.optInt("result");

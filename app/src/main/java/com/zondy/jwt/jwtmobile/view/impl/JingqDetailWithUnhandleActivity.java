@@ -123,27 +123,24 @@ public class JingqDetailWithUnhandleActivity extends BaseActivity implements IJi
                 Log.i("xxxx", "" + entityJingq.getLongitude());
                 Log.i("xxxx", "" + entityJingq.getLatitude());
                 if (entityJingq.getLongitude() > 0 && entityJingq.getLatitude() > 0) {
-                    double[] xy = mapManager.lonLat2Mercator(entityJingq.getLongitude(), entityJingq.getLatitude());
-                    Log.i("xxxx", "xy: " + xy[0] + "   " + xy[1]);
+                    Dot jingqDot = null;
+                    switch (Constant.JWT_AREA_SELECTED){
+                        case Constant.JWT_AREA_HA:
+                        case Constant.JWT_AREA_DZ:
+                        case Constant.JWT_AREA_LYG:
+                            jingqDot = new Dot(entityJingq.getLongitude(), entityJingq.getLatitude());
+                            break;
+                        case Constant.JWT_AREA_WH:
+                            double[] xy = mapManager.lonLat2Mercator(entityJingq.getLongitude(), entityJingq.getLatitude());
+                            jingqDot = new Dot(xy[0],xy[1]);
+                            break;
 
-                    double[] yz = mapManager.Mercator2lonLat(1.2735793594229463E7, 3567123.954291529);
-                    Log.i("xxxx", "yz: " + yz[0] + "   " + yz[1]);
-                    double[] za = mapManager.lonLat2Mercator(yz[0], yz[1]);
-                    Log.i("xxxx", "za: " + za[0] + "   " + za[1]);
-                    annoJingq = new Annotation("警情", entityJingq.toJsonStr(), new Dot(xy[0], xy[1]), BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_position_blue_type1));
+                    }
+                    annoJingq = new Annotation("警情", entityJingq.toJsonStr(), jingqDot, BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_position_blue_type1));
                     mapManager.addAnnotaion(annoJingq);
                     annoJingq.showAnnotationView();
                     mapview.refresh();
                 }
-//                mapview.setTapListener(new MapView.MapViewTapListener() {
-//                    @Override
-//                    public void mapViewTap(PointF pointF) {
-//                        Dot point = mapview.viewPointToMapPoint(pointF);
-//                        Log.i("xxxx", "onMapLoadSuccess2: " + point.getX() + "   " + point.getY());
-//                        Annotation annoJingq = new Annotation("警情", entityJingq.toJsonStr(), point, BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_position_blue_type1));
-//                        mapManager.addAnnotaion(annoJingq);
-//                    }
-//                });
             }
 
             @Override

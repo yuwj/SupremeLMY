@@ -26,6 +26,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityContact;
+import com.zondy.jwt.jwtmobile.entity.EntityContactsAndZZJGS;
 import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.presenter.IContactPresenter;
@@ -202,9 +203,9 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                     popContentView = ContactsActivity.this.getLayoutInflater().inflate(R.layout.pop_contacts_zzjg, null);
                     tvChooseTitle = (TextView) popContentView.findViewById(R.id.tv_choose_title);
                     popwindow = new PopupWindow(popContentView, width, height);
-//                    popwindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
-//                    popwindow.setFocusable(true);
-//                    popwindow.setOutsideTouchable(false);
+//                    showPhoneNumpopwindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ffffff")));
+//                    showPhoneNumpopwindow.setFocusable(true);
+//                    showPhoneNumpopwindow.setOutsideTouchable(false);
 //
 //                    if (tvZzjg.getText().toString() != null) {
 //                        tvChooseTitle.setText(tvZzjg.getText().toString());
@@ -234,7 +235,7 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
                             popwindow.dismiss();
                         }
                     });
-//                    popwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//                    showPhoneNumpopwindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 //                        @Override
 //                        public void onDismiss() {
 //                            backgroundAlpha(1f);
@@ -442,6 +443,19 @@ public class ContactsActivity extends BaseActivity implements View.OnClickListen
     public void queryContactsByZZJGUnSuccessed(String msg) {
         dismissLoadingDialog();
         ToastTool.getInstance().shortLength(this, "暂无相关联系人！", true);
+    }
+
+    @Override
+    public void queryContactsAndZZJGsByKeywordSuccessed(EntityContactsAndZZJGS contactsAndZZJGSes) {
+
+        dismissLoadingDialog();
+    }
+
+    @Override
+    public void queryContactsAndZZJGsByKeywordFail(Exception e) {
+        dismissLoadingDialog();
+        ToastTool.getInstance().shortLength(this, e.getMessage(), true);
+
     }
 
     /**

@@ -93,6 +93,12 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- toolbar menu文字颜色 -->
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
+
     <!-- viewPager indicator,然后在activity中指定theme为该style-->
     <style name="TabIndicatorStyle" parent="@style/CollapsingToolbarTheme">
         <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>

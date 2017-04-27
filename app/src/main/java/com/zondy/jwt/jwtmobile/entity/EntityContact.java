@@ -1,12 +1,17 @@
 package com.zondy.jwt.jwtmobile.entity;
 
+import com.google.gson.annotations.SerializedName;
 import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sheep on 2017/1/12.
  */
 
-public class EntityContact extends BaseIndexPinyinBean{
+public class EntityContact extends BaseIndexPinyinBean implements Serializable{
     String jh;
     String xm;
     String dh;
@@ -15,6 +20,7 @@ public class EntityContact extends BaseIndexPinyinBean{
     String ssdwmc;
     String zw;
     String id;
+    List<String> dhList;
 
     public EntityContact() {
 
@@ -103,5 +109,23 @@ public class EntityContact extends BaseIndexPinyinBean{
     @Override
     public String getTarget() {
         return xm;
+    }
+
+    public List<String> getDhList() {
+        if(dhList == null){
+            dhList = new ArrayList<>();
+        }
+        dhList.clear();
+        String[] dhs = dh.split(",");
+        if(dhs != null && dhs.length > 0){
+            for(int i=0;i<dhs.length;i++){
+                dhList.add(dhs[i]);
+            }
+        }
+        return dhList;
+    }
+
+    public void setDhList(List<String> dhList) {
+        this.dhList = dhList;
     }
 }

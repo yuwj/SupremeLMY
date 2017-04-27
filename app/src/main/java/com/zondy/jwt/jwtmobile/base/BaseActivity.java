@@ -3,6 +3,7 @@ package com.zondy.jwt.jwtmobile.base;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -25,13 +26,16 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
     public abstract int setCustomContentViewResourceId();
+
     public Context context;
     DialogInterface.OnCancelListener taskCancelListener;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(setCustomContentViewResourceId());
-        context=this;
+        context = this;
         ActivityCollector.addActivity(this);
         //使用ButterKnife 注入view
         ButterKnife.bind(this);
@@ -66,10 +70,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-//    ProgressDialog loadingProgressDialog;
-   LoadingProgressDialog loadingProgressDialog;
+    //    ProgressDialog loadingProgressDialog;
+    LoadingProgressDialog loadingProgressDialog;
     int taskCount = 0;//有时一个页面会发出多个请求
-  /**
+
+    /**
      * 显示加载时的对话框
      */
     public void showLoadingDialog(String loadInfo) {
@@ -78,7 +83,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             loadingProgressDialog = new LoadingProgressDialog(this, R.style.loading_progress_dialog);
             loadingProgressDialog.setCancelable(true);// 设置是否可以通过点击Back键取消
             loadingProgressDialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-            if(taskCancelListener != null){
+            if (taskCancelListener != null) {
 
                 loadingProgressDialog.setOnCancelListener(taskCancelListener);
             }
@@ -92,8 +97,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public void dismissLoadingDialog() {
         if (loadingProgressDialog != null && loadingProgressDialog.isShowing()) {
-            if(--taskCount <=0){
-             loadingProgressDialog.dismiss();
+            if (--taskCount <= 0) {
+                loadingProgressDialog.dismiss();
+                taskCount = 0;
             }
         }
     }
@@ -103,7 +109,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return super.onOptionsItemSelected(item);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

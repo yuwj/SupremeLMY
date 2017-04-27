@@ -1,9 +1,6 @@
 package com.zondy.jwt.jwtmobile.view;
 
 import com.zondy.jwt.jwtmobile.entity.EntityBufbk;
-import com.zondy.jwt.jwtmobile.entity.EntityBufbkFeedback;
-import com.zondy.jwt.jwtmobile.entity.EntityFeedback;
-import com.zondy.jwt.jwtmobile.entity.EntityNotice;
 
 import java.util.List;
 

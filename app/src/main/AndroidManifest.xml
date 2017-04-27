@@ -43,51 +43,13 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-    <!-- mpush end -->
-    <!--&lt;!&ndash; 百度语音 start &ndash;&gt;-->
-    <!--<uses-permission android:name="android.permission.RECORD_AUDIO"  />-->
-    <!--<uses-permission android:name="android.permission.INTERNET"  />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"  />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"  />-->
-    <!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"  />-->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"  />-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"  />-->
-    <!--&lt;!&ndash; 百度语音 end &ndash;&gt;-->
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-
         android:theme="@style/CollapsingToolbarTheme">
-
-        android:theme="@style/AppTheme">
-        <!--&lt;!&ndash; 百度语音 start &ndash;&gt;-->
-
-        <!--<meta-data android:name="com.baidu.speech.APP_ID" android:value="9410777"/>-->
-        <!--&lt;!&ndash; 请填写应用实际的API_KEY &ndash;&gt;-->
-        <!--<meta-data android:name="com.baidu.speech.API_KEY" android:value="IRbeg4427WGbSDKl3Fc2QjWF"/>-->
-        <!--&lt;!&ndash; 请填写应用实际的SECRET_KEY &ndash;&gt;-->
-        <!--<meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="3V7S84l5gmZZLbg3tpNYZUiI2qlHlfOO"/>-->
-        <!--<service android:name="com.baidu.speech.VoiceRecognitionService" android:exported="false" ></service>-->
-        <!--<activity-->
-            <!--android:name="com.baidu.voicerecognition.android.ui.BaiduASRDigitalDialog"-->
-            <!--android:configChanges="orientation|keyboardHidden|screenLayout"-->
-            <!--android:theme="@android:style/Theme.Dialog"-->
-            <!--android:exported="false"-->
-            <!--android:screenOrientation="portrait">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.baidu.action.RECOGNIZE_SPEECH" ></action>-->
-                <!--<category android:name="android.intent.category.DEFAULT" ></category>-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-        <!--<activity-->
-            <!--android:name=".view.impl.BaiduyuyinActivity"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:theme="@style/CollapsingToolbarTheme" />-->
-        <!--&lt;!&ndash; 百度语音 end &ndash;&gt;-->
-
 
 
         <activity
@@ -127,6 +89,10 @@
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
+            android:name=".view.impl.MainWithGridActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
@@ -180,58 +146,45 @@
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
 
-            android:theme="@style/CollapsingToolbarTheme"/>
-        <activity
-            android:name=".view.impl.XunlpcRYHCRYXXActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
-        <activity
-            android:name=".view.impl.XunlpcPCJBXXActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
-        <activity
-            android:name=".view.impl.XunlpcPCGLXXActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
-        <activity
-            android:name=".view.impl.XunlpcPCFKXXActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
-        <activity
-            android:name=".view.impl.XunlpcPCJLActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
         <activity
             android:name=".view.impl.ShujcjActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.ShujcjJCSJCJActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.ShujcjWBTCCJActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.ShujcjFWXXCJActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.ShujcjCHJGGKActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
         <activity
             android:name=".view.impl.ShujcjFWXXCXJGActivity"
             android:launchMode="singleTask"
-            android:theme="@style/CollapsingToolbarTheme"/>
+            android:theme="@style/CollapsingToolbarTheme" />
 
         <activity
             android:name=".view.impl.ContactsActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
+            android:name=".view.impl.ContactsActivity2"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
             android:name=".view.impl.ContactsItemActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
+            android:name=".view.impl.ContactSearchActivity"
             android:launchMode="singleTask"
             android:theme="@style/CollapsingToolbarTheme" />
         <activity
@@ -344,40 +297,48 @@
                 <action android:name="com.mpush.HANDSHAKE_OK" /> <!-- 收到握手成功消息 -->
                 <action android:name="com.mpush.BIND_USER" /> <!-- 收到绑定用户消息 -->
                 <action android:name="com.mpush.UNBIND_USER" /> <!-- 收到解绑用户消息 -->
-
-
                 <!-- 此值要改为自己的应用的applicationId  @see MPushService -->
                 <category android:name="com.mpush.android" />
             </intent-filter>
         </receiver>
 
         <!-- 通知通告-->
-        <activity android:name=".view.impl.NoticeListActivity"
-            android:theme="@style/CollapsingToolbarTheme"  />
-        <activity android:name=".view.impl.NoticeDetailActivity"
+        <activity
+            android:name=".view.impl.NoticeListActivity"
             android:theme="@style/CollapsingToolbarTheme" />
-        <activity android:name=".view.impl.NoticeFeedbackActivity"
-            android:theme="@style/CollapsingToolbarTheme"  />
+        <activity
+            android:name=".view.impl.NoticeDetailActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
+            android:name=".view.impl.NoticeFankActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
 
         <!--布防布控-->
-        <activity android:name=".view.impl.BufbkListActivity"
-            android:theme="@style/CollapsingToolbarTheme"  />
-        <activity android:name=".view.impl.BufbkDetailActivity"
+        <activity
+            android:name=".view.impl.BufbkListActivity"
             android:theme="@style/CollapsingToolbarTheme" />
-        <activity android:name=".view.impl.BufbkFeedbackActivity"
-            android:theme="@style/CollapsingToolbarTheme"  />
+        <activity
+            android:name=".view.impl.BufbkDetailActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <activity
+            android:name=".view.impl.BufbkFankActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
         <!-- 预测方格 -->
-        <activity android:name=".view.impl.PredictActivity"
-            android:theme="@style/CollapsingToolbarTheme"  />
-        <!-- 请求服务 -->
-        <activity android:name=".view.impl.AskForServiceActivity"
-            android:theme="@style/TabIndicatorStyle"  />
-        <!-- 请求服务 -->
-        <activity android:name=".view.impl.MaterialDesignTest"
-            android:theme="@style/CollapsingToolbarTheme"  />
+        <activity
+            android:name=".view.impl.PredictActivity"
+            android:theme="@style/CollapsingToolbarTheme" />
+        <!-- 请求服务-->
+        <activity
+            android:name=".view.impl.AskServiceMainActivity"
+            android:theme="@style/TabIndicatorStyle" /> <!-- 请求服务-->
+        <activity
+            android:name=".view.impl.AskServiceMainActivity2"
+            android:theme="@style/TabIndicatorStyle" />
+        <!-- 测试 -->
+        <activity
+            android:name=".view.impl.MaterialDesignTest"
+            android:theme="@style/CollapsingToolbarTheme" />
 
-        <activity android:name=".view.impl.MainWithGridActivity"
-            android:theme="@style/CollapsingToolbarTheme" ></activity>
     </application>
 
 </manifest>

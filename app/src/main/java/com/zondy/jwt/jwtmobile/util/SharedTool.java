@@ -70,9 +70,8 @@ public class SharedTool {
      */
     public EntityLocation getLocationInfo(Context context){
         SharedPreferences preferences=context.getSharedPreferences(USER_SHARED_FILE,Activity.MODE_PRIVATE);
-
-        String lon = preferences.getString("longitude","119.123039");
-        String lat = preferences.getString("latitude","33.557807");
+        String lon = preferences.getString("longitude","0");
+        String lat = preferences.getString("latitude","0");
         String bear = preferences.getString("bearing","0.0");
         double longitude = Double.valueOf(lon);
         double latitude = Double.valueOf(lat);
