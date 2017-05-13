@@ -16,39 +16,79 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/gray_color_2_with_translucence"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="辖区选择:"
+                android:textColor="@color/white" />
+
+            <Spinner
+                android:id="@+id/sp_ycfgs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_location"
-                android:layout_width="20dp"
-                android:textColor="@color/white"
-                android:background="@drawable/selector_main_tongxl"
-                android:layout_height="20dp"
-                android:text="定位" />
+            <ImageView
+                android:id="@+id/iv_location"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_map_locate" />
 
-            <TextView
-                android:id="@+id/tv_zoom_in"
-                android:layout_width="20dp"
-                android:layout_marginTop="5dp"
-                android:textColor="@color/white"
-                android:background="@drawable/selector_main_tongxl"
-                android:layout_height="20dp"
-                android:text="放大" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3px"
+                android:background="@color/gray_color_0"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp" />
 
-            <TextView
-                android:id="@+id/tv_zoom_out"
-                android:layout_marginTop="5dp"
-                android:layout_width="20dp"
-                android:textColor="@color/white"
-                android:background="@drawable/selector_main_tongxl"
-                android:layout_height="20dp"
-                android:text="缩小" />
+            <ImageView
+                android:id="@+id/iv_zoom_in"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_map_zoom_in"
+                android:padding="5dp"
+                android:scaleType="fitXY" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray_color_0"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp" />
+
+            <ImageView
+                android:id="@+id/iv_zoom_out"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_map_zoom_out"
+                android:padding="5dp"
+                android:scaleType="fitXY" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

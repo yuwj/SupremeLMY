@@ -35,7 +35,10 @@ public class Constant {
             .maxStale(Integer.MAX_VALUE, TimeUnit.SECONDS)
             .build();
 
-    public static final String catchPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "jwtInfo/";
+    public static final String cachePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "jwtInfo/";
+    public static final String reqPath = cachePath +"req/";
+    public static final String uploadCompressMediaPath = cachePath +"uploadCompressMediaPath/";
+    public static final String crashPath = cachePath +"uploadCompressMediaPath/";
 
     public static final String getMapPath(){
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator ;

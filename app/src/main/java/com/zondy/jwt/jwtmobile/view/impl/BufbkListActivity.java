@@ -164,7 +164,7 @@ public class BufbkListActivity extends BaseActivity implements IBufbkView {
         dismissLoadingDialog();
         xrvBufbkList.refreshComplete();
         xrvBufbkList.loadMoreComplete();
-        ToastTool.getInstance().shortLength(context, "查询通知列表成功" + entityBufbkList.size(), true);
+        ToastTool.getInstance().shortLength(context, "查询通知列表成功" + entityBufbkList.size(), false);
         if (entityBufbkList != null && entityBufbkList.size() > 0) {
             bufbkDatas.clear();
             bufbkDatas.addAll(entityBufbkList);

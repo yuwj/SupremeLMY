@@ -36,6 +36,8 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
     TextView tvBufbkMsgCount;
     @BindView(R.id.tv_tongzgg_msg_count)
     TextView tvTongzggMsgCount;
+    @BindView(R.id.rl_qingqfw)
+    View rl_qingqfw;
     IHomePresenter homePresenter;
     EntityUser userInfo;
 
@@ -73,6 +75,7 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
         tvJiecjMsgCount.setVisibility(View.INVISIBLE);
         tvBufbkMsgCount.setVisibility(View.INVISIBLE);
         tvTongzggMsgCount.setVisibility(View.INVISIBLE);
+        rl_qingqfw.setVisibility(View.GONE);
     }
 
 
@@ -107,7 +110,7 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
 //                intent.putExtra("NAME","DH");
                 break;
             case R.id.rl_yucfg:
-                ToastTool.getInstance().shortLength(context, "预测方格模块未开放", true);
+//                ToastTool.getInstance().shortLength(context, "预测方格模块未开放", true);
                 startActivity(PredictActivity.createIntent(context));
                 break;
             case R.id.rl_bufbk:
@@ -118,8 +121,7 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
 //                intent = MaterialDesignTest.createIntent(context);
                 break;
             case R.id.rl_qingqfw:
-//                ToastTool.getInstance().shortLength(context, "请求服务模块未开放", true);
-                intent = AskServiceMainActivity.createIntent(context,"");
+                intent = AskServiceMainActivity2.createIntent(context,"");
                 break;
             case R.id.rl_tongxl:
                 intent = ContactsActivity2.createIntent(context,null);
@@ -170,6 +172,8 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
         if (count > 0) {
             tvJiecjMsgCount.setVisibility(View.VISIBLE);
             tvJiecjMsgCount.setText(count + "");
+        }else{
+            tvJiecjMsgCount.setVisibility(View.GONE);
         }
     }
 
@@ -184,6 +188,8 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
         if (count > 0) {
             tvBufbkMsgCount.setVisibility(View.VISIBLE);
             tvBufbkMsgCount.setText(count + "");
+        }else{
+            tvBufbkMsgCount.setVisibility(View.GONE);
         }
     }
 
@@ -198,6 +204,8 @@ public class MainWithGridActivity extends BaseActivity implements IHomeView {
         if (count > 0) {
             tvTongzggMsgCount.setVisibility(View.VISIBLE);
             tvTongzggMsgCount.setText(count + "");
+        }else{
+            tvTongzggMsgCount.setVisibility(View.GONE);
         }
     }
 

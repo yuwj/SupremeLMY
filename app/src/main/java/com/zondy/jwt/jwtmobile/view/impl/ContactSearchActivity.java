@@ -179,12 +179,14 @@ public class ContactSearchActivity extends YuwjBaseActivity implements IContactV
             searchResultOffices.clear();
             searchResultOffices.addAll(contactsAndZZJGSesList.getZzjgList());
             adapterOffice.notifyDataSetChanged();
+            rcvSuboffices.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
         }
         if (contactsAndZZJGSesList != null && contactsAndZZJGSesList.getContactList() != null) {
 
             searchResultContacts.clear();
             searchResultContacts.addAll(contactsAndZZJGSesList.getContactList());
             adapterContact.notifyDataSetChanged();
+            rcvContacts.addItemDecoration(new DividerGridItemDecoration(context));
         }
     }
 

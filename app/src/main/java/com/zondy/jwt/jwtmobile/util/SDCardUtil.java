@@ -1,18 +1,13 @@
 package com.zondy.jwt.jwtmobile.util;
 
 import android.os.Environment;
-import android.util.Log;
 
 import com.zondy.jwt.jwtmobile.global.Constant;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Created by ywj on 2017/3/26 0026.
@@ -37,7 +32,7 @@ public class SDCardUtil {
             String fileName = url + ".txt";
             if (Environment.getExternalStorageState().equals(
                     Environment.MEDIA_MOUNTED)) {
-                String path = Constant.catchPath;
+                String path = Constant.reqPath;
                 File dir = new File(path);
                 if (!dir.exists()) {
                     dir.mkdirs();

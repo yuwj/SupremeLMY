@@ -17,6 +17,7 @@ public class EntityUser implements Serializable{
     private String phone;//电话
     private String roleId;//权限id
     private String ssxq;//所属辖区代码
+    private String fgids;//方格IDs,用逗号分隔
     private String timeInterval;//定位时间间隔
     private String distanceInterval;//定位距离间隔
     @SerializedName("txlj")
@@ -132,5 +133,13 @@ public class EntityUser implements Serializable{
 
     public void setUserPhotoUrl(String userPhotoUrl) {
         this.userPhotoUrl = userPhotoUrl;
+    }
+
+    public String getFgids() {
+        return fgids;
+    }
+
+    public void setFgids(String fgids) {
+        this.fgids = fgids;
     }
 }

@@ -1,5 +1,7 @@
 package com.zondy.jwt.jwtmobile.entity;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 import com.mcxtzhang.indexlib.IndexBar.bean.BaseIndexPinyinBean;
 
@@ -70,6 +72,7 @@ public class EntityContact extends BaseIndexPinyinBean implements Serializable{
         return zw;
     }
 
+
     public void setZw(String zw) {
         this.zw = zw;
     }
@@ -116,12 +119,15 @@ public class EntityContact extends BaseIndexPinyinBean implements Serializable{
             dhList = new ArrayList<>();
         }
         dhList.clear();
-        String[] dhs = dh.split(",");
-        if(dhs != null && dhs.length > 0){
-            for(int i=0;i<dhs.length;i++){
-                dhList.add(dhs[i]);
+        if(!TextUtils.isEmpty(dh)){
+            String[] dhs = dh.split(",");
+            if(dhs != null && dhs.length > 0){
+                for(int i=0;i<dhs.length;i++){
+                    dhList.add(dhs[i]);
+                }
             }
         }
+
         return dhList;
     }
 

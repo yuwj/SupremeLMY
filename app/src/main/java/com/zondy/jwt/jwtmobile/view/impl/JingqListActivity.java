@@ -185,10 +185,7 @@ public class JingqListActivity extends BaseActivity implements IJingqListView {
         rlJingqdatas.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                String jh = user.getUserName();
-                String simid = CommonUtil.getDeviceId(context);
-                jingqclPresenter.queryJingqDatas(jh, simid);
-                showLoadingProgress(true);
+                queryJingqDatas();
                 if(ivChays!=null&&ivChays.size()>0){
                     for(ImageView ivCY:ivChays){
                         ivCY.setImageDrawable(getResources().getDrawable(R.drawable.ic_yichayue));

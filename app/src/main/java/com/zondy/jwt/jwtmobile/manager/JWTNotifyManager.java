@@ -7,8 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.zondy.jwt.jwtmobile.R;
+import com.zondy.jwt.jwtmobile.util.SDCardUtil;
 import com.zondy.jwt.jwtmobile.view.impl.BufbkDetailActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -42,7 +45,9 @@ public class JWTNotifyManager {
 
     @SuppressWarnings("deprecation")
     public void notifyUnacceptBufbkIds(List<String> unacceptBufbkIds) {
-
+        SimpleDateFormat f = new SimpleDateFormat("HH:mm");
+        String s = f.format(new Date()).replace(":","-");
+        SDCardUtil.saveHttpRequestInfo2File("notify bkids"+s,unacceptBufbkIds.size()+"");
         for (String bkid : unacceptBufbkIds) {
             int notifyId = Integer.valueOf(bkid);
             int requestCodeBufbkUnaccept = 1;

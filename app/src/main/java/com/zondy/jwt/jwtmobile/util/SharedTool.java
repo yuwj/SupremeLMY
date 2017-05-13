@@ -103,6 +103,7 @@ public class SharedTool {
         editor.putString("carid", user.getCarid());
         editor.putString("roleId", user.getRoleId());
         editor.putString("ssxq", user.getSsxq());
+        editor.putString("fgids", user.getFgids());
         editor.putString("phone", user.getPhone());
         editor.putString("userPhotoUrl", user.getUserPhotoUrl());
         editor.commit();
@@ -129,6 +130,7 @@ public class SharedTool {
         editor.remove("ctname");// user.getCtname());
         editor.remove("carid");// user.getCarid());
         editor.remove("roleId");// user.getRoleId());
+        editor.remove("fgids");// user.getRoleId());
         editor.remove("ssxq");// user.getSsxq());
         editor.remove("phone");// user.getSsxq());
 //        editor.remove("userPhotoUrl");// user.getSsxq());
@@ -154,6 +156,7 @@ public class SharedTool {
         entityUser.setUsertype(preferences.getString("usertype", ""));
         entityUser.setRoleId(preferences.getString("roleId", ""));
         entityUser.setSsxq(preferences.getString("ssxq", ""));
+        entityUser.setFgids(preferences.getString("fgids", ""));
         entityUser.setZzjgmc(preferences.getString("zzjgmc", ""));
         entityUser.setZzjgdm(preferences.getString("zzjgdm", ""));
         entityUser.setPhone(preferences.getString("phone", ""));

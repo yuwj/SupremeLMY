@@ -150,9 +150,10 @@ public class PollService extends Service {
                 String deviceId = CommonUtil.getDeviceId(context);
                 // 上传定位信息
                 Location location = jwtLocationManager.getLocation();
+
                 if (location == null || location.getLongitude() <= 0
                         || location.getLatitude() <= 0) {
-                    sb.append("\n\nunget location ifno");
+                    sb.append("\n\nunget location info");
                     // 获取不到定位
                 } else {
 
@@ -169,7 +170,7 @@ public class PollService extends Service {
                 loginPresenter.updateDLSSXX(username,deviceId);
                 //获取未接收的布防布控信息ids
                 sb.append("\n\ndo queryUnacceptBufbkIds");
-                loginPresenter.queryUnacceptBufbkIds(getApplicationContext(),xingm);
+                loginPresenter.queryUnacceptBufbkIds(getApplicationContext(),username,deviceId,xingm);
                 SimpleDateFormat f = new SimpleDateFormat("HH:mm");
                 String s = f.format(new Date()).replace(":","-");
                 SDCardUtil.saveHttpRequestInfo2File("pollService"+s,sb.toString());

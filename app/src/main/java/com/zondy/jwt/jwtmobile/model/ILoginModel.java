@@ -43,5 +43,5 @@ public interface ILoginModel {
      * @param xingm
      * @param queryUnacceptBufbkIdsCallback
      */
-    void queryUnacceptBufbkIds(String xingm, IQueryUnacceptBufbkIdsCallback queryUnacceptBufbkIdsCallback);
+    void queryUnacceptBufbkIds(String jh,String simid,String xingm, IQueryUnacceptBufbkIdsCallback queryUnacceptBufbkIdsCallback);
 }

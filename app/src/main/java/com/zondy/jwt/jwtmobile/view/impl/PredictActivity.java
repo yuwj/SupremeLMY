@@ -4,28 +4,34 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
+import com.zondy.jwt.jwtmobile.base.BaseCommonAdapter;
+import com.zondy.jwt.jwtmobile.base.BaseViewHolder;
 import com.zondy.jwt.jwtmobile.entity.EntityPredictGridInfo;
 import com.zondy.jwt.jwtmobile.entity.EntityLocation;
 import com.zondy.jwt.jwtmobile.entity.EntityPred;
 import com.zondy.jwt.jwtmobile.entity.EntityPredict;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
+import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.manager.JWTLocationManager;
 import com.zondy.jwt.jwtmobile.presenter.IPredictPresenter;
@@ -42,9 +48,11 @@ import com.zondy.mapgis.android.annotation.AnnotationsOverlay;
 import com.zondy.mapgis.android.graphic.GraphicPolygon;
 import com.zondy.mapgis.android.mapview.MapView;
 import com.zondy.mapgis.core.geometry.Dot;
-import com.zondy.mapgis.core.map.Map;
 
-import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,14 +73,18 @@ public class PredictActivity extends BaseActivity implements IPredictView {
     Toolbar toolbar;
     @BindView(R.id.mapView)
     MapView mapView;
-    @BindView(R.id.tv_location)
-    TextView tvLocation;
-    @BindView(R.id.tv_zoom_in)
-    TextView tvZoomIn;
-    @BindView(R.id.tv_zoom_out)
-    TextView tvZoomOut;
+    @BindView(R.id.iv_location)
+    ImageView ivLocation;
+    @BindView(R.id.iv_zoom_in)
+    ImageView ivZoomIn;
+    @BindView(R.id.iv_zoom_out)
+    ImageView ivZoomOut;
+    @BindView(R.id.sp_ycfgs)
+    Spinner spYcfgs;
 
-    String predictId = "91";
+    List<EntityPredict> predicts;
+    String selectedFanggid;
+    BaseCommonAdapter<EntityPredict> predictAdapter;
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, PredictActivity.class);
@@ -147,7 +159,23 @@ public class PredictActivity extends BaseActivity implements IPredictView {
     void initParam() {
         userInfo = SharedTool.getInstance().getUserInfo(context);
         predictPresenter = new PredictPresenterImpl(this);
-
+        predicts = new ArrayList<>();
+        String fgidsStr = userInfo.getFgids();
+        if (!TextUtils.isEmpty(fgidsStr)) {
+            String[] s = fgidsStr.split(",");
+            List<String> list = Arrays.asList(s);
+            if (list != null && list.size() > 0) {
+                for (String idAndMc : list) {
+                    String[] ss = idAndMc.split("_");
+                    if (ss != null && ss.length == 2) {
+                        EntityPredict p = new EntityPredict();
+                        p.setDeptName(ss[0]);
+                        p.setFgid(ss[1]);
+                        predicts.add(p);
+                    }
+                }
+            }
+        }
         mapManager = new MapManager(mapView, context);
         String mapPath = Constant.getMapPath();
         mapManager.initMap(mapPath, new MapManager.MapLoadListner() {
@@ -170,7 +198,7 @@ public class PredictActivity extends BaseActivity implements IPredictView {
             @Override
             public AnnotationView createAnnotationView(final Annotation annotation) {
                 AnnotationView annotationView = new AnnotationView(annotation, context);
-                View contentView = LayoutInflater.from(context).inflate(R.layout.content_annotation_jingq, null);
+                View contentView = LayoutInflater.from(context).inflate(R.layout.content_annotation_predict, null);
 
                 DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
                 int width = displayMetrics.widthPixels / 2;
@@ -178,14 +206,25 @@ public class PredictActivity extends BaseActivity implements IPredictView {
                 LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) ll.getLayoutParams();
                 p.width = width;
                 ll.setLayoutParams(p);
-                TextView tv_baojsj = (TextView) contentView.findViewById(R.id.tv_baojsj);
-                TextView tv_baojnr = (TextView) contentView.findViewById(R.id.tv_baojnr);
-                TextView tv_baojr = (TextView) contentView.findViewById(R.id.tv_baojr);
+                TextView tvValue1 = (TextView) contentView.findViewById(R.id.tv_value1);
+                TextView tvValue2 = (TextView) contentView.findViewById(R.id.tv_value2);
+                TextView tvValue3 = (TextView) contentView.findViewById(R.id.tv_value3);
+                TextView tvValue4 = (TextView) contentView.findViewById(R.id.tv_value4);
                 TextView tv_annotation_dismiss = (TextView) contentView.findViewById(R.id.tv_annotation_dismiss);
                 EntityPred pred = GsonUtil.json2Bean(annotation.getDescription(), EntityPred.class);
-                tv_baojsj.setText("" + pred.getCrimeGroupId());
-                tv_baojnr.setText("" + pred.getGridNum());
-//                tv_baojr.setText("" + pred.getIntervalUpper());
+                String date = "";
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy年MM月dd日");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+                try {
+                    date = sdf1.format(sdf2.parse(pred.getRealDate()
+                    ));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                tvValue1.setText("预测日期:" + date);
+                tvValue2.setText("方格编号:" + pred.getGridNum());
+                tvValue3.setText("predProb" + pred.getPredProb());
+                tvValue4.setText("interval" + pred.getIntervalUpper() + " ~ " + pred.getIntervalLower());
                 tv_annotation_dismiss.setOnClickListener(new View.OnClickListener() {
                                                              @Override
                                                              public void onClick(View v) {
@@ -208,20 +247,69 @@ public class PredictActivity extends BaseActivity implements IPredictView {
                 return annotationView;
             }
         });
-
+//显示缩放按钮
+        mapView.setZoomControlsEnabled(false);
     }
 
     void initView() {
         initActionBar(toolbar, tvTitle, "方格预测");
+        spYcfgs
+                .setAdapter(predictAdapter = new BaseCommonAdapter<EntityPredict>(
+                        context, predicts, R.layout.item_predict_sp) {
+                    @Override
+                    public void convert(BaseViewHolder holder, EntityPredict item) {
+                        holder.setText(R.id.tv_value, item.getDeptName());
+                    }
+                });
+        spYcfgs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                EntityPredict predict = predictAdapter.getItem(position);
+                selectedFanggid = predict.getFgid();
+                updatePredictData();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        View.OnClickListener onClickListener = new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.iv_location:
+                        EntityLocation location = SharedTool.getInstance().getLocationInfo(context);
+                        if(location!=null && location.getLatitude()>0&&location.getLongitude()>0){
+                            mapView.zoomToCenter(new Dot(location.getLongitude(),location.getLatitude()),MapManager.goodResolution,false);
+                        }else{
+                            ToastTool.getInstance().shortLength(context,"当前无法定位",true);
+                        }
+                        break;
+
+                    case R.id.iv_zoom_in:
+                        mapView.zoomIn(true);
+                        break;
+
+                    case R.id.iv_zoom_out:
+                        mapView.zoomOut(true);
+                        break;
+                }
+            }
+        };
+        ivLocation.setOnClickListener(onClickListener);
+        ivZoomOut.setOnClickListener(onClickListener);
+        ivZoomIn.setOnClickListener(onClickListener);
     }
 
-    void initOperator() { }
+    void initOperator() {
+    }
 
-    void updatePredictData(){
+    void updatePredictData() {
 
         showLoadingDialog("正在加载...");
-        predictPresenter.queryPredict(userInfo.getUserName(), CommonUtil.getDeviceId(context), predictId);
+        predictPresenter.queryPredict(userInfo.getUserName(), CommonUtil.getDeviceId(context), selectedFanggid);
 
     }
 
@@ -242,7 +330,7 @@ public class PredictActivity extends BaseActivity implements IPredictView {
                     Dot dot2 = new Dot(Double.valueOf(gridInfo.getP1X()), Double.valueOf(gridInfo.getP2Y()));
                     Dot dot5 = new Dot(Double.valueOf(gridInfo.getCentX()), Double.valueOf(gridInfo.getCentY()));
 
-                    Dot[] dots = new Dot[]{dot1, dot3, dot4, dot2,dot1};
+                    Dot[] dots = new Dot[]{dot1, dot3, dot4, dot2, dot1};
                     GraphicPolygon graphicPolygon = new GraphicPolygon(dots);
                     graphicPolygon.setBorderlineColor(Color.parseColor("#557ED53D"));
                     graphicPolygon.setBorderlineWidth(4);
@@ -269,20 +357,20 @@ public class PredictActivity extends BaseActivity implements IPredictView {
 
     }
 
-    @OnClick({R.id.tv_location, R.id.tv_zoom_in, R.id.tv_zoom_out})
+    @OnClick({R.id.iv_location, R.id.iv_zoom_in, R.id.iv_zoom_out})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_location:
+            case R.id.iv_location:
                 EntityLocation location = SharedTool.getInstance().getLocationInfo(context);
                 if (location != null) {
                     Dot dot = new Dot(location.getLongitude(), location.getLatitude());
                     mapView.zoomToCenter(dot, MapManager.goodResolution, false);
                 }
                 break;
-            case R.id.tv_zoom_in:
+            case R.id.iv_zoom_in:
                 mapView.zoomIn(false);
                 break;
-            case R.id.tv_zoom_out:
+            case R.id.iv_zoom_out:
                 mapView.zoomOut(false);
                 break;
         }

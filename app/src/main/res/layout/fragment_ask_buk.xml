@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F6F6F6"
-
+        android:id="@+id/ll_buk"
         android:orientation="vertical">
 
 
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include layout="@layout/content_askbuk_addbukry"/>
+
 
             </LinearLayout>
         </LinearLayout>
@@ -88,8 +88,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <include layout="@layout/content_askbuk_addbukcl"/>
             </LinearLayout>
 
         </LinearLayout>

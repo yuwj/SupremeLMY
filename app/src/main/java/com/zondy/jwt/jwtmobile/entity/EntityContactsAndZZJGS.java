@@ -1,6 +1,7 @@
 package com.zondy.jwt.jwtmobile.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,9 @@ public class EntityContactsAndZZJGS implements Serializable {
     List<EntityZD> zzjgList;
 
     public List<EntityContact> getContactList() {
+        if(contactList == null){
+            contactList = new ArrayList<>();
+        }
         return contactList;
     }
 
@@ -20,6 +24,9 @@ public class EntityContactsAndZZJGS implements Serializable {
     }
 
     public List<EntityZD> getZzjgList() {
+        if(zzjgList == null){
+            zzjgList = new ArrayList<>();
+        }
         return zzjgList;
     }
 

@@ -3,6 +3,7 @@ package com.zondy.jwt.jwtmobile.model.impl;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -25,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +44,7 @@ public class BufbkModelImpl implements IBufbkModel {
     String tag = this.getClass().getSimpleName();
 
     @Override
-    public void acceptBufbk(String jh, String simid, String xingm, final IAcceptBufbkCallback acceptBufbkCallback) {
+    public void acceptBufbk(String jh, String simid,String bufbkId, String xingm, final IAcceptBufbkCallback acceptBufbkCallback) {
         final String url = UrlManager.getSERVER() + UrlManager.acceptBufbk;
         final StringBuffer sb = new StringBuffer();
         sb.append("\n\nurl:"+url);
@@ -50,6 +52,7 @@ public class BufbkModelImpl implements IBufbkModel {
         try {
             param.put("jh",jh);
             param.put("simid",simid);
+            param.put("bufbkId",bufbkId);
             param.put("xingm",xingm);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -238,7 +241,6 @@ public class BufbkModelImpl implements IBufbkModel {
             String[] ss = filesPath.split(",");
 
             for(int i = 0;i< ss.length;i++){
-
                 files.add(new File(ss[i]));
             }
         }
@@ -253,14 +255,17 @@ public class BufbkModelImpl implements IBufbkModel {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String param = "";
+        try {
+            param = new String(jsonParam.toString().getBytes(),"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
         sb.append("\n\n param:"+jsonParam.toString()+"\n"+filesPath);
-        Map<String,String> param = new HashMap<>();
-        param.put("strBody",jsonParam.toString());
-
-
         OkGo.post(url).tag(this)//
                 .isMultipart(true)       // 强制使用 multipart/form-data 表单上传（只是演示，不需要的话不要设置。默认就是false）
-                .params("strBody",jsonParam.toString())        // 这里可以上传参数
+                .params("strBody",param)        // 这里可以上传参数
                 .addFileParams("images", files) // 这里支持一个key传多个文件
                 .execute(new StringCallback() {
                     @Override

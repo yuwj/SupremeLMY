@@ -157,6 +157,11 @@ public class ContactsActivity2 extends YuwjBaseActivity implements IContactView 
                 if (zd != null) {
                     currentOffice = zd;
                     addOfficeIndicatorContainer2(currentOffice);
+                    contactPresenter.queryContactsByZZJG(currentOffice.getBm());
+                    contactPresenter.queryZZJGByParentZZJG(currentOffice.getBm());
+
+                    showLoadingDialog("正在加载...");
+                    showLoadingDialog("正在加载...");
                 }
             }
 
@@ -293,11 +298,11 @@ public class ContactsActivity2 extends YuwjBaseActivity implements IContactView 
         });
         rcvContacts.setLayoutManager(new FullyGridLayoutManager(context, 5));
         rcvContacts.setAdapter(adapterContact);
-        rcvContacts.addItemDecoration(new DividerGridItemDecoration(context));
+        rcvContacts.addItemDecoration(new DividerGridItemDecoration(ContactsActivity2.this));
 
         rcvSuboffices.setLayoutManager(new FullyLinearLayoutManager(context));
         rcvSuboffices.setAdapter(adapterOffice);
-        rcvSuboffices.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
+        rcvSuboffices.addItemDecoration(new DividerItemDecoration(ContactsActivity2.this, DividerItemDecoration.VERTICAL_LIST));
     }
 
     @Override
@@ -314,6 +319,7 @@ public class ContactsActivity2 extends YuwjBaseActivity implements IContactView 
         svContactContainer.smoothScrollTo(0, 0);
         currentOfficeContacts.clear();
         currentOfficeContacts.addAll(contacts);
+        rcvContacts.addItemDecoration(new DividerGridItemDecoration(context));
         adapterContact.notifyDataSetChanged();
     }
 
@@ -324,6 +330,7 @@ public class ContactsActivity2 extends YuwjBaseActivity implements IContactView 
         if (allEntitys != null) {
             currentChildrenOffices.clear();
             currentChildrenOffices.addAll(allEntitys);
+            rcvSuboffices.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
             adapterOffice.notifyDataSetChanged();
         }
     }
@@ -331,15 +338,20 @@ public class ContactsActivity2 extends YuwjBaseActivity implements IContactView 
     @Override
     public void queryZZJGUnSuccessed(String msg) {
         dismissLoadingDialog();
-        ToastTool.getInstance().shortLength(context, msg, true);
+        svContactContainer.smoothScrollTo(0, 0);
+        currentChildrenOffices.clear();
+        adapterOffice.notifyDataSetChanged();
+//        ToastTool.getInstance().shortLength(context, msg, true);
 
     }
 
     @Override
     public void queryContactsByZZJGUnSuccessed(String msg) {
         dismissLoadingDialog();
-        ToastTool.getInstance().shortLength(context, msg, true);
-
+//        ToastTool.getInstance().shortLength(context, msg, true);
+        svContactContainer.smoothScrollTo(0, 0);
+        currentOfficeContacts.clear();
+        adapterContact.notifyDataSetChanged();
     }
 
     @Override

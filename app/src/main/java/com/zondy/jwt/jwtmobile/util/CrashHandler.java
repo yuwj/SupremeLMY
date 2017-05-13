@@ -1,6 +1,5 @@
 package com.zondy.jwt.jwtmobile.util;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -181,7 +180,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			String fileName = "c"+ time + "-" + timestamp + ".txt";
 			if (Environment.getExternalStorageState().equals(
 					Environment.MEDIA_MOUNTED)) {
-				String path = Constant.catchPath;
+				String path = Constant.crashPath;
 				File dir = new File(path);
 				if (!dir.exists()) {
 					dir.mkdirs();

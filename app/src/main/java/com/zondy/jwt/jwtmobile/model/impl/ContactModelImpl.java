@@ -5,17 +5,13 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.callback.StringCallback;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.Callback;
 import com.zondy.jwt.jwtmobile.base.MyApplication;
 import com.zondy.jwt.jwtmobile.callback.IQueryContactsAndZZJGSByKeywordCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryContactsByZZJGCallback;
 import com.zondy.jwt.jwtmobile.callback.IQueryZZJGCallback;
 import com.zondy.jwt.jwtmobile.entity.EntityContact;
 import com.zondy.jwt.jwtmobile.entity.EntityContactsAndZZJGS;
-import com.zondy.jwt.jwtmobile.entity.EntityUser;
 import com.zondy.jwt.jwtmobile.entity.EntityZD;
 import com.zondy.jwt.jwtmobile.manager.UrlManager;
 import com.zondy.jwt.jwtmobile.model.IContactModel;
@@ -28,13 +24,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.Response;
 
 /**
@@ -153,15 +146,16 @@ public class ContactModelImpl implements IContactModel {
 
         final StringBuffer sb = new StringBuffer();
         if (MyApplication.IS_Test_json) {
-            UrlManager.queryZZJGZDByParentZZJG = UrlManager.queryZZJGZDByParentZZJG.replace("/", "");
+            UrlManager.queryZD = UrlManager.queryZD.replace("/", "");
         }
-        final String url = UrlManager.getSERVER() + UrlManager.queryZZJGZDByParentZZJG;
+        final String url = UrlManager.getSERVER() + UrlManager.queryZD;
         sb.append("\n\nurl:" + url);
         JSONObject param = new JSONObject();
         try {
             param.put("jh", SharedTool.getInstance().getUserInfo(context).getUserName());
             param.put("simid", CommonUtil.getDeviceId(context));
-            param.put("parentZZJG", parentZZJG);
+            param.put("pid", parentZZJG);
+            param.put("zdlx","GAJGDM");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -423,9 +417,18 @@ public class ContactModelImpl implements IContactModel {
                                     case 1:
                                         EntityContactsAndZZJGS entityContactsAndZZJGS = new EntityContactsAndZZJGS();
                                         String contactsStr = object.optString("connectionList");
-                                        List<EntityContact> contactList = GsonUtil.json2BeanList(contactsStr, EntityContact.class);
+                                        List<EntityContact> contactList = null;
+                                        try {
+                                            contactList = GsonUtil.json2BeanList(contactsStr, EntityContact.class);
+                                        }catch (Exception e){
+                                        }
                                         String zzjgsStr = object.optString("zzjgList");
-                                        List<EntityZD> zzjgList = GsonUtil.json2BeanList(zzjgsStr, EntityZD.class);
+                                        List<EntityZD> zzjgList = null;
+                                        try {
+                                            zzjgList = GsonUtil.json2BeanList(zzjgsStr, EntityZD.class);
+                                        }catch (Exception e){
+                                        }
+
                                         entityContactsAndZZJGS.setContactList(contactList);
                                         entityContactsAndZZJGS.setZzjgList(zzjgList);
                                         queryContactsAndZZJGSByKeywordCallback.onQueryContactsAndZZJGsSuccess(entityContactsAndZZJGS);
@@ -456,5 +459,5 @@ public class ContactModelImpl implements IContactModel {
             queryContactsAndZZJGSByKeywordCallback.onQueryContactsAndZZJGsFail(e);
         }
 
-    }
 }
+    }

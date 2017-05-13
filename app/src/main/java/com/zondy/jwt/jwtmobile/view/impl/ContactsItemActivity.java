@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,6 +30,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityContact;
+import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.ui.DividerItemDecoration;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 
@@ -51,6 +53,8 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
     RelativeLayout rlTelephone;
     @BindView(R.id.tv_jh)
     TextView tvJh;
+    @BindView(R.id.cv_zw)
+    CardView cvZw;
     @BindView(R.id.tv_zw)
     TextView tvZw;
     @BindView(R.id.tv_ssdwmc)
@@ -135,6 +139,10 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
         }
         tvJh.setText("警号：" + entityContact.getJh());
         tvZw.setText("职务：" + entityContact.getZw());
+        if(Constant.JWT_AREA_SELECTED.equals(Constant.JWT_AREA_HA)){
+            //淮安的通讯录读取的是别人的表,没有职务字段.
+            cvZw.setVisibility(View.GONE);
+        }
         tvSsdwmc.setText("所属单位：" + entityContact.getSsdwmc());
         rlMessage.setOnClickListener(this);
         rlTelephone.setOnClickListener(this);
@@ -180,7 +188,7 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
                 int height = dm.heightPixels;
                 View popContentView = LayoutInflater.from(context).inflate(R.layout.content_contact_popwindow, null);
 
-                showFunctionPopupWindow = new PopupWindow(popContentView,  width/2, height/2);
+                showFunctionPopupWindow = new PopupWindow(popContentView,  width/2, height/4);
                 showFunctionPopupWindow.setTouchable(true);
 
                 showFunctionPopupWindow.setTouchInterceptor(new View.OnTouchListener() {
@@ -245,16 +253,20 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
                 rvPopChooseZZJG.setAdapter(adapter);
                 rvPopChooseZZJG.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
 
-                showFunctionPopupWindow.showAtLocation(llContainer, Gravity.CENTER, 0, 0);
+                showFunctionPopupWindow.showAtLocation(llContainer, Gravity.CENTER, 0, 200);
             } else {
                 TextView tvTitle = (TextView)showFunctionPopupWindow.getContentView().findViewById(R.id.tv_title);
                 tvTitle.setText(phoneNum);
-                showFunctionPopupWindow.showAtLocation(llContainer, Gravity.CENTER, 0, 0);
+                showFunctionPopupWindow.showAtLocation(llContainer, Gravity.CENTER, 0, 200);
             }
         }
     }
 
 
+    /**
+     * 显示电话列表供选择进行操作popupWindo
+     * @param functionType
+     */
     public void showPhoneNum(final String functionType) {
         if(showFunctionPopupWindow != null && showFunctionPopupWindow.isShowing()){
             showFunctionPopupWindow.dismiss();
@@ -264,23 +276,37 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
                 if (entityContact.getDhList().size() <= 0) {
                     ToastTool.getInstance().shortLength(context, "暂无号码", true);
                     return;
+                }else if (entityContact.getDhList().size() == 1) {
+                    String phoneNum = entityContact.getDhList().get(0);
+                    Uri telToUri = Uri.parse("tel:" + phoneNum);
+                    Intent intentTel = new Intent(Intent.ACTION_DIAL, telToUri);
+                    intentTel.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intentTel);
+                    return;
                 }
                 break;
             case "发送短信":
                 if (entityContact.getDhList().size() <= 0) {
                     ToastTool.getInstance().shortLength(context, "暂无号码", true);
                     return;
+                }else if (entityContact.getDhList().size() == 1) {
+                    String phoneNum = entityContact.getDhList().get(0);
+                    Uri smsToUri = Uri.parse("smsto:" + phoneNum);
+                    Intent intentMes = new Intent(Intent.ACTION_SENDTO, smsToUri);
+                    intentMes.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intentMes);
+                    return;
                 }
                 break;
         }
-
+        View popContentView = null;
         if (showPhoneNumpopwindow == null) {
             DisplayMetrics dm = getResources().getDisplayMetrics();
             int width = dm.widthPixels;
             int height = dm.heightPixels;
-            View popContentView = LayoutInflater.from(context).inflate(R.layout.content_contact_popwindow, null);
+            popContentView = LayoutInflater.from(context).inflate(R.layout.content_contact_popwindow, null);
 
-            showPhoneNumpopwindow = new PopupWindow(popContentView, width/2, height/2);
+            showPhoneNumpopwindow = new PopupWindow(popContentView, width / 2, height / 4);
             showPhoneNumpopwindow.setTouchable(true);
 
             showPhoneNumpopwindow.setTouchInterceptor(new View.OnTouchListener() {
@@ -295,8 +321,9 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
 
             // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
             showPhoneNumpopwindow.setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
+        }
             final TextView tvTitle = (TextView)popContentView.findViewById(R.id.tv_title);
-            tvTitle.setText("选择操作");
+            tvTitle.setText("选择号码");
             Button btn = (Button)popContentView.findViewById(R.id.btn_cancel);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -332,6 +359,8 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
                         startActivity(intentMes);
 
                     }
+
+                    showPhoneNumpopwindow.dismiss();
                 }
 
                 @Override
@@ -342,9 +371,7 @@ public class ContactsItemActivity extends BaseActivity implements View.OnClickLi
             rvPopChoosePhoneNum.setAdapter(adapter);
             rvPopChoosePhoneNum.addItemDecoration(new DividerItemDecoration(context, DividerItemDecoration.VERTICAL_LIST));
 
-            showPhoneNumpopwindow.showAtLocation(llContainer, Gravity.CENTER, 0, 0);
-        } else {
-            showPhoneNumpopwindow.showAtLocation(llContainer, Gravity.CENTER, 0, 0);
-        }
+            showPhoneNumpopwindow.showAtLocation(llContainer, Gravity.CENTER, 0, 200);
+
     }
 }

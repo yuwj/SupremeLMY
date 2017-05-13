@@ -132,10 +132,7 @@ public class AskServiceMainActivity2 extends YuwjBaseActivity implements IAskSer
         ToastTool.getInstance().shortLength(context, "jingqid:" + jingqid, true);
         userInfo = SharedTool.getInstance().getUserInfo(context);
         jingqHandlePresenter = new JingqHandlePresenterImpl(this);
-
         fragmentManager = getSupportFragmentManager();
-
-
     }
 
     @Override
@@ -239,7 +236,6 @@ public class AskServiceMainActivity2 extends YuwjBaseActivity implements IAskSer
 
     }
 
-
     public void updateSelectedFragment(int selectedType) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (selectedType) {
@@ -304,9 +300,9 @@ public class AskServiceMainActivity2 extends YuwjBaseActivity implements IAskSer
 
     public void updateJingqView(EntityJingq entityJingq) {
 
-        tvJingqBaojnr.setText(entityJingq.getBaojr());
+        tvJingqBaojnr.setText(entityJingq.getBaojnr());
         tvJingqBaojsj.setText(entityJingq.getBaojsj());
-        tvJingqBaojdd.setText(entityJingq.getBaojrdh());
+        tvJingqBaojdd.setText(entityJingq.getBaojdz());
         tvJingqJiejdw.setText(entityJingq.getGxdwdm());
     }
 

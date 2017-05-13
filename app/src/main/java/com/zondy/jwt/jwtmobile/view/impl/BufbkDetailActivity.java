@@ -106,7 +106,7 @@ public class BufbkDetailActivity extends BaseActivity implements IBufbkDetailVie
     protected void onResume() {
         super.onResume();
         if ((EntityBufbk.jszt_unaccept + "").equals(entityBufbk.getJszt())) {
-            bufbkPresenter.acceptBufbk(userInfo.getUserName(), CommonUtil.getDeviceId(context), userInfo.getCtname());
+            bufbkPresenter.acceptBufbk(userInfo.getUserName(), CommonUtil.getDeviceId(context), entityBufbk.getId(),userInfo.getCtname());
             showLoadingDialog("正在加载...");
         }
 
@@ -176,7 +176,7 @@ public class BufbkDetailActivity extends BaseActivity implements IBufbkDetailVie
 //            bufbkDetailInfoDatas.add(new EntityParam("sgsj", entityBufbk.getSgsj()));//date,
 //            bufbkDetailInfoDatas.add(new EntityParam("ztlgsj", entityBufbk.getZtlgsj()));//varchar2(4000),
 //            bufbkDetailInfoDatas.add(new EntityParam("ztdgsj", entityBufbk.getZtdgsj()));//varchar2(4000),
-            bufbkDetailInfoDatas.add(new EntityParam("在岗状态", entityBufbk.getFlag().equals( 1+"")?"在岗":"脱岗"));//number,
+            bufbkDetailInfoDatas.add(new EntityParam("在岗状态", (1+"").equals(entityBufbk.getFlag())?"在岗":"脱岗"));//number,
             bufbkDetailInfoDatas.add(new EntityParam("卡点经度", entityBufbk.getX()));//",entityBufbk.get()));//varchar2(20),
             bufbkDetailInfoDatas.add(new EntityParam("卡点纬度", entityBufbk.getY()));//",entityBufbk.get()));//varchar2(20),
             bufbkDetailInfoDatas.add(new EntityParam("卡点联系人", entityBufbk.getKdlxr()));// varchar2(20),//数据库字段 lxr

@@ -10,5 +10,5 @@ public interface ILoginPresenter {
     void login(Context context,String username,String password,String simid);
     void uploadGPS(String username,String simid,double longitude,double latitude);
     void updateDLSSXX(String username,String simid);
-    void queryUnacceptBufbkIds(Context context, String xingm);
+    void queryUnacceptBufbkIds(Context context, String jh,String simid,String xingm);
 }

@@ -24,9 +24,12 @@ import com.zondy.jwt.jwtmobile.presenter.ILoginPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.LoginPresenterImpl;
 import com.zondy.jwt.jwtmobile.util.BottomMenu;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
+import com.zondy.jwt.jwtmobile.util.MapManager;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.ILoginView;
+
+import java.io.File;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -116,6 +119,15 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     private void initOperator() {
         String updateInfoUrl = UrlManager.getSERVER() + UrlManager.UPDATE;
         UpdateChecker.checkForDialog(context, false, updateInfoUrl);
+    }
+
+    public void checkMapExist(){
+        String mapPath = Constant.getMapPath();
+        File mapFile = new File(mapPath);
+        if(!mapFile.exists()){
+            String mapUrl = UrlManager.getSERVER()+UrlManager.mapFile;
+
+        }
     }
 
     @Override
@@ -227,10 +239,6 @@ public class LoginActivity extends BaseActivity implements ILoginView, View.OnCl
     public void loginFailed() {
         dismissLoadingDialog();
         ToastTool.getInstance().shortLength(this, "网络请求失败！", true);
-        if (MyApplication.IS_PRODUCT_ENVIRONMENT) {
-//        startActivity(CompositeSearchMainActivity.createIntent(context));
-//        startActivity(PredictActivity.createIntent(context));
-        }
     }
 
     @Override

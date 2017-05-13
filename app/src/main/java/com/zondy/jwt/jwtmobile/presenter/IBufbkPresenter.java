@@ -9,5 +9,5 @@ public interface IBufbkPresenter {
     public void queryBufbkFeedbackDatas(String jh, String simid, String bufbkId);
 
     public void feedback(String bufbkId, String jh, String simid,String xingm, String mediaPaths, String feedbackStrInfo);
-    public void acceptBufbk(String jh,String simid, String xingm);
+    public void acceptBufbk(String jh,String simid,String bufbkId, String xingm);
 }

@@ -12,8 +12,8 @@ public class EntityPred {
     String gridNum;//1144
     String patrolPeroidId;//0
     String pdId;//91
-    String StringervalUpper;//"0000"
-    String StringervalLower;//"2400"
+    String intervalUpper;//"0000"
+    String intervalLower;//"2400"
     String crimeGroupId;//null
     EntityPredictGridInfo gridInfo;
     String duration;//null
@@ -60,20 +60,20 @@ public class EntityPred {
         this.gridNum = gridNum;
     }
 
-    public String getStringervalLower() {
-        return StringervalLower;
+    public String getIntervalLower() {
+        return intervalLower;
     }
 
-    public void setStringervalLower(String StringervalLower) {
-        this.StringervalLower = StringervalLower;
+    public void setIntervalLower(String intervalLower) {
+        this.intervalLower = intervalLower;
     }
 
-    public String getStringervalUpper() {
-        return StringervalUpper;
+    public String getIntervalUpper() {
+        return intervalUpper;
     }
 
-    public void setStringervalUpper(String StringervalUpper) {
-        this.StringervalUpper = StringervalUpper;
+    public void setIntervalUpper(String intervalUpper) {
+        this.intervalUpper = intervalUpper;
     }
 
     public String getPatrolPeroidId() {

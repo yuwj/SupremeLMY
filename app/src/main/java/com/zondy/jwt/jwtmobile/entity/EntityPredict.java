@@ -11,6 +11,7 @@ import java.util.List;
 
 public class EntityPredict {
     String deptName;
+    String fgid;
     String date;
     List<EntityPred> predResults;
 
@@ -38,8 +39,13 @@ public class EntityPredict {
         this.predResults = predResults;
     }
 
+    public String getFgid() {
+        return fgid;
+    }
 
-
+    public void setFgid(String fgid) {
+        this.fgid = fgid;
+    }
 }
 
 

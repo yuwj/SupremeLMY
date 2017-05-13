@@ -5,11 +5,14 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
@@ -28,16 +32,23 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zondy.jwt.jwtmobile.R;
 import com.zondy.jwt.jwtmobile.base.BaseActivity;
 import com.zondy.jwt.jwtmobile.entity.EntityUser;
+import com.zondy.jwt.jwtmobile.global.Constant;
 import com.zondy.jwt.jwtmobile.presenter.IBufbkPresenter;
 import com.zondy.jwt.jwtmobile.presenter.impl.BufbkPresenter;
 import com.zondy.jwt.jwtmobile.util.CommonUtil;
 import com.zondy.jwt.jwtmobile.util.GlideImageLoader;
+import com.zondy.jwt.jwtmobile.util.ImageCompressUtil;
 import com.zondy.jwt.jwtmobile.util.SharedTool;
 import com.zondy.jwt.jwtmobile.util.ToastTool;
 import com.zondy.jwt.jwtmobile.view.IBufbkFeedbackView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 
@@ -138,13 +149,13 @@ public class BufbkFankActivity extends BaseActivity implements IBufbkFeedbackVie
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_bufbk_fank,menu);
+        getMenuInflater().inflate(R.menu.toolbar_bufbk_fank, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -155,6 +166,9 @@ public class BufbkFankActivity extends BaseActivity implements IBufbkFeedbackVie
                 String feedbackStrInfo = etInput.getText().toString().trim();
                 StringBuffer sb = new StringBuffer();
                 boolean isNeedSpliter = false;
+                DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels/2;
+                int height = displayMetrics.heightPixels/2;
                 for (String path : imageDatas) {
                     if (path.equals(getResourceUri(R.drawable.ic_handlejingq_add_img))) {
                         continue;
@@ -162,16 +176,22 @@ public class BufbkFankActivity extends BaseActivity implements IBufbkFeedbackVie
                     if (isNeedSpliter) {
                         sb.append(",");
                     }
-                    sb.append(path);
-                    isNeedSpliter = true;
+                    String compressedImagePath = ImageCompressUtil.compressImage(path, width, height);
+                    if (!TextUtils.isEmpty(compressedImagePath)) {
+                        sb.append(compressedImagePath);
+                        isNeedSpliter = true;
+                    }
+
 
                 }
-                bufbkPresenter.feedback(bufbkId, jh, simeid,xingm,  sb.toString(), feedbackStrInfo);
+
+                bufbkPresenter.feedback(bufbkId, jh, simeid, xingm, sb.toString(), feedbackStrInfo);
                 showLoadingDialog("正在提交...");
                 break;
         }
-        return  super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
+
 
     public void addImg() {
         int count = imgCountLimit - imageDatas.size();

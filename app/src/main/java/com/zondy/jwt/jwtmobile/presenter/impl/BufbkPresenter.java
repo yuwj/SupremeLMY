@@ -92,8 +92,8 @@ public class BufbkPresenter implements IBufbkPresenter {
     }
 
     @Override
-    public void acceptBufbk(String jh, String simid, String xingm) {
-        bufbkModel.acceptBufbk(jh, simid, xingm, new IAcceptBufbkCallback() {
+    public void acceptBufbk(String jh, String simid, String bufbkId,String xingm) {
+        bufbkModel.acceptBufbk(jh, simid,bufbkId, xingm, new IAcceptBufbkCallback() {
             @Override
             public void acceptBufbkSuccess() {
                 bufbkDetailView.acceptBufbkSuccess();

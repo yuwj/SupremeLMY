@@ -1,6 +1,7 @@
 package com.zondy.jwt.jwtmobile.model.impl;
 
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -22,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -107,10 +110,10 @@ public class LoginModelImpl implements ILoginModel {
         sb.append("\n\nurl:"+url);
         JSONObject param=new JSONObject();
         try {
-            param.put("username",username);
+            param.put("jh",username);
             param.put("simid",simid);
-            param.put("longitude",longitude);
-            param.put("latitude",latitude);
+            param.put("x",longitude);
+            param.put("y",latitude);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -161,7 +164,7 @@ public class LoginModelImpl implements ILoginModel {
         sb.append("\n\nurl:"+url);
         JSONObject param=new JSONObject();
         try {
-            param.put("username",username);
+            param.put("jh",username);
             param.put("simid",simid);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -204,12 +207,14 @@ public class LoginModelImpl implements ILoginModel {
     }
 
     @Override
-    public void queryUnacceptBufbkIds(String xingm, final IQueryUnacceptBufbkIdsCallback queryUnacceptBufbkIdsCallback) {
+    public void queryUnacceptBufbkIds(String jh,String simid,String xingm, final IQueryUnacceptBufbkIdsCallback queryUnacceptBufbkIdsCallback) {
         final StringBuffer sb = new StringBuffer();
         final String url = UrlManager.getSERVER() + UrlManager.queryUnacceptBufbkIds;
         sb.append("\n\n url:"+url);
         final JSONObject param=new JSONObject();
         try {
+            param.put("jh",jh);
+            param.put("simid",simid);
             param.put("xingm",xingm);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -227,9 +232,13 @@ public class LoginModelImpl implements ILoginModel {
                     String msg=object.optString("message");
                     switch (resultCode){
                         case 1:
+                            List<String> list = new ArrayList<String>();
                             String res = object.optString("unaccptBufbkIds");
-                            List<String> unaccptBufbkIds = GsonUtil.json2BeanList(res,String.class);
-                            return unaccptBufbkIds;
+                            if(!TextUtils.isEmpty(res)){
+                                String[] ids = res.split(",");
+                                list = Arrays.asList(ids);
+                            }
+                            return list;
                         default:
                             throw new Exception(msg);
                     }

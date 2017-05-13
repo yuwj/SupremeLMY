@@ -168,7 +168,7 @@ public class UrlManager {
 
     public static String jingqingksxz = "/QueryJQ!queryJQCLJG";// 获取警情快速选择处理结果
     public static String queryZZJGZD = "/QueryZD!queryZZJGZD";// 查询所有组织机构字典
-    public static String queryZZJGZDByParentZZJG = "/QueryZD!queryZZJGZDByParentZZJG";// 根据父类组织机构查询子类组织机构字典
+    public static String queryZD = "/QueryZD!queryZD";//万能查字典方法,参数为字典表中任一字段,没有则传null
     public static String queryCLLXZD = "/QueryZD!queryCLLXZD";// 查询所有车辆类型字典
     public static String queryCLZTZD = "/QueryZD!queryCLZTZD";// 查询所有车辆状态字典
     public static String queryJingqTypeZD = "/QueryZD!getAllJingqType";// 查询所有警情类型字典
@@ -203,10 +203,10 @@ public class UrlManager {
     // ========淮安请求服务 end========
     public static String getSERVER() {
         String server = "";
-            if(MyApplication.IS_PRODUCT_ENVIRONMENT){
-                server = "http://" + HOST_IP + ":" + HOST_PORT + "/mobileJWT/json";
-            }else if(MyApplication.IS_Test_json){
+            if(MyApplication.IS_Test_json){
                 server = "http://" + HOST_IP + ":" + HOST_PORT + "/mobileDebugServer/json/ReadFile!readFile?filePath=";
+            }else{
+                server = "http://" + HOST_IP + ":" + HOST_PORT + "/mobileJWT/json";
             }
             return server;
     }

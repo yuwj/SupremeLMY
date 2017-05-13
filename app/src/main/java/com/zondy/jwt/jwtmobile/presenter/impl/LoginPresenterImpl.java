@@ -100,8 +100,8 @@ public class LoginPresenterImpl implements ILoginPresenter{
     }
 
     @Override
-    public void queryUnacceptBufbkIds(final Context context, String xingm) {
-        loginModel.queryUnacceptBufbkIds(xingm, new IQueryUnacceptBufbkIdsCallback() {
+    public void queryUnacceptBufbkIds(final Context context,String jh,String simid, String xingm) {
+        loginModel.queryUnacceptBufbkIds(jh, simid,xingm, new IQueryUnacceptBufbkIdsCallback() {
             @Override
             public void queryUnacceptBufbkIdsSuccess(List<String> bufbkIds) {
                 Log.d(tag, "updateDLSSXXSuccess: ");
